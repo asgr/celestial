@@ -1,0 +1,7 @@
+v1.0
+
+Not released on CRAN.
+
+v1.1
+
+Added support for many more ways of specifying deg2dms outputs, e.g. 2d34m45.5s and 2:34:45.5. Code can also take string versions of HMS and DMS coordinates and convert them back to degrees.
