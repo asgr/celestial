@@ -1,4 +1,4 @@
-skyarea=function(long=c(-129,141),lat=c(-2,2),inunit='deg',outunit='deg2'){
+skyarea=function(long=c(129,141),lat=c(-2,3),inunit='deg',outunit='deg2'){
   if(inunit %in% c('deg','amin','asec','rad')==FALSE){stop('inunit must be one of deg, amin, asec or rad')}
   if(outunit %in% c('deg2','amin2','asec2','rad2','sr')==FALSE){stop('inunit must be one of deg2, amin2, asec2 or rad2')}
   if(length(long)==1){long=c(0,long)}
