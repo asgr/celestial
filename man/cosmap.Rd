@@ -9,7 +9,7 @@ Cosmological Mapping Functions
 Functions for mapping from one arbitrary csomological parameter to another. This includes the provision of a generic interpolation function and another exact value lookup.
 }
 \usage{
-cosmapval(val = 50, cosparam = "CoVol", H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange = c(0, 20), res = 10, iter = 10 ,age = FALSE)
+cosmapval(val = 50, cosparam = "CoVol", H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange = c(0, 100), res = 10, iter = 12 ,age = FALSE)
 cosmapfunc(cosparamx = "CoVol", cosparamy = "z", H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange = c(0, 20), step='z', res = 100)
 }
 

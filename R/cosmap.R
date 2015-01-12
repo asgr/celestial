@@ -20,7 +20,7 @@ cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0 = 100, OmegaM = 0.3, Om
   return=approxfun(temp[,1],temp[,2])
 }
 
-cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(0,20), res=10, iter=10, age=FALSE){
+cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(0,100), res=10, iter=12, age=FALSE){
   temp=function(val, H0, OmegaM, OmegaL, zlo, zhi, res, iter ,age){
     if(cosparam=='DistMod' & zlo==0){zlo=1e-5}
     zrangetemp=c(zlo, zhi)
@@ -32,7 +32,8 @@ cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 
     zrangetemp=c(zlonew,zhinew)
     }
     out=cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = age)
-    error=abs(val-out[1,cosparam])/out[1,cosparam]
+    error=abs(val-out[1,cosparam])
+    if(error>0){error=error/out[1,cosparam]}
     out=as.numeric(out)
     if(age){outfin=c(z=out[1], a=out[2], CoDist=out[3], LumDist=out[4], AngDist=out[5], CoDistTran=out[6], DistMod=out[7], AngSize=out[8], CoVol=out[9],HubTime=out[10], UniAgeNow=out[11], UniAgeAtz=out[12], TravelTime=out[13], error = error)}
     if(age==FALSE){outfin=c(z=out[1], a=out[2], CoDist=out[3], LumDist=out[4], AngDist=out[5], CoDistTran=out[6],  DistMod=out[7], AngSize=out[8], CoVol=out[9],error = error)}
