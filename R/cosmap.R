@@ -33,7 +33,10 @@ cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 
     }
     out=cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = age)
     error=abs(val-out[1,cosparam])/out[1,cosparam]
-    return=c(cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = age),error = error)
+    out=as.numeric(out)
+    if(age){outfin=c(z=out[1], a=out[2], CoDist=out[3], LumDist=out[4], AngDist=out[5], CoDistTran=out[6], DistMod=out[7], AngSize=out[8], CoVol=out[9],HubTime=out[10], UniAgeNow=out[11], UniAgeAtz=out[12], TravelTime=out[13], error = error)}
+    if(age==FALSE){outfin=c(z=out[1], a=out[2], CoDist=out[3], LumDist=out[4], AngDist=out[5], CoDistTran=out[6],  DistMod=out[7], AngSize=out[8], CoVol=out[9],error = error)}
+    return=outfin
   }
-  return(t(Vectorize(temp)(val = val, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, zlo = zrange[1], zhi = zrange[2], res = res, iter = iter, age = age)))
+  return(as.data.frame(t(Vectorize(temp)(val = val, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, zlo = zrange[1], zhi = zrange[2], res = res, iter = iter, age = age))))
 }
