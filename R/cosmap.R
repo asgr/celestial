@@ -1,4 +1,4 @@
-cosmapfunc=function(cosparamx='z', cosparamy='CoDist', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(0,20), step='z', res=100){
+cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(0,20), step='z', res=100){
   paramlistx=c('z', 'a', 'CoDist', 'LumDist', 'CoDistTran', 'DistMod', 'CoVol', 'UniAgeAtz','TravelTime')
   paramlisty=c('z', 'a', 'CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime')
   if(! cosparamx %in% paramlistx){stop('cosparamx is not an allowed cosmological parameter, see help options.')}
@@ -20,7 +20,20 @@ cosmapfunc=function(cosparamx='z', cosparamy='CoDist', H0 = 100, OmegaM = 0.3, O
   return=approxfun(temp[,1],temp[,2])
 }
 
-cosmapval=function(val=1, cosparamx='z', cosparamy='CoDist', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(0,20), step='z', res=100){
-  temp=cosmapfunc(cosparamx=cosparamx, cosparamy=cosparamy, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, zrange=zrange, res=res, step=step)
-  return(temp(val))
+cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(0,20), res=10, iter=10, age=FALSE){
+  temp=function(val, H0, OmegaM, OmegaL, zlo, zhi, res, iter ,age){
+    if(cosparam=='DistMod' & zlo==0){zlo=1e-5}
+    zrangetemp=c(zlo, zhi)
+    for(i in 1:iter){
+    tempz=cosmapfunc(cosparamx=cosparam, cosparamy='z', H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, zrange=zrangetemp, step='z', res=res)
+    currentz=tempz(val)
+    zlonew=max(zrangetemp[1],currentz-(zrangetemp[2]-zrangetemp[1])/res)
+    zhinew=currentz+(zrangetemp[2]-zrangetemp[1])/res
+    zrangetemp=c(zlonew,zhinew)
+    }
+    out=cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = age)
+    error=abs(val-out[1,cosparam])/out[1,cosparam]
+    return=c(cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = age),error = error)
+  }
+  return(t(Vectorize(temp)(val = val, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, zlo = zrange[1], zhi = zrange[2], res = res, iter = iter, age = age)))
 }
