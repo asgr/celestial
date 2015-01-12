@@ -21,7 +21,7 @@ cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0 = 100, OmegaM = 0.3, Om
 }
 
 cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(0,100), res=10, iter=12, age=FALSE){
-  temp=function(val, H0, OmegaM, OmegaL, zlo, zhi, res, iter ,age){
+  temp=function(val, cosparam, H0, OmegaM, OmegaL, zlo, zhi, res, iter ,age){
     if(cosparam=='DistMod' & zlo==0){zlo=1e-5}
     zrangetemp=c(zlo, zhi)
     for(i in 1:iter){
@@ -39,5 +39,5 @@ cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 
     if(age==FALSE){outfin=c(z=out[1], a=out[2], CoDist=out[3], LumDist=out[4], AngDist=out[5], CoDistTran=out[6],  DistMod=out[7], AngSize=out[8], CoVol=out[9],error = error)}
     return=outfin
   }
-  return(as.data.frame(t(Vectorize(temp)(val = val, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, zlo = zrange[1], zhi = zrange[2], res = res, iter = iter, age = age))))
+  return(as.data.frame(t(Vectorize(temp)(val = val, cosparam = cosparam, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, zlo = zrange[1], zhi = zrange[2], res = res, iter = iter, age = age))))
 }
