@@ -9,3 +9,7 @@ Added support for many more ways of specifying deg2dms outputs, e.g. 2d34m45.5s 
 v1.2
 
 Added cosmological distance calculator and asky area calculator.
+
+v1.3 (not on CRAN)
+
+Added extra cosmology routines as separate functions.

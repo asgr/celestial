@@ -46,5 +46,5 @@ tempdms=DMSiau(dec)
 
 IAUname=paste(name,epoch, temphms[,1], temphms[,2], temphms[,3], tempdms[,1], tempdms[,2], tempdms[,3],sep='')
 
-return=IAUname
+return(IAUname)
 }

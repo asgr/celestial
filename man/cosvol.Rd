@@ -49,7 +49,7 @@ Aaron Robotham
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{cosdist}},\code{\link{skyarea}}
+\code{\link{cosdist}},\code{\link{skyarea}}, \code{\link{cosmap}}
 }
 \examples{
 #Approximate volume of the GAMA survey (area given in skyarea example, zmax is approx
