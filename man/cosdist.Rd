@@ -12,11 +12,9 @@
 \alias{cosdistUniAgeNow}
 \alias{cosdistUniAgeAtz}
 \alias{cosdistTravelTime}
-\alias{Hz}
-\alias{rhocrit}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Cosmological Distance Calculator
+Cosmological Distance Calculations
 }
 \description{
 These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified.
@@ -35,8 +33,6 @@ cosdistHubTime(H0 = 100)
 cosdistUniAgeNow(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
 cosdistUniAgeAtz(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
 cosdistTravelTime(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
-Hz(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
-rhocrit(z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -44,7 +40,7 @@ rhocrit(z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
 Redshift (can be a vector).
 }
   \item{H0}{
-Hubble constant (default is H0=100 (km/s)/Mpc).
+Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
 }
   \item{OmegaM}{
 Omega matter (default is 0.3).
@@ -72,7 +68,7 @@ DistMod \tab The distance modulus used where AbsMag = ApMag - DistMod, and DistM
 AngSize \tab Physical projected size of an object at z in units of kpc/arcsec\cr
 CoVol \tab Comoving volume of Universe within z in units of Gpc^3\cr
 }
-If age=TRUE is set then three extra pieces of age information are calculated for each z as extra columns:
+If age=TRUE is set then additional age-related information is calculated for each z as extra columns:
 \tabular{ll}{
 HubTime \tab Approximate Hubble age of the Universe in units of Gyrs\cr
 UniAgeNow  \tab Age of the Universe now in units of Gyrs\cr
@@ -103,10 +99,6 @@ cosdistUniAgeNow function returns the Age of the Universe now in units of Gyrs.
 cosdistUniAgeAtz function returns the Age of the Universe at the specified redshift (z) in units of Gyrs.
 
 cosdistTravelTime function returns the Light travel time from the specified redshift (AKA look back time) in units of Gyrs.
-
-The Hz function returns the Hubble constant for the specified redshift and cosmology, in units of km/s/Mpc.
-
-The rhocrit function returns the critical density of the Universe for the specified redshift and cosmology, in units of Msol/Mpc^3.
 }
 \references{
 Based on the equations in Hogg D.W., 1999, arXiv, 9905116 and Wright E.L., 2006, PASP, 118, 1711
@@ -116,7 +108,7 @@ Aaron Robotham
 }
 
 \seealso{
-\code{\link{cosvol}}, \code{\link{cosmap}}
+\code{\link{cosvol}}, \code{\link{cosmap}}, \code{\link{cosgrow}}
 }
 
 \examples{

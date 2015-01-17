@@ -27,7 +27,7 @@ Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistM
 Cosmological parameter, must be one of: z, a, CoDist, LumDist, AngDist, CoDistTran, DistMod, AngSize, CoVol, UniAgeAtz, TravelTime (see cosdist help for further description of these).
 }
   \item{H0}{
-Hubble constant (default is H0=100 (km/s)/Mpc).
+Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
 }
   \item{OmegaM}{
 Omega matter (default is 0.3).
@@ -68,7 +68,7 @@ Based on the equations in Hogg D.W., 1999, arXiv, 9905116 and Wright E.L., 2006,
 Aaron Robotham
 }
 \seealso{
-\code{\link{cosdist}}, \code{\link{cosvol}}
+\code{\link{cosdist}}, \code{\link{cosvol}}, \code{\link{cosgrow}}
 }
 
 \examples{

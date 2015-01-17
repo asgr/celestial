@@ -23,7 +23,7 @@ Maximum redshift of comoving cone.
 Minimum redshift of comoving cone.
 }
   \item{H0}{
-Hubble constant (default is H0=100 (km/s)/Mpc)
+Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc)
 }
   \item{OmegaM}{
 Omega matter (default is 0.3)
@@ -49,7 +49,7 @@ Aaron Robotham
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{cosdist}},\code{\link{skyarea}}, \code{\link{cosmap}}
+\code{\link{cosdist}},\code{\link{skyarea}}, \code{\link{cosmap}}, \code{\link{cosgrow}}
 }
 \examples{
 #Approximate volume of the GAMA survey (area given in skyarea example, zmax is approx

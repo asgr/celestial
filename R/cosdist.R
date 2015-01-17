@@ -227,20 +227,4 @@ cosdistHubTime=function(H0 = 100){
  return((3.08568025e+19/(H0 * 31556926))/1e9)
 }
 
-Hz=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
-  OmegaK=1-OmegaM-OmegaL
-  return(H0*sqrt(OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL))
-}
 
-rhocrit=function(z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
-  OmegaK=1-OmegaM-OmegaL
-  G=6.67384e-11 # m^3 kg^-1 s^-2
-  Hub2=Hz(z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL)^2 # (km/s / Mpc)^2
-  km2m=1000
-  Mpc2m=3.08567758e22
-  Msol2kg=1.9891e30 # kg
-  #rhocrit_kgperm3=(3*Hub2)/(8*pi*G) * ((km2m^2)/(Mpc2m^2)) #this is correct, should be ~9.2e-27 for H0=70
-  #rhocrit_MsolperMpc3=rhocrit_kgperm3 * (Mpc2m^3)/Msol2kg #this is correct, should be ~2.8e11 for H0=100
-  rhocrit_MsolperMpc3=(3*Hub2)/(8*pi*G) * (km2m^2)*Mpc2m/Msol2kg #compact form of the above
-  return(rhocrit_MsolperMpc3)
-}
