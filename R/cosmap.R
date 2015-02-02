@@ -1,12 +1,25 @@
 cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(0,20), step='z', res=100){
-  paramlistx=c('z', 'a', 'CoDist', 'LumDist', 'CoDistTran', 'DistMod', 'CoVol', 'UniAgeAtz','TravelTime')
-  paramlisty=c('z', 'a', 'CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime')
+  
+  paramlistx=c('z', 'a', 'CoDist', 'LumDist', 'CoDistTran', 'DistMod', 'CoVol', 'UniAgeAtz','TravelTime','H','OmegaM','OmegaL','OmegaK','Factor','Rate','RhoCrit')
+  paramlisty=c('z', 'a', 'CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','OmegaM','OmegaL','OmegaK','Factor','Rate','RhoCrit')
   if(! cosparamx %in% paramlistx){stop('cosparamx is not an allowed cosmological parameter, see help options.')}
   if(! cosparamy %in% paramlisty){stop('cosparamy is not an allowed cosmological parameter, see help options.')}
-  age=FALSE
-  if(cosparamx %in% c('UniAgeAtz','TravelTime')){age=TRUE}
-  if(cosparamy %in% c('UniAgeAtz','TravelTime')){age=TRUE}
-  if(step=='z'){zvals=seq(zrange[1],zrange[2],len=res)}
+  #age=FALSE
+  #if(cosparamx %in% c('UniAgeAtz','TravelTime')){age=TRUE}
+  #if(cosparamy %in% c('UniAgeAtz','TravelTime')){age=TRUE}
+  if(cosparamx %in% c('z', 'a', 'CoDist', 'LumDist', 'CoDistTran', 'DistMod', 'CoVol', 'UniAgeAtz','TravelTime')){
+    pre_x='cosdist'
+  }else{
+    pre_x='cosgrow'
+  }
+  if(cosparamy %in% c('z', 'a', 'CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime')){
+    pre_y='cosdist'
+  }else{
+    pre_y='cosgrow'
+  }
+  if(step=='z'){
+    zvals=seq(zrange[1],zrange[2],len=res)
+  }
   if(step=='logz'){
     zrangelog=log10(1+zrange)
     zvalslog=seq(zrangelog[1],zrangelog[2],len=res)
@@ -16,12 +29,33 @@ cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0 = 100, OmegaM = 0.3, Om
     avals=seq(1/(1+zrange[1]),1/(1+zrange[2]),len=res)
     zvals=1/avals-1
   }
-  temp=cosdist(zvals, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age=age)[,c(cosparamx,cosparamy)]
-  return=approxfun(temp[,1],temp[,2])
+  if(cosparamx %in% c('CoDist', 'LumDist', 'CoDistTran', 'DistMod', 'CoVol', 'UniAgeAtz','TravelTime','H','RhoCrit')){
+    combxparams=list(z=zvals, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL)
+  }
+  if(cosparamx %in% c('z', 'a')){
+    combxparams=list(z=zvals)
+  }
+  if(cosparamx %in% c('OmegaM', 'OmegaL', 'OmegaK','Factor', 'Rate')){
+    combxparams=list(z=zvals, OmegaM = OmegaM, OmegaL = OmegaL)
+  }
+  
+  if(cosparamy %in% c('CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','RhoCrit')){
+    combyparams=list(z=zvals, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL)
+  }
+  if(cosparamy %in% c('z', 'a')){
+    combyparams=list(z=zvals)
+  }
+  if(cosparamy %in% c('OmegaM', 'OmegaL', 'OmegaK','Factor', 'Rate')){
+    combyparams=list(z=zvals, OmegaM = OmegaM, OmegaL = OmegaL)
+  }
+  
+  tempx=do.call(paste(pre_x,cosparamx,sep=''),combxparams)
+  tempy=do.call(paste(pre_y,cosparamy,sep=''),combyparams)
+  return=approxfun(tempx,tempy)
 }
 
-cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(0,100), res=10, iter=12, age=FALSE){
-  temp=function(val, cosparam, H0, OmegaM, OmegaL, zlo, zhi, res, iter ,age){
+cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(0,100), res=10, iter=12){
+  temp=function(val, cosparam, H0, OmegaM, OmegaL, zlo, zhi, res, iter){
     if(cosparam=='DistMod' & zlo==0){zlo=1e-5}
     zrangetemp=c(zlo, zhi)
     for(i in 1:iter){
@@ -31,17 +65,11 @@ cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 
     zhinew=currentz+(zrangetemp[2]-zrangetemp[1])/res
     zrangetemp=c(zlonew,zhinew)
     }
-    out=cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = age)
-    if(age==FALSE & cosparam %in% c('UniAgeAtz','TravelTime')){
-      error=NA
-    }else{
-      error=abs(val-out[1,cosparam])
-      if(error>0){error=error/out[1,cosparam]}
-    }
-    out=as.numeric(out)
-    if(age){outfin=c(z=out[1], a=out[2], CoDist=out[3], LumDist=out[4], AngDist=out[5], CoDistTran=out[6], DistMod=out[7], AngSize=out[8], CoVol=out[9],HubTime=out[10], UniAgeNow=out[11], UniAgeAtz=out[12], TravelTime=out[13], error = error)}
-    if(age==FALSE){outfin=c(z=out[1], a=out[2], CoDist=out[3], LumDist=out[4], AngDist=out[5], CoDistTran=out[6],  DistMod=out[7], AngSize=out[8], CoVol=out[9],error = error)}
-    return=outfin
+    outdist=cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = TRUE)
+    outgrow=cosgrow(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL)
+    error=abs(val-outdist[1,cosparam])
+    if(error>0){error=error/outdist[1,cosparam]}
+    return=c(outdist,outgrow[3:9],error=error)
   }
-  return(as.data.frame(t(Vectorize(temp)(val = val, cosparam = cosparam, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, zlo = zrange[1], zhi = zrange[2], res = res, iter = iter, age = age))))
+  return(as.data.frame(t(Vectorize(temp)(val = val, cosparam = cosparam, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, zlo = zrange[1], zhi = zrange[2], res = res, iter = iter))))
 }

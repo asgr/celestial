@@ -41,6 +41,10 @@ cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE){
     return(as.data.frame(t(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK))))
 }
 
+cosdistz=function(z = 1){
+  return(z)
+}
+
 cosdista=function(z = 1){
   return(1/(1 + z))
 }

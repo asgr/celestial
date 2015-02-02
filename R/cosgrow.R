@@ -16,6 +16,14 @@ cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   return(data.frame(z=z, a=1/(1+z), H=Hz, OmegaM=OmegaMAtz, OmegaL=OmegaLAtz, OmegaK=OmegaKAtz, Factor=Factor, Rate=Rate, RhoCrit=RhoCrit))
 }
 
+cosgrowz=function(z = 1){
+  return(z)
+}
+
+cosgrowa=function(z = 1){
+  return(1/(1 + z))
+}
+
 cosgrowH=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   OmegaK=1-OmegaM-OmegaL
   return(H0*sqrt(OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL))

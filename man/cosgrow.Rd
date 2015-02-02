@@ -1,5 +1,7 @@
 \name{cosgrow}
 \alias{cosgrow}
+\alias{cosgrowz}
+\alias{cosgrowa}
 \alias{cosgrowOmegaM}
 \alias{cosgrowOmegaL}
 \alias{cosgrowOmegaK}
@@ -18,14 +20,16 @@
 }
 \usage{
   cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM)
+  cosgrowz(z = 1)
+  cosgrowa(z = 1)
   cosgrowH(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
   cosgrowOmegaM(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
   cosgrowOmegaL(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
   cosgrowOmegaK(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
-  cosgrowFactor(z = 1, OmegaM=0.3, OmegaL=1-OmegaM)
-  cosgrowRate(z = 1, OmegaM=0.3, OmegaL=1-OmegaM)
-  cosgrowFactorApprox(z = 1, OmegaM=0.3, OmegaL=1-OmegaM)
-  cosgrowRateApprox(z = 1, OmegaM=0.3, OmegaL=1-OmegaM)
+  cosgrowFactor(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
+  cosgrowRate(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
+  cosgrowFactorApprox(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
+  cosgrowRateApprox(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
   cosgrowRhoCrit(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -62,6 +66,10 @@ Rate    \tab Approximate growth rate (f, see below for details)\cr
 RhoCrit \tab critical mass density of the Universe at z, in units of Msol/Mpc^3\cr
 }
 
+  cosgrowz function returns the input redshift (only included for clarity).
+  
+  cosgrowa function returns the Universe expansion factor, as given by a=1/(1+z).
+  
   cosgrowH function returns the value of the Hubble constant at z, in units of km/s/Mpc.
   
   cosgrowOmegaM function returns the value of Omega matter at z.
@@ -93,17 +101,19 @@ RhoCrit \tab critical mass density of the Universe at z, in units of Msol/Mpc^3\
 }
 
 \examples{
-  cosgrow(1)
-  cosgrowH(1)
-  cosgrowOmegaM(1)
-  cosgrowOmegaL(1)
-  cosgrowOmegaK(1)
-  sum(cosgrowOmegaM(1)+cosgrowOmegaL(1)+cosgrowOmegaK(1)) #Still 1.
-  cosgrowFactor(1)
-  cosgrowFactorApprox(1) #The approximation is better than a percent for most reasonable cosmologies.
-  cosgrowRate(1)
-  cosgrowRateApprox(1) #The approximation is better than a percent for most reasonable cosmologies.
-  cosgrowRhoCrit(1)
+  cosgrow(0.3)
+  cosgrowz(0.3)
+  cosgrowa(0.3)
+  cosgrowH(0.3)
+  cosgrowOmegaM(0.3)
+  cosgrowOmegaL(0.3)
+  cosgrowOmegaK(0.3)
+  sum(cosgrowOmegaM(0.3)+cosgrowOmegaL(0.3)+cosgrowOmegaK(0.3)) #Still 1.
+  cosgrowFactor(0.3)
+  cosgrowFactorApprox(0.3) #The approximation is better than a percent for most reasonable cosmologies.
+  cosgrowRate(0.3)
+  cosgrowRateApprox(0.3) #The approximation is better than a percent for most reasonable cosmologies.
+  cosgrowRhoCrit(0.3)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

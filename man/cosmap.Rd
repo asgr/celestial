@@ -9,7 +9,7 @@ Cosmological Mapping Functions
 Functions for mapping from one arbitrary csomological parameter to another. This includes the provision of a generic interpolation function and another exact value lookup.
 }
 \usage{
-cosmapval(val = 50, cosparam = "CoVol", H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange = c(0, 100), res = 10, iter = 12 ,age = FALSE)
+cosmapval(val = 50, cosparam = "CoVol", H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange = c(0, 100), res = 10, iter = 12)
 cosmapfunc(cosparamx = "CoVol", cosparamy = "z", H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange = c(0, 20), step='z', res = 100)
 }
 
@@ -18,13 +18,13 @@ cosmapfunc(cosparamx = "CoVol", cosparamy = "z", H0 = 100, OmegaM = 0.3, OmegaL 
 The value/s to be mapped from parameter cosparamx to parameter cosparamy (this can be a vector or a single number).
 }
   \item{cosparam}{
-Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistMod, CoVol, UniAgeAtz, TravelTime (see cosdist help for further description of these). Note that AngDist and AngSize are not an option for cosparamx due to degenerate redshift solutions causing problems approxfun mapping.
+Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistMod, CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these). Note that AngDist and AngSize are not an option for cosparam due to degenerate redshift solutions causing problems with the approxfun mapping.
 }
   \item{cosparamx}{
-Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistMod, CoVol, UniAgeAtz, TravelTime (see cosdist help for further description of these). Note that AngDist and AngSize are not an option for cosparamx due to degenerate redshift solutions causing problems approxfun mapping.
+Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistMod, CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these). Note that AngDist and AngSize are not an option for cosparamx due to degenerate redshift solutions causing problems with the approxfun mapping.
 }
   \item{cosparamy}{
-Cosmological parameter, must be one of: z, a, CoDist, LumDist, AngDist, CoDistTran, DistMod, AngSize, CoVol, UniAgeAtz, TravelTime (see cosdist help for further description of these).
+Cosmological parameter, must be one of: z, a, CoDist, LumDist, AngDist, CoDistTran, DistMod, AngSize CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these).
 }
   \item{H0}{
 Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
@@ -47,9 +47,6 @@ The resolution of steps. Larger numbers will be more accurate, but will be slowe
   \item{iter}{
 The number of iterations to make when calculating the exact location of a given cosmological parameter when using cosmapval.  
 }
-  \item{age}{
-Flag to tell cosdist function to return age or not- this slows calculation, so is by default turned off.
-}
 }
 \details{
 The default zrange and res should be sufficient for most reasonable cosmologies if the approximate redshift location of the region to be mapped is entirely unknown.
@@ -57,7 +54,9 @@ The default zrange and res should be sufficient for most reasonable cosmologies 
 The default res and iter for cosmapval is appropriate for most mappings with z<20 using a fiducial 737 cosmology. If this proves insufficient (this should be obvious from error column) then increase both of these. Overall accuracy goes as res^iter.
 }
 \value{
-cosmapval contains the cosdist output for parameter 'cosparam' at value 'val'. See \code{\link{cosdist}} for information on the cosdist output. It includes an additional final column named 'error' which gives the approximate relative error of the values returned compared to the desired lookup location. Smaller is obviously better, but at the cost of computational time.
+cosmapval contains the concatenation of the cosdist (with age=TRUE) and cosgrow functions for parameter 'cosparam' at value 'val'. The 'z' and 'a' columns are only included once (from the output of cosdist). See \code{\link{cosdist}} and \code{\link{cosgrow}} for information on the cosdist and cosgrow outputs.
+
+The cosmapval output includes an additional final column named 'error' which gives the approximate relative error of the values returned compared to the desired lookup location. Smaller is obviously better, but at the cost of computational time.
 
 cosmapfunc uses base R approxfun to map cosparamx onto cosparamy between zrange[1] and zrange[2] in uniform steps of expansion factor (a=1/(1+z)). cosmofunc returns the output function created by approxfun.
 }

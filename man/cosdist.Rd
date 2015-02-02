@@ -1,5 +1,6 @@
 \name{cosdist}
 \alias{cosdist}
+\alias{cosdistz}
 \alias{cosdista}
 \alias{cosdistCoDist}
 \alias{cosdistLumDist}
@@ -21,6 +22,7 @@ These functions allows comoving, angular size and luminosity distances to be cal
 }
 \usage{
 cosdist(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, age = FALSE)
+cosdistz(z = 1)
 cosdista(z = 1)
 cosdistCoDist(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
 cosdistLumDist(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
@@ -76,6 +78,8 @@ UniAgeAtz  \tab Age of the Universe at the specified redshift (z) in units of Gy
 TravelTime \tab Light travel time from the specified redshift (AKA look back time) in units of Gyrs\cr
 }
 
+cosdistz function returns the input redshift (only included for clarity).
+
 cosdista function returns the Universe expansion factor, as given by a=1/(1+z).
 
 cosdistCoDist function returns the Line-of-sight (i.e. radial) comoving distance in units of Mpc.
@@ -113,6 +117,7 @@ Aaron Robotham
 
 \examples{
 cosdist(0.3,70,age=TRUE)
+cosdistz(0.3)
 cosdista(0.3)
 cosdistCoDist(0.3,70)
 cosdistLumDist(0.3,70)
