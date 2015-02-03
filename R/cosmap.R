@@ -66,9 +66,9 @@ cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 
     zrangetemp=c(zlonew,zhinew)
     }
     if(out=='cos'){
-      outdist=as.vector(cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = TRUE))
-      outgrow=as.vector(cosgrow(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL))
-      output=cbind(rbind(outdist),rbind(outgrow[3:9]))
+      outdist=unlist(cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = TRUE))
+      outgrow=unlist(cosgrow(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL))
+      output=c(outdist,outgrow[3:9])
       Error=abs(val-output[[cosparam]])
       if(Error>0){Error=Error/output[[cosparam]]}
       output=c(output,Error=Error)
