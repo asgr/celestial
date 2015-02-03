@@ -54,8 +54,8 @@ cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0 = 100, OmegaM = 0.3, Om
   return=approxfun(tempx,tempy)
 }
 
-cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(0,100), res=10, iter=12){
-  temp=function(val, cosparam, H0, OmegaM, OmegaL, zlo, zhi, res, iter){
+cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(0,100), res=10, iter=12, out='cos'){
+  temp=function(val, cosparam, H0, OmegaM, OmegaL, zlo, zhi, res, iter, out){
     if(cosparam=='DistMod' & zlo==0){zlo=1e-5}
     zrangetemp=c(zlo, zhi)
     for(i in 1:iter){
@@ -65,11 +65,23 @@ cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 
     zhinew=currentz+(zrangetemp[2]-zrangetemp[1])/res
     zrangetemp=c(zlonew,zhinew)
     }
-    outdist=cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = TRUE)
-    outgrow=cosgrow(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL)
-    error=abs(val-outdist[1,cosparam])
-    if(error>0){error=error/outdist[1,cosparam]}
-    return=c(outdist,outgrow[3:9],error=error)
+    if(out=='cos'){
+      outdist=cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = TRUE)
+      outgrow=cosgrow(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL)
+      error=abs(val-outdist[1,cosparam])
+      if(error>0){error=error/outdist[1,cosparam]}
+      output=c(outdist,outgrow[3:9],error=error)
+    }
+    if(out=='z'){
+      output=currentz
+    }
+    return=output
   }
-  return(as.data.frame(t(Vectorize(temp)(val = val, cosparam = cosparam, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, zlo = zrange[1], zhi = zrange[2], res = res, iter = iter))))
+  if(out=='cos'){
+    output=as.data.frame(t(Vectorize(temp)(val = val, cosparam = cosparam, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, zlo = zrange[1], zhi = zrange[2], res = res, iter = iter, out = out)))
+  }
+  if(out=='z'){
+    output=Vectorize(temp)(val = val, cosparam = cosparam, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, zlo = zrange[1], zhi = zrange[2], res = res, iter = iter, out = out)
+  }
+  return(output)
 }
