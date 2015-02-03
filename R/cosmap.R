@@ -68,9 +68,10 @@ cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 
     if(out=='cos'){
       outdist=cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = TRUE)
       outgrow=cosgrow(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL)
-      error=abs(val-outdist[1,cosparam])
+      output=c(outdist,outgrow[3:9])
+      error=abs(val-output[[cosparam]])
+      output=c(output,error)
       if(error>0){error=error/outdist[1,cosparam]}
-      output=c(outdist,outgrow[3:9],error=error)
     }
     if(out=='z'){
       output=currentz
