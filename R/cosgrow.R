@@ -1,4 +1,6 @@
 cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   OmegaSum=OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL
   Hz=H0*sqrt(OmegaSum)
@@ -17,34 +19,48 @@ cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
 }
 
 cosgrowz=function(z = 1){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   return(z)
 }
 
 cosgrowa=function(z = 1){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   return(1/(1 + z))
 }
 
 cosgrowH=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   return(H0*sqrt(OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL))
 }
 
 cosgrowOmegaM=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   return((OmegaM*(1+z)^3)/(OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL))
 }
 
 cosgrowOmegaL=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   return(OmegaL/(OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL))
 }
 
 cosgrowOmegaK=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   return((OmegaK*(1+z)^2)/(OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL))
 }
 
 cosgrowFactor=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   Einva3=function(a, OmegaM, OmegaL, OmegaK){1/(a^3*(sqrt(OmegaM*a^(-3) + OmegaK*a^(-2) + OmegaL))^3)}
   temp=function(z, OmegaM, OmegaL, OmegaK){
@@ -55,6 +71,8 @@ cosgrowFactor=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM){
 }
 
 cosgrowRate=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaMtemp=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
   OmegaLtemp=cosgrowOmegaL(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
   growthfacttemp=cosgrowFactor(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
@@ -62,18 +80,24 @@ cosgrowRate=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM){
 }
 
 cosgrowFactorApprox=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaMtemp=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
   OmegaLtemp=cosgrowOmegaL(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
   return((5*OmegaMtemp/2)/(OmegaMtemp^(4/7)-OmegaLtemp+(1+0.5*OmegaMtemp)*(1+OmegaLtemp/70)))
 }
 
 cosgrowRateApprox=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaMtemp=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
   OmegaLtemp=cosgrowOmegaL(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
   return(OmegaMtemp^(4/7)+(1+OmegaMtemp/2)*(OmegaLtemp/70))
 }
 
 cosgrowRhoCrit=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   G=6.67384e-11 # m^3 kg^-1 s^-2
   Hub2=cosgrowH(z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL)^2 # (km/s / Mpc)^2

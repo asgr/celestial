@@ -1,12 +1,20 @@
 cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE, error=FALSE){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
   if(age){Einvz = function(z, OmegaM, OmegaL, OmegaK){1/(sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}}
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     HubDist = (299792.458/H0)
-    temp = integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000LL)
+    temp = integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)
     CoDist = HubDist * temp$value
-    if(error){RelError = abs(temp$abs.error/temp$value)}
+    if(error){
+      if(z>0){
+        RelError = abs(temp$abs.error/temp$value)
+      }else{
+        RelError = 0
+      }
+    }
     
       if(OmegaK==0){
         CoDistTran = CoDist
@@ -30,8 +38,8 @@ cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE, error=FALS
       
       if (age) {
         HT = (3.08568025e+19/(H0*31556926))/1e9
-        UniAge = HT*integrate(Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000LL)$value
-        zAge = HT*integrate(Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000LL)$value
+        UniAge = HT*integrate(Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
+        zAge = HT*integrate(Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
       }
       if(error){
         if (age) {
@@ -53,14 +61,20 @@ cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE, error=FALS
 }
 
 cosdistz=function(z = 1){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   return(z)
 }
 
 cosdista=function(z = 1){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   return(1/(1 + z))
 }
 
 cosdistCoDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
@@ -72,6 +86,8 @@ cosdistCoDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
 }
 
 cosdistCoDistTran=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
@@ -93,6 +109,8 @@ cosdistCoDistTran=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
 }
 
 cosdistLumDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
@@ -115,6 +133,8 @@ cosdistLumDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
 }
 
 cosdistAngDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
@@ -137,6 +157,8 @@ cosdistAngDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
 }
 
 cosdistDistMod=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
@@ -159,6 +181,8 @@ cosdistDistMod=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
 }
 
 cosdistAngSize=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
@@ -181,6 +205,8 @@ cosdistAngSize=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
 }
 
 cosdistCoVol=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
@@ -205,6 +231,8 @@ cosdistCoVol=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
 }
 
 cosdistUniAgeNow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   Einvz = function(z, OmegaM, OmegaL, OmegaK){1/(sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
@@ -216,6 +244,8 @@ cosdistUniAgeNow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
 }
 
 cosdistUniAgeAtz=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   Einvz = function(z, OmegaM, OmegaL, OmegaK){1/(sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
@@ -228,6 +258,8 @@ cosdistUniAgeAtz=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
 }
 
 cosdistTravelTime=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
   Einvz = function(z, OmegaM, OmegaL, OmegaK){1/(sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {

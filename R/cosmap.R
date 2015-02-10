@@ -61,6 +61,7 @@ cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 
     for(i in 1:iter){
     tempz=cosmapfunc(cosparamx=cosparam, cosparamy='z', H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, zrange=zrangetemp, step='z', res=res)
     currentz=tempz(val)
+    if(is.na(currentz)){stop('Required cosmological value does not fall within specified redshift/z range')}
     zlonew=max(zrangetemp[1],currentz-(zrangetemp[2]-zrangetemp[1])/res)
     zhinew=currentz+(zrangetemp[2]-zrangetemp[1])/res
     zrangetemp=c(zlonew,zhinew)
