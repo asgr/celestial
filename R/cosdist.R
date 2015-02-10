@@ -4,7 +4,7 @@ cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE, error=FALS
   if(age){Einvz = function(z, OmegaM, OmegaL, OmegaK){1/(sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}}
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     HubDist = (299792.458/H0)
-    temp = integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)
+    temp = integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000LL)
     CoDist = HubDist * temp$value
     if(error){RelError = abs(temp$abs.error/temp$value)}
     
@@ -30,8 +30,8 @@ cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE, error=FALS
       
       if (age) {
         HT = (3.08568025e+19/(H0*31556926))/1e9
-        UniAge = HT*integrate(Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
-        zAge = HT*integrate(Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
+        UniAge = HT*integrate(Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000LL)$value
+        zAge = HT*integrate(Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000LL)$value
       }
       if(error){
         if (age) {
@@ -65,7 +65,7 @@ cosdistCoDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
+    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
     return=CoDist
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK))
@@ -76,7 +76,7 @@ cosdistCoDistTran=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
+    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
     if(OmegaK==0){
       CoDistTran = CoDist
     }else{
@@ -97,7 +97,7 @@ cosdistLumDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
+    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
     if(OmegaK==0){
       CoDistTran = CoDist
     }else{
@@ -119,7 +119,7 @@ cosdistAngDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
+    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
     if(OmegaK==0){
       CoDistTran = CoDist
     }else{
@@ -141,7 +141,7 @@ cosdistDistMod=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
+    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
     if(OmegaK==0){
       CoDistTran = CoDist
     }else{
@@ -163,7 +163,7 @@ cosdistAngSize=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
+    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
     if(OmegaK==0){
       CoDistTran = CoDist
     }else{
@@ -185,7 +185,7 @@ cosdistCoVol=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
+    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
     if(OmegaK==0){
       CoDistTran = CoDist
       CoVol = ((4/3) * pi * CoDist^3)/1e9
@@ -209,7 +209,7 @@ cosdistUniAgeNow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   Einvz = function(z, OmegaM, OmegaL, OmegaK){1/(sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     HT = (3.08568025e+19/(H0 * 31556926))/1e9
-    UniAge = HT * integrate(Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
+    UniAge = HT * integrate(Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
     return=UniAge
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK))
@@ -220,8 +220,8 @@ cosdistUniAgeAtz=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   Einvz = function(z, OmegaM, OmegaL, OmegaK){1/(sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     HT = (3.08568025e+19/(H0 * 31556926))/1e9
-    UniAge = HT * integrate(Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
-    zAge = HT * integrate(Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
+    UniAge = HT * integrate(Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
+    zAge = HT * integrate(Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
     return=UniAge-zAge
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK))
@@ -232,7 +232,7 @@ cosdistTravelTime=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   Einvz = function(z, OmegaM, OmegaL, OmegaK){1/(sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     HT = (3.08568025e+19/(H0 * 31556926))/1e9
-    zAge = HT * integrate(Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
+    zAge = HT * integrate(Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
     return=zAge
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK))

@@ -48,7 +48,7 @@ cosgrowFactor=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM){
   OmegaK=1-OmegaM-OmegaL
   Einva3=function(a, OmegaM, OmegaL, OmegaK){1/(a^3*(sqrt(OmegaM*a^(-3) + OmegaK*a^(-2) + OmegaL))^3)}
   temp=function(z, OmegaM, OmegaL, OmegaK){
-    growthfactor=(5*OmegaM/2)*cosgrowH(z,H0=1,OmegaM=OmegaM,OmegaL=OmegaL)*(1+z)*integrate(Einva3,0,1/(1+z),OmegaM=OmegaM,OmegaL=OmegaL,OmegaK=OmegaK)$value
+    growthfactor=(5*OmegaM/2)*cosgrowH(z,H0=1,OmegaM=OmegaM,OmegaL=OmegaL)*(1+z)*integrate(Einva3,0,1/(1+z),OmegaM=OmegaM,OmegaL=OmegaL,OmegaK=OmegaK,subdivisions=1000L)$value
     return=growthfactor
   }
   return(Vectorize(temp)(z = z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK))
