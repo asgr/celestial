@@ -21,7 +21,7 @@ Cosmological Distance Calculations
 These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified.
 }
 \usage{
-cosdist(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, age = FALSE)
+cosdist(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, age = FALSE, error = FALSE)
 cosdistz(z = 1)
 cosdista(z = 1)
 cosdistCoDist(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
@@ -51,7 +51,10 @@ Omega matter (default is 0.3).
 Omega Lambda (default is for a flat Universe with OmegaL=1-OmegaM).
 }
   \item{age}{
-Flag to tell cosdist function to return age or not- this slows calculation, so is by default turned off.
+Flag for cosdist function to return age or not- this slows calculation, so is by default turned off.
+}
+  \item{error}{
+Flag for cosdist to calculate the relative error for distance/age values.
 }
 }
 \details{
@@ -76,6 +79,10 @@ HubTime \tab Approximate Hubble age of the Universe in units of Gyrs\cr
 UniAgeNow  \tab Age of the Universe now in units of Gyrs\cr
 UniAgeAtz  \tab Age of the Universe at the specified redshift (z) in units of Gyrs\cr
 TravelTime \tab Light travel time from the specified redshift (AKA look back time) in units of Gyrs\cr
+}
+If error=TRUE is set then the relative error for distance/age values is calculated for each z as an extra column:
+\tabular{ll}{
+RelError \tab Relative error of the distance/age integrals (this is the main source of error in the calculations)\cr
 }
 
 cosdistz function returns the input redshift (only included for clarity).

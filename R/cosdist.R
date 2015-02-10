@@ -1,10 +1,12 @@
-cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE){
+cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE, error=FALSE){
   OmegaK=1-OmegaM-OmegaL
   Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
   if(age){Einvz = function(z, OmegaM, OmegaL, OmegaK){1/(sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}}
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
+    temp = integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)
+    CoDist = HubDist * temp$value
+    if(error){RelError = abs(temp$abs.error/temp$value)}
     
       if(OmegaK==0){
         CoDistTran = CoDist
@@ -28,14 +30,23 @@ cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE){
       
       if (age) {
         HT = (3.08568025e+19/(H0*31556926))/1e9
-        UniAge = HT*integrate(Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
-        zAge = HT*integrate(Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000)$value
+        UniAge = HT*integrate(Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
+        zAge = HT*integrate(Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
       }
-      if (age) {
-        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol, HubTime = HT, UniAgeNow = UniAge, UniAgeAtz = UniAge - zAge, TravelTime = zAge)
-      }
-      else {
-        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol)
+      if(error){
+        if (age) {
+          return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol, HubTime = HT, UniAgeNow = UniAge, UniAgeAtz = UniAge - zAge, TravelTime = zAge, RelError=RelError)
+        }
+        else {
+          return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol, RelError=RelError)
+        }
+      }else{
+        if (age) {
+          return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol, HubTime = HT, UniAgeNow = UniAge, UniAgeAtz = UniAge - zAge, TravelTime = zAge)
+        }
+        else {
+          return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol)
+        }
       }
     }
     return(as.data.frame(t(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK))))

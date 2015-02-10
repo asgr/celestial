@@ -57,9 +57,9 @@ The default zrange and res should be sufficient for most reasonable cosmologies 
 The default res and iter for cosmapval is appropriate for most mappings with z<20 using a fiducial 737 cosmology. If this proves insufficient (this should be obvious from error column) then increase both of these. Overall accuracy goes as res^iter.
 }
 \value{
-If out='cos', cosmapval contains the concatenation of the cosdist (with age=TRUE) and cosgrow functions for parameter 'cosparam' at value 'val'. The 'z' and 'a' columns are only included once (from the output of cosdist). See \code{\link{cosdist}} and \code{\link{cosgrow}} for information on the cosdist and cosgrow outputs. If out='z', then cosmapval merely returns the corresponding redshifts.
+If out='cos', cosmapval contains the concatenation of the cosdist (with age=TRUE and error=TRUE) and cosgrow functions for parameter 'cosparam' at value 'val'. The 'z' and 'a' columns are only included once (from the output of cosdist). See \code{\link{cosdist}} and \code{\link{cosgrow}} for information on the cosdist and cosgrow outputs. If out='z', then cosmapval merely returns the corresponding redshifts.
 
-The cosmapval output (when out='cos') includes an additional final column named 'error' which gives the approximate relative error of the values returned compared to the desired lookup location. Smaller is obviously better, but at the cost of computational time.
+The cosmapval output (when out='cos') includes an additional final column named 'MapError' which gives the approximate relative error of the values returned compared to the desired lookup location. Smaller is obviously better, but at the cost of computational time.
 
 cosmapfunc uses base R approxfun to map cosparamx onto cosparamy between zrange[1] and zrange[2] in uniform steps of expansion factor (a=1/(1+z)). cosmofunc returns the output function created by approxfun.
 }

@@ -66,12 +66,12 @@ cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 
     zrangetemp=c(zlonew,zhinew)
     }
     if(out=='cos'){
-      outdist=unlist(cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = TRUE))
+      outdist=unlist(cosdist(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, age = TRUE, error=T))
       outgrow=unlist(cosgrow(currentz, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL))
       output=c(outdist,outgrow[3:9])
       Error=abs(val-output[[cosparam]])
       if(Error>0){Error=Error/output[[cosparam]]}
-      output=c(output,Error=Error)
+      output=c(output,MapError=Error)
     }
     if(out=='z'){
       output=currentz

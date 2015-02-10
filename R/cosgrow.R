@@ -8,7 +8,7 @@ cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   Factor=(5*OmegaMAtz/2)/(OmegaMAtz^(4/7)-OmegaLAtz+(1+0.5*OmegaMAtz)*(1+OmegaLAtz/70))
   Rate=OmegaMAtz^(4/7)+(1+OmegaMAtz/2)*(OmegaLAtz/70)
   G=6.67384e-11 # m^3 kg^-1 s^-2
-  Hub2=cosgrowH(z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL)^2 # (km/s / Mpc)^2
+  Hub2=H0*sqrt(OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL)
   km2m=1000
   Mpc2m=3.08567758e22
   Msol2kg=1.9891e30 # kg
