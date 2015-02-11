@@ -274,4 +274,21 @@ cosdistHubTime=function(H0 = 100){
  return((3.08568025e+19/(H0 * 31556926))/1e9)
 }
 
+cosdistRelError=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z>=0)){stop('All z must be >=0')}
+  OmegaK=1-OmegaM-OmegaL
+  temp = function(z, OmegaM, OmegaL, OmegaK) {
+    Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
+    temp = integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)
+      if(z>0){
+        RelError = abs(temp$abs.error/temp$value)
+      }else{
+        RelError=0
+      }
+    return=RelError
+  }
+  return(Vectorize(temp)(z = z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK))
+}
+
 

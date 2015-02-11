@@ -13,6 +13,7 @@
 \alias{cosdistUniAgeNow}
 \alias{cosdistUniAgeAtz}
 \alias{cosdistTravelTime}
+\alias{cosdistRelError}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Cosmological Distance Calculations
@@ -35,6 +36,7 @@ cosdistHubTime(H0 = 100)
 cosdistUniAgeNow(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
 cosdistUniAgeAtz(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
 cosdistTravelTime(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
+cosdistRelError(z=1, OmegaM=0.3, OmegaL=1-OmegaM)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -89,27 +91,29 @@ cosdistz function returns the input redshift (only included for clarity).
 
 cosdista function returns the Universe expansion factor, as given by a=1/(1+z).
 
-cosdistCoDist function returns the Line-of-sight (i.e. radial) comoving distance in units of Mpc.
+cosdistCoDist function returns the line-of-sight (i.e. radial) comoving distance in units of Mpc.
 
-cosdistLumDist function returns the Luminosity distance in units of Mpc.
+cosdistLumDist function returns the luminosity distance in units of Mpc.
 
-cosdistAngDist function returns the Angular diameter distance in units of Mpc.
+cosdistAngDist function returns the angular diameter distance in units of Mpc.
 
-cosdistCoDistTran function returns the Transverse comoving distance in units of Mpc.
+cosdistCoDistTran function returns the transverse comoving distance in units of Mpc.
 
-cosdistDistMod function returns the The distance modulus used where AbsMag = ApMag - DistMod, and DistMod = 5log10(LumDist)+25 in units of mag.
+cosdistDistMod function returns the distance modulus used where AbsMag = ApMag - DistMod, and DistMod = 5log10(LumDist)+25 in units of mag.
 
-cosdistAngSize function returns the Physical projected size of an object at z in units of kpc/arcsec.
+cosdistAngSize function returns the physical projected size of an object at z in units of kpc/arcsec.
 
-cosdistCoVol function returns the Comoving volume of Universe within z in units of Gpc^3.
+cosdistCoVol function returns the comoving volume of Universe within z in units of Gpc^3.
 
-cosdistHubTime function returns the Approximate Hubble age of the Universe in units of Gyrs.
+cosdistHubTime function returns the approximate Hubble age of the Universe in units of Gyrs.
 
-cosdistUniAgeNow function returns the Age of the Universe now in units of Gyrs.
+cosdistUniAgeNow function returns the age of the Universe now in units of Gyrs.
 
-cosdistUniAgeAtz function returns the Age of the Universe at the specified redshift (z) in units of Gyrs.
+cosdistUniAgeAtz function returns the age of the Universe at the specified redshift (z) in units of Gyrs.
 
-cosdistTravelTime function returns the Light travel time from the specified redshift (AKA look back time) in units of Gyrs.
+cosdistTravelTime function returns the light travel time from the specified redshift (AKA look back time) in units of Gyrs.
+
+cosdistRelError function returns the relative error of the distance/age integrals (this is the main source of error in the calculations).
 }
 \references{
 Based on the equations in Hogg D.W., 1999, arXiv, 9905116 and Wright E.L., 2006, PASP, 118, 1711
@@ -137,6 +141,7 @@ cosdistHubTime(70)
 cosdistUniAgeNow(0.3,70)
 cosdistUniAgeAtz(0.3,70)
 cosdistTravelTime(0.3,70)
+cosdistRelError(0.3)
 
 redshifts=seq(0,3,by=0.01)
 plot(redshifts, cosdist(redshifts, 70)[,'CoDist'], type='l', col='darkgreen', xlab='Redshift / z',

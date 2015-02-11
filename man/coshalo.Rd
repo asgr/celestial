@@ -24,13 +24,13 @@ coshaloRvirToSigma(Rvir=162.635, Munit=1, Lunit=1e3, Vunit=1, DeltaVir=200, H0=1
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Mvir}{
-Mass within virial radius in units on 'Munit'.
+Mass within virial radius in units of 'Munit'.
 }
   \item{Sigma}{
-Velocity dispersion within virial radius in units on 'Vunit'.
+Velocity dispersion within virial radius in units of 'Vunit'.
 }
   \item{Rvir}{
-Size of virial radius in units on 'Lunit'.
+Size of virial radius in units of 'Lunit'.
 }
   \item{Munit}{
 Base mass unit in multiples of Msun.
