@@ -61,8 +61,8 @@ H       \tab Hubble value in units of (km/s)/Mpc\cr
 OmegaM  \tab Omega matter\cr
 OmegaL  \tab Omega lambda\cr
 OmegaK  \tab Omega curvature\cr
-Factor  \tab Approximate growth factor (g, see below for details)\cr
-Rate    \tab Approximate growth rate (f, see below for details)\cr
+Factor  \tab Exact growth factor (g, see cosgrowFactor below for details)\cr
+Rate    \tab Exact growth rate (f, see cosgrowRate below for details)\cr
 RhoCrit \tab critical mass density of the Universe at z, in units of Msol/Mpc^3\cr
 }
 
@@ -110,9 +110,9 @@ RhoCrit \tab critical mass density of the Universe at z, in units of Msol/Mpc^3\
   cosgrowOmegaK(0.3)
   sum(cosgrowOmegaM(0.3)+cosgrowOmegaL(0.3)+cosgrowOmegaK(0.3)) #Still 1.
   cosgrowFactor(0.3)
-  cosgrowFactorApprox(0.3) #The approximation is better than a percent for most reasonable cosmologies.
+  cosgrowFactorApprox(0.3) #The approximation better than 1% for reasonable cosmologies.
   cosgrowRate(0.3)
-  cosgrowRateApprox(0.3) #The approximation is better than a percent for most reasonable cosmologies.
+  cosgrowRateApprox(0.3) #The approximation better than 1% for reasonable cosmologies.
   cosgrowRhoCrit(0.3)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

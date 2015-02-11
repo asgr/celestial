@@ -14,8 +14,8 @@ Virial halo conversion functions
 All 6 Virial paramter conversion functions. Each can map precisely to the other as a one paramter function.
 }
 \usage{
-coshaloMvirToSigma(Mvir = 1e+12, Munit = 1, Lunit = 1000, Vunit = 1, DeltaVir = 200, H0=100)
-coshaloSigmaToMvir(Sigma = 230, Munit = 1, Lunit = 1000, Vunit = 1, DeltaVir = 200, H0=100)
+coshaloMvirToSigma(Mvir=1e+12, Munit=1, Lunit=1000, Vunit=1, DeltaVir=200, H0=100)
+coshaloSigmaToMvir(Sigma=230, Munit=1, Lunit=1000, Vunit=1, DeltaVir=200, H0=100)
 coshaloMvirToRvir(Mvir=1e12, Munit=1, Lunit=1e3, Vunit=1, DeltaVir=200, H0=100)
 coshaloRvirToMvir(Rvir=162.635, Munit=1, Lunit=1e3, Vunit=1, DeltaVir=200, H0=100)
 coshaloSigmaToRvir(Sigma=230, Munit=1, Lunit=1e3, Vunit=1, DeltaVir=200, H0=100)

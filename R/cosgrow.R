@@ -2,20 +2,25 @@ cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM){
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z>=0)){stop('All z must be >=0')}
   OmegaK=1-OmegaM-OmegaL
-  OmegaSum=OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL
-  Hz=H0*sqrt(OmegaSum)
-  OmegaMAtz=(OmegaM*(1+z)^3)/OmegaSum
-  OmegaLAtz=OmegaL/OmegaSum
-  OmegaKAtz=(OmegaK*(1+z)^2)/OmegaSum
-  Factor=(5*OmegaMAtz/2)/(OmegaMAtz^(4/7)-OmegaLAtz+(1+0.5*OmegaMAtz)*(1+OmegaLAtz/70))
-  Rate=OmegaMAtz^(4/7)+(1+OmegaMAtz/2)*(OmegaLAtz/70)
-  G=6.67384e-11 # m^3 kg^-1 s^-2
-  Hub2=H0*sqrt(OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL)
-  km2m=1000
-  Mpc2m=3.08567758e22
-  Msol2kg=1.9891e30 # kg
-  RhoCrit=(3*Hub2)/(8*pi*G)*(km2m^2)*Mpc2m/Msol2kg #MsolperMpc3
-  return(data.frame(z=z, a=1/(1+z), H=Hz, OmegaM=OmegaMAtz, OmegaL=OmegaLAtz, OmegaK=OmegaKAtz, Factor=Factor, Rate=Rate, RhoCrit=RhoCrit))
+  temp=function(z, H0, OmegaM, OmegaL, OmegaK){
+    OmegaSum=OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL
+    Hz=H0*sqrt(OmegaSum)
+    OmegaMAtz=(OmegaM*(1+z)^3)/OmegaSum
+    OmegaLAtz=OmegaL/OmegaSum
+    OmegaKAtz=(OmegaK*(1+z)^2)/OmegaSum
+    OmegaK=1-OmegaM-OmegaL
+    Einva3=function(a, OmegaM, OmegaL, OmegaK){1/(a^3*(sqrt(OmegaM*a^(-3) + OmegaK*a^(-2) + OmegaL))^3)}
+    Factor=(5*OmegaM/2)*(Hz/H0)*(1+z)*integrate(Einva3,0,1/(1+z),OmegaM=OmegaM,OmegaL=OmegaL,OmegaK=OmegaK,subdivisions=1000L)$value
+    Rate=-1 - OmegaMAtz/2 + OmegaLAtz + (5*OmegaMAtz)/(2*Factor)
+    G=6.67384e-11 # m^3 kg^-1 s^-2
+    Hub2=H0*sqrt(OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL)
+    km2m=1000
+    Mpc2m=3.08567758e22
+    Msol2kg=1.9891e30 # kg
+    RhoCrit=(3*Hub2)/(8*pi*G)*(km2m^2)*Mpc2m/Msol2kg #MsolperMpc3
+  return=c(z=z, a=1/(1+z), H=Hz, OmegaM=OmegaMAtz, OmegaL=OmegaLAtz, OmegaK=OmegaKAtz, Factor=Factor, Rate=Rate, RhoCrit=RhoCrit)
+  }
+  return(as.data.frame(t(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK))))
 }
 
 cosgrowz=function(z = 1){
