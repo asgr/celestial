@@ -9,8 +9,8 @@ Cosmological Mapping Functions
 Functions for mapping from one arbitrary csomological parameter to another. This includes the provision of a generic interpolation function and another exact value lookup.
 }
 \usage{
-cosmapval(val=50, cosparam="CoVol", H0=100, OmegaM=0.3, OmegaL=1-OmegaM, zrange=c(0,100),
-res=10, iter=12, out='cos')
+cosmapval(val=50, cosparam="CoVol", H0=100, OmegaM=0.3, OmegaL=1-OmegaM,
+zrange=c(-0.99,100), res=10, iter=12, out='cos')
 cosmapfunc(cosparamx="CoVol", cosparamy="z", H0=100, OmegaM=0.3, OmegaL=1-OmegaM,
 zrange=c(0,20), step='z', res=100)
 }
@@ -56,7 +56,9 @@ Either out='cos', in which case the output is a data.frame containing the output
 \details{
 The default zrange and res should be sufficient for most reasonable cosmologies if the approximate redshift location of the region to be mapped is entirely unknown.
 
-The default res and iter for cosmapval is appropriate for most mappings with z<20 using a fiducial 737 cosmology. If this proves insufficient (this should be obvious from error column) then increase both of these. Overall accuracy goes as res^iter.
+Predictions into the future are possible if val is set to negative (distance and volume parameters) or below their present day value (age and growth parameters). However, many potential values are outside of the asymptotic limits, e.g. using the default 737 cosmology H is tending to 83.666, i.e. it will fail if you request H=83 but work if your resuest H=84.
+
+The default res and iter for cosmapval is appropriate for most mappings with -0.99 < z < 100 using a fiducial 737 cosmology. If this proves insufficient (this should be obvious from error column) then increase both of these. Overall accuracy goes as res^iter.
 }
 \value{
 If out='cos', cosmapval contains the concatenation of the cosdist (with age=TRUE and error=TRUE) and cosgrow functions for parameter 'cosparam' at value 'val'. The 'z' and 'a' columns are only included once (from the output of cosdist). See \code{\link{cosdist}} and \code{\link{cosgrow}} for information on the cosdist and cosgrow outputs. If out='z', then cosmapval merely returns the corresponding redshifts.
@@ -80,6 +82,10 @@ tempfunc=cosmapfunc('CoVol', 'UniAgeAtz')
 tempfunc(50)
 
 cosmapval(50:60, 'CoVol')
+
+#A future prediction:
+
+cosmapval(59, 'H', H0=70)
 }
 
 \keyword{ cosmo }

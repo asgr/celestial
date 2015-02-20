@@ -54,7 +54,7 @@ cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0 = 100, OmegaM = 0.3, Om
   return=approxfun(tempx,tempy)
 }
 
-cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(0,100), res=10, iter=12, out='cos'){
+cosmapval=function(val=50, cosparam='CoVol', H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, zrange=c(-0.99,100), res=10, iter=12, out='cos'){
   temp=function(val, cosparam, H0, OmegaM, OmegaL, zlo, zhi, res, iter, out){
     if(cosparam=='DistMod' & zlo==0){zlo=1e-5}
     zrangetemp=c(zlo, zhi)

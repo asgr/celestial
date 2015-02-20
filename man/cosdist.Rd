@@ -41,26 +41,28 @@ cosdistRelError(z=1, OmegaM=0.3, OmegaL=1-OmegaM)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{z}{
-Redshift (can be a vector).
-}
+    Redshift, where z must be > -1 (can be a vector).
+  }
   \item{H0}{
-Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
-}
+    Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
+  }
   \item{OmegaM}{
-Omega matter (default is 0.3).
-}
+    Omega matter (default is 0.3).
+  }
   \item{OmegaL}{
-Omega Lambda (default is for a flat Universe with OmegaL=1-OmegaM).
-}
+    Omega Lambda (default is for a flat Universe with OmegaL = 1-OmegaM = 0.7).
+  }
   \item{age}{
-Flag for cosdist function to return age or not- this slows calculation, so is by default turned off.
-}
+    Flag for cosdist function to return age or not- this slows calculation, so is by default turned off.
+  }
   \item{error}{
-Flag for cosdist to calculate the relative error for distance/age values.
-}
+    Flag for cosdist to calculate the relative error for distance/age values.
+  }
 }
 \details{
-Function is based on D. W. Hogg et all 1999 (arXiv 9905116)
+Function is largely based on D. W. Hogg et al. 1999 and Wright et al 2006.
+
+Negative value of z> -1 are allowed, which produces future predictions based on present day cosmology.
 }
 \value{
 cosdist function returns a data.frame (even if only 1 redshift if requested) with the following columns:
@@ -116,7 +118,10 @@ cosdistTravelTime function returns the light travel time from the specified reds
 cosdistRelError function returns the relative error of the distance/age integrals (this is the main source of error in the calculations).
 }
 \references{
-Based on the equations in Hogg D.W., 1999, arXiv, 9905116 and Wright E.L., 2006, PASP, 118, 1711
+Based on the equations in:
+
+Hogg D.W., 1999, arXiv, 9905116
+Wright E.L., 2006, PASP, 118, 1711
 }
 \author{
 Aaron Robotham

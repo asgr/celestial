@@ -35,7 +35,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{z}{
-    Redshift (can be a vector).
+    Redshift, where z must be > -1 (can be a vector).
   }
   \item{H0}{
     Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
@@ -49,6 +49,8 @@
 }
 \details{
   The above functions are heavily based on the equations in Hamilton A.J.S., 2001, MNRAS 322 419 and Lahav O., et al., 1991, MNRAS, 251, 136.
+  
+  Negative value of z> -1 are allowed, which produces future predictions based on present day cosmology.
   
   The approximation routines are generally accurate to sub 1 percent, and since they do not involve numericla integration they are substantially faster when computing large grids of numbers, i.e. they are recommended for plots, since the accuracy is sub the line width.
 }
