@@ -22,41 +22,44 @@ Cosmological Distance Calculations
 These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified.
 }
 \usage{
-cosdist(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM, age = FALSE, error = FALSE)
-cosdistz(z = 1)
-cosdista(z = 1)
-cosdistCoDist(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
-cosdistLumDist(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
-cosdistAngDist(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
-cosdistCoDistTran(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
-cosdistDistMod(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
-cosdistAngSize(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
-cosdistCoVol(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
-cosdistHubTime(H0 = 100)
-cosdistUniAgeNow(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
-cosdistUniAgeAtz(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
-cosdistTravelTime(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
-cosdistRelError(z=1, OmegaM=0.3, OmegaL=1-OmegaM)
+cosdist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE, ref, error=FALSE)
+cosdistz(z=1)
+cosdista(z=1)
+cosdistCoDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistLumDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistAngDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistCoDistTran(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistDistMod(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistAngSize(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistCoVol(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistHubTime(H0=100)
+cosdistUniAgeNow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistUniAgeAtz(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistTravelTime(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistRelError(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{z}{
-    Redshift, where z must be > -1 (can be a vector)
+    Redshift, where z must be > -1 (can be a vector).
   }
   \item{H0}{
-    Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc)
+    Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
   }
   \item{OmegaM}{
-    Omega matter (default is 0.3)
+    Omega matter (default is 0.3).
   }
   \item{OmegaL}{
-    Omega Lambda (default is for a flat Universe with OmegaL = 1-OmegaM = 0.7)
+    Omega Lambda (default is for a flat Universe with OmegaL = 1-OmegaM = 0.7).
   }
   \item{age}{
-    Flag for cosdist function to return age or not- this slows calculation, so is by default turned off
+    Flag for cosdist function to return age or not- this slows calculation, so is by default turned off.
+  }
+  \item{ref}{
+    The name of a reference cosmology to use, one of Planck/ WMAP9/ WMAP7/ WMAP5/ WMAP3/ WMAP1/ Millennium/ GiggleZ. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL.
   }
   \item{error}{
-    Flag for cosdist to calculate the relative error for distance/age values
+    Flag for cosdist to calculate the relative error for distance/age values.
   }
 }
 \details{
@@ -128,11 +131,12 @@ Aaron Robotham
 }
 
 \seealso{
-\code{\link{cosvol}}, \code{\link{cosmap}}, \code{\link{cosgrow}}
+\code{\link{cosvol}}, \code{\link{cosmap}}, \code{\link{cosgrow}}, \code{\link{cosref}}
 }
 
 \examples{
 cosdist(0.3,70,age=TRUE)
+cosdist(0.3,70,age=TRUE,ref='Planck')
 cosdistz(0.3)
 cosdista(0.3)
 cosdistCoDist(0.3,70)

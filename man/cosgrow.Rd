@@ -19,32 +19,35 @@
   These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified.
 }
 \usage{
-  cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM)
+  cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
   cosgrowz(z = 1)
   cosgrowa(z = 1)
-  cosgrowH(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
-  cosgrowOmegaM(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
-  cosgrowOmegaL(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
-  cosgrowOmegaK(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
-  cosgrowFactor(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
-  cosgrowRate(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
-  cosgrowFactorApprox(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
-  cosgrowRateApprox(z = 1, OmegaM = 0.3, OmegaL = 1-OmegaM)
-  cosgrowRhoCrit(z = 1, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM)
+  cosgrowH(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrowOmegaM(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrowOmegaL(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrowOmegaK(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrowFactor(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrowRate(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrowFactorApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrowRateApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrowRhoCrit(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{z}{
-    Redshift, where z must be > -1 (can be a vector)
+    Redshift, where z must be > -1 (can be a vector).
   }
   \item{H0}{
-    Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc)
+    Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
   }
   \item{OmegaM}{
-    Omega matter (default is 0.3)
+    Omega matter (default is 0.3).
   }
   \item{OmegaL}{
-    Omega Lambda (default is for a flat Universe with OmegaL=1-OmegaM)
+    Omega Lambda (default is for a flat Universe with OmegaL=1-OmegaM).
+  }
+  \item{ref}{
+    The name of a reference cosmology to use, one of Planck/ WMAP9/ WMAP7/ WMAP5/ WMAP3/ WMAP1/ Millennium/ GiggleZ. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL.
   }
 }
 \details{
@@ -99,11 +102,12 @@ RhoCrit \tab critical mass density of the Universe at z, in units of Msol/Mpc^3\
 }
 
 \seealso{
-  \code{\link{cosvol}}, \code{\link{cosmap}},  \code{\link{cosdist}}
+  \code{\link{cosvol}}, \code{\link{cosmap}},  \code{\link{cosdist}}, \code{\link{cosref}}
 }
 
 \examples{
   cosgrow(0.3)
+  cosgrow(0.3,ref='Planck')
   cosgrowz(0.3)
   cosgrowa(0.3)
   cosgrowH(0.3)
