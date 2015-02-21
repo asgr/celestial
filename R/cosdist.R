@@ -1,5 +1,6 @@
 .getcos=function(ref){
   data(cosref)
+  if(ref %in% cosref[,'Ref']==FALSE){stop('Provided ref name is not allowed, must be one of 737/ Planck/ WMAP9/ WMAP7/ WMAP5/ WMAP3/ WMAP1/ Millennium/ GiggleZ. See ?cosref for details.')}
   return(cosref[cosref[,'Ref']==ref,])
 }
 
