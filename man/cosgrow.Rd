@@ -35,16 +35,16 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{z}{
-    Redshift, where z must be > -1 (can be a vector).
+    Redshift, where z must be > -1 (can be a vector)
   }
   \item{H0}{
-    Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
+    Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc)
   }
   \item{OmegaM}{
-    Omega matter (default is 0.3).
+    Omega matter (default is 0.3)
   }
   \item{OmegaL}{
-    Omega Lambda (default is for a flat Universe with OmegaL=1-OmegaM).
+    Omega Lambda (default is for a flat Universe with OmegaL=1-OmegaM)
   }
 }
 \details{
