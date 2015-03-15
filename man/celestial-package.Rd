@@ -13,7 +13,7 @@ Various functions for converting between commonly used coordinate systems in ast
 Package: \tab celestial\cr
 Type: \tab Package\cr
 Version: \tab 1.3\cr
-Date: \tab 2015-01-16\cr
+Date: \tab 2015-03-13\cr
 License: \tab GPL-3\cr
 }
 There are a number of functions included, but the most useful for astronomy conversions are the decimal degrees to DMS/HMS formats used at many telescopes: deg2dms, deg2hms, dms2deg, hms2deg. It also contains functions for various cosmological calculations (i.e. distance, volume and age for different cosmologies and redshifts).

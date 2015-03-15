@@ -39,10 +39,10 @@ Aaron Robotham
 }
 
 \examples{
-print(hms2deg(12,10,36))
-print(hms2deg('12:10:36'))
-print(hms2deg('12h10m36s',sep='hms'))
-print(hms2deg(c('12H10M36S','3H4M10S'),sep='HMS'))
+hms2deg(12,10,36)
+hms2deg('12:10:36')
+hms2deg('12h10m36s',sep='hms')
+hms2deg(c('12H10M36S','3H4M10S'),sep='HMS')
 }
 
 \keyword{convert}

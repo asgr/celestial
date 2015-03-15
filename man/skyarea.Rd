@@ -49,10 +49,10 @@ G23area=skyarea(c(338.1,351.9),c(-35,-30))
 
 #Total GAMA survey area:
 TotalGAMAarea=G02area+G09area+G12area+G15area+G23area
-print(paste('The GAMA survey area is',round(TotalGAMAarea['area'],2),'sq. deg.'))
+paste('The GAMA survey area is',round(TotalGAMAarea['area'],2),'sq. deg.')
 
 #Future TACs note: this is less than 1% of the sky ;-)
-print(paste('The GAMA survey area is',round(TotalGAMAarea['areafrac']*100,2),'\% of the sky'))
+paste('The GAMA survey area is',round(TotalGAMAarea['areafrac']*100,2),'\% of the sky')
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

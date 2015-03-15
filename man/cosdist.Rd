@@ -56,7 +56,7 @@ cosdistRelError(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
     Flag for cosdist function to return age or not- this slows calculation, so is by default turned off.
   }
   \item{ref}{
-    The name of a reference cosmology to use, one of Planck/ WMAP9/ WMAP7/ WMAP5/ WMAP3/ WMAP1/ Millennium/ GiggleZ. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL.
+    The name of a reference cosmology to use, one of 137 / 737 / Planck / WMAP9 / WMAP7 / WMAP5 / WMAP3 / WMAP1 / Millennium / GiggleZ. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL.
   }
   \item{error}{
     Flag for cosdist to calculate the relative error for distance/age values.

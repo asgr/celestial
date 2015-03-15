@@ -8,8 +8,10 @@
 \alias{cosgrowH}
 \alias{cosgrowFactor}
 \alias{cosgrowRate}
+\alias{cosgrowSigma8}
 \alias{cosgrowFactorApprox}
 \alias{cosgrowRateApprox}
+\alias{cosgrowSigma8Approx}
 \alias{cosgrowRhoCrit}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -19,7 +21,7 @@
   These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified.
 }
 \usage{
-  cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, ref)
   cosgrowz(z = 1)
   cosgrowa(z = 1)
   cosgrowH(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
@@ -27,9 +29,11 @@
   cosgrowOmegaL(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
   cosgrowOmegaK(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
   cosgrowFactor(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-  cosgrowRate(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrowRate(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, ref)
+  cosgrowSigma8(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, ref)
   cosgrowFactorApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-  cosgrowRateApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrowRateApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, ref)
+  cosgrowSigma8Approx(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, ref)
   cosgrowRhoCrit(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -46,8 +50,14 @@
   \item{OmegaL}{
     Omega Lambda (default is for a flat Universe with OmegaL=1-OmegaM).
   }
+  \item{Sigma8}{
+    The value of Sigma8 to use if fsigma8=TRUE (by default this is a reasonable 0.8 for simplicity).
+  }
+  \item{fSigma8}{
+    Logical to express whether the growth rate of structure calculated by cosgrow, cosgrowRate or cosgrowRateApprox is given as f*Sigma8 (TRUE) or simply f (FALSE). This is useful for redshift space distortion comparisons (RSD), since RSD strictly measures f*Sigma8.
+  }
   \item{ref}{
-    The name of a reference cosmology to use, one of Planck/ WMAP9/ WMAP7/ WMAP5/ WMAP3/ WMAP1/ Millennium/ GiggleZ. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL.
+    The name of a reference cosmology to use, one of 137 / 737 / Planck / WMAP9 / WMAP7 / WMAP5 / WMAP3 / WMAP1 / Millennium / GiggleZ. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL. If ref=137 or ref=737 no specific Sigma8 is assumed, instead Sigma8 is set to whatever the input value is set to (by default this is 0.8).
   }
 }
 \details{
@@ -67,7 +77,8 @@ OmegaM  \tab Omega matter\cr
 OmegaL  \tab Omega lambda\cr
 OmegaK  \tab Omega curvature\cr
 Factor  \tab Exact growth factor (g, see cosgrowFactor below for details)\cr
-Rate    \tab Exact growth rate (f, see cosgrowRate below for details)\cr
+Rate    \tab Exact growth rate (f or f*Sigma8, see cosgrowRate below for details)\cr
+Sigma8  \tab Power spectrum fluctuation amplitude on the scale 8 Mpc/z\cr
 RhoCrit \tab critical mass density of the Universe at z, in units of Msol/Mpc^3\cr
 }
 
@@ -85,11 +96,15 @@ RhoCrit \tab critical mass density of the Universe at z, in units of Msol/Mpc^3\
   
   cosgrowFactor function returns the exact value of the growth factor (typically referred to as 'g' in the astronomy literature), at z.
   
+  cosgrowRate function returns either the true (typically referred to as 'f' in the astronomy literature) or RSD type (f*Sigma8) value of the growth rate of structure, at z.
+  
+  cosgrowSigma8 function returns the power spectrum fluctuation amplitude on the scale 8 Mpc/z at z, and is unitless.
+  
   cosgrowFactorApprox function returns the approximate value of the growth factor (typically referred to as 'g' in the astronomy literature), at z.
   
-  cosgrowRate function returns the exact value of the growth rate (typically referred to as 'f' in the astronomy literature), at z.
+  cosgrowRateApprox function returns either the approximate true (typically referred to as 'f' in the astronomy literature) or approximate RSD type (f*Sigma8) value of the growth rate of structure, at z.
   
-  cosgrowRateApprox function returns the approximate value of the growth rate (typically referred to as 'f' in the astronomy literature), at z.
+  cosgrowSigma8Approx function returns the approximate power spectrum fluctuation amplitude on the scale 8 Mpc/z at z, and is unitless.
   
   cosgrowRhoCrit function returns the critical mass density of the Universe at z, in units of Msol/Mpc^3.
   

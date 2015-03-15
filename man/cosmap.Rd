@@ -9,10 +9,10 @@ Cosmological Mapping Functions
 Functions for mapping from one arbitrary csomological parameter to another. This includes the provision of a generic interpolation function and another exact value lookup.
 }
 \usage{
-cosmapval(val=50, cosparam="CoVol", H0=100, OmegaM=0.3, OmegaL=1-OmegaM,
-zrange=c(-0.99,100), res=10, iter=12, out='cos')
+cosmapval(val=50, cosparam="CoVol", H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8,
+fSigma8=FALSE, zrange=c(-0.99,100), res=100, iter=8, out='cos', degen='lo', ref)
 cosmapfunc(cosparamx="CoVol", cosparamy="z", H0=100, OmegaM=0.3, OmegaL=1-OmegaM,
-zrange=c(0,20), step='z', res=100)
+Sigma8=0.8, fSigma8=FALSE, zrange=c(0,20), step='z', res=100, degen='lo', ref)
 }
 
 \arguments{
@@ -29,29 +29,41 @@ Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistM
 Cosmological parameter, must be one of: z, a, CoDist, LumDist, AngDist, CoDistTran, DistMod, AngSize CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these).
 }
   \item{H0}{
-Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
-}
+    Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
+  }
   \item{OmegaM}{
-Omega matter (default is 0.3).
-}
+    Omega matter (default is 0.3).
+  }
   \item{OmegaL}{
-Omega Lambda (default is for a flat Universe with OmegaL=1-OmegaM).
-}
+    Omega Lambda (default is for a flat Universe with OmegaL=1-OmegaM).
+  }
+  \item{Sigma8}{
+    The value of Sigma8 to use if fsigma8=TRUE (by default this is a reasonable 0.8 for simplicity).
+  }
+  \item{fSigma8}{
+    Logical to express whether the growth rate of structure calculated by cosgrow, cosgrowRate or cosgrowRateApprox is given as f*Sigma8 (TRUE) or simply f (FALSE). This is useful for redshift space distortion comparisons (RSD), since RSD strictly measures f*Sigma8.
+  }
   \item{zrange}{
-Lower and upper z limits that the approxfun mapping is generated over (increase range if default is not sufficient, and decrease if it is wasteful, i.e. the possible redshift window is known to be quite narrow).
-}
+    Lower and upper z limits that the approxfun mapping is generated over (increase range if default is not sufficient, and decrease if it is wasteful, i.e. the possible redshift window is known to be quite narrow).
+  }
   \item{step}{
-The type of stepping used. Allowed values are 'z' (uniform stepping in z), 'logz' (uniform stepping in log10(1+z) and expansion factor 'a' (uniform stepping in a=1/(1+z)). Default is z. For mappings using time (UniAgeNow, UniAgeAtz, TravelTime) or comoving quantities (CoDist, CoDistTran, CoVol) or distance modulus (DistMod) 'a' or 'logz' map the numeric range more uniformly. This is because a and log10(1+z) are approximately linear in light travel time (positive and negative correlation respectively), and typically they have better behaviour than stepping uniformly in z directly.
-}
+    The type of stepping used. Allowed values are 'z' (uniform stepping in z), 'logz' (uniform stepping in log10(1+z) and expansion factor 'a' (uniform stepping in a=1/(1+z)). Default is z. For mappings using time (UniAgeNow, UniAgeAtz, TravelTime) or comoving quantities (CoDist, CoDistTran, CoVol) or distance modulus (DistMod) 'a' or 'logz' map the numeric range more uniformly. This is because a and log10(1+z) are approximately linear in light travel time (positive and negative correlation respectively), and typically they have better behaviour than stepping uniformly in z directly.
+  }
   \item{res}{
-The resolution of steps. Larger numbers will be more accurate, but will be slower to compute.
-}
+    The resolution of steps. Larger numbers will be more accurate, but will be slower to compute.
+  }
   \item{iter}{
-The number of iterations to make when calculating the exact location of a given cosmological parameter when using cosmapval.  
-}
+    The number of iterations to make when calculating the exact location of a given cosmological parameter when using cosmapval.  
+  }
   \item{out}{
-Either out='cos', in which case the output is a data.frame containing the output of \code{\link{cosdist}} and \code{\link{cosgrow}} for the specified input vaue, or out='z', in which case the output is a vector of the corresponding redshift (z) values.
-}
+    Either out='cos', in which case the output is a data.frame containing the output of \code{\link{cosdist}} and \code{\link{cosgrow}} for the specified input vaue, or out='z', in which case the output is a vector of the corresponding redshift (z) values.
+  }
+  \item{degen}{
+    In cases where solutions are degenerate (multiple y solutions for a single x), this specifies whether to calculate the lower y solution (degen='lo'), or the higher y solutions (degen='hi').
+  }
+  \item{ref}{
+    The name of a reference cosmology to use, one of 137 / 737 / Planck / WMAP9 / WMAP7 / WMAP5 / WMAP3 / WMAP1 / Millennium / GiggleZ. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL. If ref=137 or ref=737 no specific Sigma8 is assumed, instead Sigma8 is set to whatever the input value is set to (by default this is 0.8).
+  }
 }
 \details{
 The default zrange and res should be sufficient for most reasonable cosmologies if the approximate redshift location of the region to be mapped is entirely unknown.

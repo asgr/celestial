@@ -38,10 +38,10 @@ Aaron Robotham
 }
 
 \examples{
-print(deg2hms(123.456))
-print(deg2hms(123.456,type='cat',sep=':'))
-print(deg2hms(123.456,type='cat',sep='hms'))
-print(deg2hms(123.456,type='cat',sep='HMS'))
+deg2hms(123.456)
+deg2hms(123.456,type='cat',sep=':')
+deg2hms(123.456,type='cat',sep='hms')
+deg2hms(123.456,type='cat',sep='HMS')
 }
 
 \keyword{convert}

@@ -1,7 +1,9 @@
 .getcos=function(ref){
-  data(cosref)
-  if(ref %in% cosref[,'Ref']==FALSE){stop('Provided ref name is not allowed, must be one of 737/ Planck/ WMAP9/ WMAP7/ WMAP5/ WMAP3/ WMAP1/ Millennium/ GiggleZ. See ?cosref for details.')}
-  return(cosref[cosref[,'Ref']==ref,])
+  #data('cosref',envir = environment())
+  if(ref %in% cosref[,'Ref']==FALSE){stop('Provided ref name is not allowed, must be one of 737 / 137 / Planck / WMAP9 / WMAP7 / WMAP5 / WMAP3 / WMAP1 / Millennium / GiggleZ. See ?cosref for details.')}
+  out=as.numeric(cosref[cosref[,'Ref']==ref,])
+  names(out)=colnames(cosref)
+  return(out)
 }
 
 cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE, ref, error=FALSE){
@@ -9,9 +11,9 @@ cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE, ref, error
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
     params=.getcos(ref)
-    H0=params['H0']
-    OmegaM=params['OmegaM']
-    OmegaL=params['OmegaL']
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
   }
   OmegaK=1-OmegaM-OmegaL
   Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
@@ -89,9 +91,9 @@ cosdistCoDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
     params=.getcos(ref)
-    H0=params['H0']
-    OmegaM=params['OmegaM']
-    OmegaL=params['OmegaL']
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
   }
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
@@ -108,9 +110,9 @@ cosdistCoDistTran=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
     params=.getcos(ref)
-    H0=params['H0']
-    OmegaM=params['OmegaM']
-    OmegaL=params['OmegaL']
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
   }
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
@@ -137,9 +139,9 @@ cosdistLumDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
     params=.getcos(ref)
-    H0=params['H0']
-    OmegaM=params['OmegaM']
-    OmegaL=params['OmegaL']
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
   }
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
@@ -167,9 +169,9 @@ cosdistAngDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
     params=.getcos(ref)
-    H0=params['H0']
-    OmegaM=params['OmegaM']
-    OmegaL=params['OmegaL']
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
   }
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
@@ -197,9 +199,9 @@ cosdistDistMod=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
     params=.getcos(ref)
-    H0=params['H0']
-    OmegaM=params['OmegaM']
-    OmegaL=params['OmegaL']
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
   }
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
@@ -227,9 +229,9 @@ cosdistAngSize=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
     params=.getcos(ref)
-    H0=params['H0']
-    OmegaM=params['OmegaM']
-    OmegaL=params['OmegaL']
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
   }
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
@@ -257,9 +259,9 @@ cosdistCoVol=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
     params=.getcos(ref)
-    H0=params['H0']
-    OmegaM=params['OmegaM']
-    OmegaL=params['OmegaL']
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
   }
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
@@ -289,9 +291,9 @@ cosdistUniAgeNow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
     params=.getcos(ref)
-    H0=params['H0']
-    OmegaM=params['OmegaM']
-    OmegaL=params['OmegaL']
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
   }
   OmegaK=1-OmegaM-OmegaL
   Einvz = function(z, OmegaM, OmegaL, OmegaK){1/(sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}
@@ -308,9 +310,9 @@ cosdistUniAgeAtz=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   if(!all(z>=0)){stop('All z must be >=0')}
   if(!missing(ref)){
     params=.getcos(ref)
-    H0=params['H0']
-    OmegaM=params['OmegaM']
-    OmegaL=params['OmegaL']
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
   }
   OmegaK=1-OmegaM-OmegaL
   Einvz = function(z, OmegaM, OmegaL, OmegaK){1/(sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}
@@ -328,9 +330,9 @@ cosdistTravelTime=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
     params=.getcos(ref)
-    H0=params['H0']
-    OmegaM=params['OmegaM']
-    OmegaL=params['OmegaL']
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
   }
   OmegaK=1-OmegaM-OmegaL
   Einvz = function(z, OmegaM, OmegaL, OmegaK){1/(sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}
@@ -351,8 +353,8 @@ cosdistRelError=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
     params=.getcos(ref)
-    OmegaM=params['OmegaM']
-    OmegaL=params['OmegaL']
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
   }
   OmegaK=1-OmegaM-OmegaL
   temp = function(z, OmegaM, OmegaL, OmegaK) {

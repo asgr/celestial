@@ -15,10 +15,10 @@ IAUID(ra, dec, name = "GAMA", epoch = "J")
 
 \arguments{
   \item{ra}{
-The decimal degrees right ascension.
+Right Ascension in decimal degrees.
 }
   \item{dec}{
-The decimal degrees declination.
+Declination in decimal degrees.
 }
   \item{name}{
 Name to be appended to IAU designation as a string.
@@ -37,7 +37,7 @@ Aaron Robotham
 }
 
 \examples{
-print(IAUID(123.45,67.89,'GAMA','J'))
+IAUID(123.45,67.89,'GAMA','J')
 }
 
 \keyword{convert}
