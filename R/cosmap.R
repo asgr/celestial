@@ -78,7 +78,7 @@ cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0=100, OmegaM=0.3, OmegaL
     if(yatxmax>1 & yatxmax<res){tempx=tempx[1:yatxmax];tempy=tempy[1:yatxmax]}
   }
   if(degen=='hi'){
-    if(yatxmin>1 & yatxmin<res){tempx=tempx[xatymin:res];tempy=tempy[xatymin:res]}
+    if(yatxmin>1 & yatxmin<res){tempx=tempx[yatxmin:res];tempy=tempy[yatxmin:res]}
     if(yatxmax>1 & yatxmax<res){tempx=tempx[yatxmax:res];tempy=tempy[yatxmax:res]}
   }
   return=approxfun(tempx,tempy)
