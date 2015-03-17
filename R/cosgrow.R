@@ -26,11 +26,10 @@ cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=F
       Rate=Sigma8Atz*(-1 - OmegaMAtz/2 + OmegaLAtz + (5*OmegaMAtz)/(2*Factor))
     }
     G=6.67384e-11 # m^3 kg^-1 s^-2
-    Hub2=H0*sqrt(OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL)
     km2m=1000
     Mpc2m=3.08567758e22
     Msol2kg=1.9891e30 # kg
-    RhoCrit=(3*Hub2)/(8*pi*G)*(km2m^2)*Mpc2m/Msol2kg #MsolperMpc3
+    RhoCrit=(3*Hz)/(8*pi*G)*(km2m^2)*Mpc2m/Msol2kg #MsolperMpc3
   return=c(z=z, a=1/(1+z), H=Hz, OmegaM=OmegaMAtz, OmegaL=OmegaLAtz, OmegaK=OmegaKAtz, Factor=Factor, Rate=Rate, Sigma8=Sigma8Atz, RhoCrit=RhoCrit)
   }
   return(as.data.frame(t(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK))))
