@@ -1,5 +1,5 @@
 hms2deg <-
-function(h,m,s,sep=':'){
+function(h=0,m=0,s=0,sep=':'){
   if(length(dim(h))==2){
     if(dim(h)[2]==3){
       if(is.character(h[1,1]) & missing(m) & missing(s)){
@@ -18,14 +18,19 @@ function(h,m,s,sep=':'){
     }else{stop("d has wrong dimension, should be a Nx3 table/matrix")}
   }
   if(is.character(h[1]) & missing(m) & missing(s)){
-    if(sep!='HMS' & sep!='hms'){split=as.numeric(unlist(strsplit(h,split=sep,fixed=TRUE)));skip=3}
+    if(sep!='HMS' & sep!='hms'){
+      temp=strsplit(h,split=sep,fixed=TRUE)
+      split=as.numeric(unlist(temp))
+      skip=length(temp[[1]])
+    }
     if(sep=='HMS'){split=unlist(strsplit(h,split='H',fixed=TRUE));skip=2}
     if(sep=='hms'){split=unlist(strsplit(h,split='h',fixed=TRUE));skip=2}
     nsplit=length(split)/skip
     h=as.numeric(split[seq(1,(nsplit-1)*skip+1,by=skip)])
+    
     if(sep!='HMS' & sep!='hms'){
-    m=as.numeric(split[seq(2,(nsplit-1)*skip+2,by=skip)])
-    s=as.numeric(split[seq(3,(nsplit-1)*skip+3,by=skip)])
+      if(skip>=2){m=as.numeric(split[seq(2,(nsplit-1)*skip+2,by=skip)])}
+      if(skip>=3){s=as.numeric(split[seq(3,(nsplit-1)*skip+3,by=skip)])}
     }
     if(sep=='HMS'){
     split=unlist(strsplit(split[seq(2,(nsplit-1)*skip+2,by=skip)],split='M',fixed=TRUE))

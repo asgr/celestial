@@ -10,7 +10,7 @@ Convert decimal degrees to dms (degrees, minutes, seconds) format. This is proba
 }
 
 \usage{
-deg2dms(deg,type='mat',sep=':')
+deg2dms(deg,type='mat',sep=':',digits=2)
 }
 
 \arguments{
@@ -22,6 +22,9 @@ The output type desired. If 'mat' then the output is a 3 column data.frame where
 }
   \item{sep}{
 Defines the type of separator used when type='cat'. Any value other than 'DMS' and 'dms' is used for all separations, so the default ':' would produce an output like 3:34:45.5. If set to 'dms' or 'DMS' then the output is of the format 3d34m45.5s and 3D34M45.5s resepctively.
+}
+  \item{digits}{
+The digits to print for angular seconds. See \code{\link[base]{formatC}} for details on how digits is parsed.
 }
 }
 

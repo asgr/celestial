@@ -1,9 +1,10 @@
-skyarea=function(long=c(129,141),lat=c(-2,3),inunit='deg',outunit='deg2'){
-  if(inunit %in% c('deg','amin','asec','rad')==FALSE){stop('inunit must be one of deg, amin, asec or rad')}
+skyarea=function(long=c(129,141),lat=c(-2,3),inunit='deg',outunit='deg2',sep=":"){
+  if(inunit %in% c('deg','amin','asec','rad','sex')==FALSE){stop('inunit must be one of deg, amin, asec, rad','sex')}
   if(outunit %in% c('deg2','amin2','asec2','rad2','sr')==FALSE){stop('inunit must be one of deg2, amin2, asec2 or rad2')}
   if(length(long)==1){long=c(0,long)}
   if(length(lat)==1){lat=c(0,lat)}
   fullsky=129600/pi
+  if(inunit=='sex'){long=hms2deg(long,sep=sep);lat=dms2deg(lat,sep=sep)}
   if(inunit=='amin'){long=long/60;lat=lat/60}
   if(inunit=='asec'){long=long/3600;lat=lat/3600}
   if(inunit=='rad'){long=long*180/pi;lat=lat*180/pi}

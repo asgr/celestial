@@ -8,7 +8,7 @@ Exact angular area calculator
 This function takes a survey geometry defined by RA (long) and Dec (latitude) limits and calculates the exact angular area covered.
 }
 \usage{
-skyarea(long = c(129, 141), lat = c(-2, 3), inunit = "deg", outunit = "deg2")
+skyarea(long = c(129, 141), lat = c(-2, 3), inunit = "deg", outunit = "deg2", sep=":")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,25 +19,28 @@ Upper and lower longitude (RA) limits of interest in units of inunit. If of leng
 Upper and lower latitude (Dec) limits of interest in units of inunit. If of length 1 then the number specified is assumed to be the upper limit and the lower limit is set to 0.
 }
   \item{inunit}{
-The units of angular coordinate provided. Allowed options are deg for degress, amin for arc minutes, asec for arc seconds and rad for radians.
+The units of angular coordinate provided. Allowed options are deg for degress, amin for arc minutes, asec for arc seconds, rad for radians and sex for sexigesimal (i.e. HMS for RA and DMS for Deg).
 }
   \item{outunit}{
 The units of angular area desired. Allowed options are deg2 for square degrees, amin2 for square arc minutes, asec2 for square arc seconds and rad2 or sr for steradians.
 }
+  \item{sep}{
+If inunit is set to 'sex' then sep defines the separation type as detailed in \code{\link{hms2deg}} and \code{\link{dms2deg}}.
+}
 }
 
 \value{
-Two value vector. First value is the sky area covered in units of outunit (names area), second value is the fraction of the celestial sphere covered by the specified geometry (named areafrac).
+Two value vector. First value is the sky area covered in units of outunit (named area), second value is the fraction of the celestial sphere covered by the specified geometry (named areafrac).
 }
-\references{
-Based on the equations in Hogg D.W., 1999, arXiv, 9905116 and Wright E.L., 2006, PASP, 118, 1711
-}
+%\references{
+%Based on the equations in Hogg D.W., 1999, arXiv, 9905116 and Wright E.L., 2006, PASP, 118, 1711
+%}
 \author{
 Aaron Robotham
 }
 
 \seealso{
-\code{\link{cosvol}}
+\code{\link{cosvol}}, \code{\link{hms2deg}}, \code{\link{dms2deg}}
 }
 \examples{
 #The GAMA survey areas:

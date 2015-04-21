@@ -1,5 +1,5 @@
 dms2deg <-
-function(d,m,s,sign='d',sep=':'){
+function(d=0,m=0,s=0,sign='d',sep=':'){
   if(length(dim(d))==2){
     if(dim(d)[2]==3){
       if(is.character(d[1,1]) & missing(m) & missing(s)){
@@ -18,7 +18,11 @@ function(d,m,s,sign='d',sep=':'){
     }else{stop("d has wrong dimension, should be a Nx3 table/matrix")}
   }
   if(is.character(d[1]) & missing(m) & missing(s)){
-    if(sep!='DMS' & sep!='dms'){split=unlist(strsplit(d,split=sep,fixed=TRUE));skip=3}
+    if(sep!='DMS' & sep!='dms'){
+      temp=strsplit(d,split=sep,fixed=TRUE)
+      split=as.numeric(unlist(temp))
+      skip=length(temp[[1]])
+    }
     if(sep=='DMS'){split=unlist(strsplit(d,split='D',fixed=TRUE));skip=2}
     if(sep=='dms'){split=unlist(strsplit(d,split='d',fixed=TRUE));skip=2}
     nsplit=length(split)/skip
@@ -28,8 +32,8 @@ function(d,m,s,sign='d',sep=':'){
     sign[signlogic]=-1
     d=abs(as.numeric(d))
     if(sep!='DMS' & sep!='dms'){
-    m=as.numeric(split[seq(2,(nsplit-1)*skip+2,by=skip)])
-    s=as.numeric(split[seq(3,(nsplit-1)*skip+3,by=skip)])
+      if(skip>=2){m=as.numeric(split[seq(2,(nsplit-1)*skip+2,by=skip)])}
+      if(skip>=3){s=as.numeric(split[seq(3,(nsplit-1)*skip+3,by=skip)])}
     }
     if(sep=='DMS'){
     split=unlist(strsplit(split[seq(2,(nsplit-1)*skip+2,by=skip)],split='M',fixed=TRUE))
