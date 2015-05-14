@@ -1,5 +1,5 @@
 skyarea=function(long=c(129,141),lat=c(-2,3),inunit='deg',outunit='deg2',sep=":"){
-  if(inunit %in% c('deg','amin','asec','rad','sex')==FALSE){stop('inunit must be one of deg, amin, asec, rad','sex')}
+  if(inunit %in% c('deg','amin','asec','rad','sex')==FALSE){stop('inunit must be one of deg, amin, asec, rad or sex')}
   if(outunit %in% c('deg2','amin2','asec2','rad2','sr')==FALSE){stop('inunit must be one of deg2, amin2, asec2 or rad2')}
   if(length(long)==1){long=c(0,long)}
   if(length(lat)==1){lat=c(0,lat)}

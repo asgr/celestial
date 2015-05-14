@@ -40,7 +40,7 @@ inunit = "deg2", ref)
 }
 
 \value{
-A single number specifying the comoving volume of the specified cone segment in Gpc^3.
+A 3 element vector. The first element (voltot) specifies the comoving volume of the requested cone segment in Gpc^3, the second element (volmeanz) specifies the mean redshift when mass is uniformly distributed in the volume, the third element (volmedz) specifies the median redshift when mass is uniformly distributed in the volume.
 }
 \references{
 Based on the equations in Hogg D.W., 1999, arXiv, 9905116 and Wright E.L., 2006, PASP, 118, 1711
@@ -57,11 +57,11 @@ Aaron Robotham
 \examples{
 #Approximate volume of the GAMA survey (area given in skyarea example, zmax is approx
 #limit of main galaxy sample):
-TotalGAMAvol=cosvol(293.82,0.6)
+TotalGAMAvol=cosvol(293.82,0.6)[1]
 print(paste('The GAMA survey volume is ~',round(TotalGAMAvol,2),'Gpc^3'))
 
 #Approximate volume of SDSS (area given for DR7, zmax is approx limit of main galaxy sample):
-TotalSDSSvol=cosvol(8423,0.3)
+TotalSDSSvol=cosvol(8423,0.3)[1]
 print(paste('The SDSS survey volume is ~',round(TotalSDSSvol,2),'Gpc^3'))
 
 #Change of reference cosmology

@@ -15,3 +15,5 @@ v1.3 (not on CRAN)
 Added individual cosmology routines as separate functions.
 
 Added new cosgrow (structure growth) and cosmap (generic parameter inputs, not just redshift) functions.
+
+Added sky coordinate matching functionality (coordmatch)
