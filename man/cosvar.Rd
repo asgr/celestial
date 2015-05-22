@@ -49,14 +49,19 @@ The units of angular area provided. Allowed options are deg2 for square degrees,
 \details{
 These functions use the empircally motivated cosmic variance percentage formula provided in Driver & Robotham (2010) Eqn 4.
 
-cosvarsph is a 'best effort' approximation of the comoving box subtended by the specified spherical coordinates using the following:
+cosvarsph is a 'best effort' approximation of the comoving box subtended by the specified spherical coordinates using the following conversions:
 
 CoDistLow = cosdistCoDist(z=zmin,H0=70,OmegaM=0.3)     
 CoDistHigh = cosdistCoDist(z=zmax,H0=70,OmegaM=0.3)
 cside=CoDistHigh-CoDistLow
+area=skyarea(long = long, lat = lat, inunit = inunit, outunit='deg2')[1]
+volume=cosvol(area=area, zmax = zmax, zmin=zmin, H0 = 70, OmegaM = 0.3, inunit='deg2')[1]
 aside=cos(mean(lat)*pi/180)*(abs(diff(long))/360)*(CoDistLow+cside/2)
 bside=(abs(diff(long))/180)*(CoDistLow+cside/2)
-  
+scale=sqrt(volume*1e9/(aside*bside*cside))
+aside=aside*scale
+bside=bside*scale
+return(cosvarcar(aside=aside, bside=bside, cside=cside, subsets=subsets))
 }
 \value{
 The output is the approximate percentage cosmic (or sample) variance that is expected for the volume specified.
