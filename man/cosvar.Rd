@@ -13,8 +13,8 @@ a utility interface to give approximate cosmic variance for astronomy survey reg
 (usually defined by RA, Dec and redshift limits).
 }
 \usage{
-cosvarcar(aside = 50, bside = 50, cside = 50, subsets = 1)
-cosvarsph(long = c(129, 141), lat = c(-2, 3), zmax = 1, zmin = 0, subsets = 1, inunit='deg')
+cosvarcar(aside = 50, bside = 50, cside = 50, regions = 1)
+cosvarsph(long = c(129, 141), lat = c(-2, 3), zmax = 1, zmin = 0, regions = 1, inunit='deg')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -27,8 +27,8 @@ The bside (longest projects side) of the Cartesian box, must be defined using 73
   \item{cside}{
 The cside (radial side) of the Cartesian box, must be defined using 737 cosmology.
 }
-  \item{subsets}{
-How many well separated equal volume sub volumes is this broken into?
+  \item{regions}{
+How many well separated regions of this size will there be?
 }
   \item{long}{
 Upper and lower longitude (RA) limits of interest in units of inunit. If of length 1 then the number specified is assumed to be the upper limit and the lower limit is set to 0.
