@@ -9,8 +9,10 @@ Sky matching
 These functions allows the user to match a reference set of sky coordinates against a comparison set of sky coordinates. The match radius can be varied per source (all matches per source are given within this radius), and mutual best matches are also extracted. coordmatch should be used for finding multiple matches and coordmatchsing should be used when trying to find matches around a single source.
 }
 \usage{
-coordmatch(coordref, coordcompare, rad = 2, inunitref = "deg", inunitcompare = "deg", radunit = "asec", sep = ":", kstart = 10, ignoreexact = FALSE)
-coordmatchsing(RAref,Decref, coordcompare, rad=2, inunitref = "deg", inunitcompare="deg", radunit='asec', sep = ":", ignoreexact=FALSE)
+coordmatch(coordref, coordcompare, rad = 2, inunitref = "deg", inunitcompare = "deg",
+radunit = "asec", sep = ":", kstart = 10, ignoreexact = FALSE)
+coordmatchsing(RAref,Decref, coordcompare, rad=2, inunitref = "deg",
+inunitcompare="deg", radunit='asec', sep = ":", ignoreexact=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -88,7 +90,8 @@ mockmatches=coordmatch(mocksky, mocksky, ignoreexact=TRUE, rad=1, radunit='amin'
 
 #Now we match to find all objects with varying match radii, ignoring self matches
 
-mockmatchesvary=coordmatch(mocksky, mocksky,ignoreexact=TRUE, rad=seq(0,1,length=1e3), radunit='amin')
+mockmatchesvary=coordmatch(mocksky, mocksky,ignoreexact=TRUE, rad=seq(0,1,length=1e3),
+radunit='amin')
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

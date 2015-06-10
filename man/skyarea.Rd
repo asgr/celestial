@@ -25,7 +25,7 @@ The units of angular coordinate provided. Allowed options are deg for degress, a
 The units of angular area desired. Allowed options are deg2 for square degrees, amin2 for square arc minutes, asec2 for square arc seconds and rad2 or sr for steradians.
 }
   \item{sep}{
-If inunit is set to 'sex' then sep defines the separation type as detailed in \code{\link{hms2deg}} and \code{\link{dms2deg}}.
+When inunit='sex', sep defines the type of separator used for the HMS and DMS strings (i.e. H:M:S and D:M:S would be sep=':', which is the default). See \code{\link{hms2deg}} and \code{\link{dms2deg}} for more details.
 }
 }
 

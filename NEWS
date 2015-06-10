@@ -10,7 +10,7 @@ v1.2
 
 Added cosmological distance calculator and a sky area calculator.
 
-v1.3 (not on CRAN)
+v1.3 (CRAN)
 
 Added individual cosmology routines as separate functions.
 
