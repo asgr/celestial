@@ -11,7 +11,6 @@ cosvarsph=function(long = c(129, 141), lat = c(-2, 3), zmax=1, zmin=0, regions=1
   if(inunit %in% c('deg','amin','asec','rad','sex')==FALSE){stop('inunit must be one of deg, amin, asec, rad or sex')}
   if(length(long)==1){long=c(0,long)}
   if(length(lat)==1){lat=c(0,lat)}
-  fullsky=129600/pi
   if(inunit=='sex'){long=hms2deg(long,sep=sep);lat=dms2deg(lat,sep=sep)}
   if(inunit=='amin'){long=long/60;lat=lat/60}
   if(inunit=='asec'){long=long/3600;lat=lat/3600}
@@ -26,5 +25,16 @@ cosvarsph=function(long = c(129, 141), lat = c(-2, 3), zmax=1, zmin=0, regions=1
   scale=sqrt(volume*1e9/(aside*bside*cside))
   aside=aside*scale
   bside=bside*scale
+  return(cosvarcar(aside=aside, bside=bside, cside=cside, regions=regions))
+}
+
+cosvararea=function(area=60, zmax=1, zmin=0, regions=1, inunit='deg2'){
+  if(inunit %in% c('deg2','amin2','asec2','rad2','sr')==FALSE){stop('inunit must be one of deg2, amin2, asec2 or rad2')}
+  CoDistLow = cosdistCoDist(z=zmin,H0=70,OmegaM=0.3)     
+  CoDistHigh = cosdistCoDist(z=zmax,H0=70,OmegaM=0.3)
+  cside=CoDistHigh-CoDistLow
+  volume=cosvol(area=area, zmax = zmax, zmin=zmin, H0 = 70, OmegaM = 0.3, inunit=inunit)[1]
+  aside=sqrt(volume*1e9/cside)
+  bside=aside
   return(cosvarcar(aside=aside, bside=bside, cside=cside, regions=regions))
 }

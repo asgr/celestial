@@ -3,7 +3,7 @@
 \alias{celestial}
 \docType{package}
 \title{
-Celestial and Cosmological Functions.
+Collection of Common Astronomical Conversion Routines and Functions
 }
 \description{
 Various functions for converting between commonly used coordinate systems in astronomy and making cosmological calculations.
@@ -12,7 +12,7 @@ Various functions for converting between commonly used coordinate systems in ast
 \tabular{ll}{
 Package: \tab celestial\cr
 Type: \tab Package\cr
-Version: \tab 1.3\cr
+Version: \tab 1.4\cr
 Date: \tab 2015-06-10\cr
 License: \tab GPL-3\cr
 }

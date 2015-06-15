@@ -4,16 +4,22 @@ Not released on CRAN.
 
 v1.1
 
-Added support for many more ways of specifying deg2dms outputs, e.g. 2d34m45.5s and 2:34:45.5. Code can also take string versions of HMS and DMS coordinates and convert them back to degrees.
+FEATURE: Added support for many more ways of specifying deg2dms outputs, e.g. 2d34m45.5s and 2:34:45.5. Code can also take string versions of HMS and DMS coordinates and convert them back to degrees.
 
 v1.2
 
-Added cosmological distance calculator and a sky area calculator.
+FEATURE: Added cosmological distance calculator and a sky area calculator.
 
 v1.3 (CRAN)
 
-Added individual cosmology routines as separate functions.
+FEATURE: Added individual cosmology routines as separate functions.
 
-Added new cosgrow (structure growth) and cosmap (generic parameter inputs, not just redshift) functions.
+FEATURE: Added new cosgrow (structure growth) and cosmap (generic parameter inputs, not just redshift) functions.
 
-Added sky coordinate matching functionality (coordmatch)
+FEATURE: Added sky coordinate matching functionality (coordmatch)
+
+v1.4 (not on CRAN)
+
+FEATURE: Added cosvararea function, which is a simpler interface to cosvarsph where the assumption is aside=bside.
+
+DOCS: Fixed a couple of document issues

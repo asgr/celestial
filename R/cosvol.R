@@ -1,4 +1,5 @@
 cosvol=function(area=60, zmax=1, zmin=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, inunit='deg2', ref){
+  if(inunit %in% c('deg2','amin2','asec2','rad2','sr')==FALSE){stop('inunit must be one of deg2, amin2, asec2 or rad2')}
   if(!missing(ref)){
     params=.getcos(ref)
     H0=params['H0']

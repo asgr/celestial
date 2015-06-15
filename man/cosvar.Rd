@@ -2,6 +2,7 @@
 \alias{cosvar}
 \alias{cosvarcar}
 \alias{cosvarsph}
+\alias{cosvararea}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Driver & Robotham (2010) cosmic variance calculator
@@ -16,6 +17,7 @@ a utility interface to give approximate cosmic variance for astronomy survey reg
 cosvarcar(aside = 50, bside = 50, cside = 50, regions = 1)
 cosvarsph(long = c(129, 141), lat = c(-2, 3), zmax = 1, zmin = 0, regions = 1,
 inunit='deg', sep=":")
+cosvararea(area=60, zmax=1, zmin=0, regions=1, inunit='deg2')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -44,10 +46,16 @@ Maximum redshift of comoving cone.
 Minimum redshift of comoving cone.
 }
   \item{inunit}{
-The units of angular coordinate provided. Allowed options are deg for degress, amin for arc minutes, asec for arc seconds, rad for radians and sex for sexigesimal (i.e. HMS for RA and DMS for Deg).
+    \tabular{ll}{
+cosvarsph \tab The units of angular coordinate provided for long and lat (see \code{\link{skyarea}}). \cr
+cosvararea \tab The units of angular area provided (see \code{\link{cosvol}}). \cr
+    }
 }
   \item{sep}{
 When inunit='sex', sep defines the type of separator used for the HMS and DMS strings (i.e. H:M:S and D:M:S would be sep=':', which is the default). See \code{\link{hms2deg}} and \code{\link{dms2deg}} for more details.
+}
+  \item{area}{
+    Sky area in units of innunit (default is square degrees)
 }
 }
 \details{
@@ -66,6 +74,8 @@ scale=sqrt(volume*1e9/(aside*bside*cside))
 aside=aside*scale
 bside=bside*scale
 return(cosvarcar(aside=aside, bside=bside, cside=cside, subsets=subsets))
+
+cosvararea is a simplifed version of cosvarsph, where the assumption is that aside=bside (so the aspect ratio on the sky is 1:1).
 }
 \value{
 The output is the approximate percentage cosmic (or sample) variance that is expected for the volume specified.
