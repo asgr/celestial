@@ -31,7 +31,7 @@ The bside (longest projects side) of the Cartesian box, must be defined using 73
 The cside (radial side) of the Cartesian box, must be defined using 737 cosmology.
 }
   \item{regions}{
-How many well separated regions of this size will there be?
+How many well separated regions of this size will there be? The geometry provided is just for a single region, i.e. we reduce the single region CV by 1/sqrt(regions).
 }
   \item{long}{
 Upper and lower longitude (RA) limits of interest in units of inunit. If of length 1 then the number specified is assumed to be the upper limit and the lower limit is set to 0.
