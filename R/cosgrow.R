@@ -29,8 +29,9 @@ cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=F
     km2m=1000
     Mpc2m=3.08567758e22
     Msol2kg=1.9891e30 # kg
-    RhoCrit=(3*Hz)/(8*pi*G)*(km2m^2)*Mpc2m/Msol2kg #MsolperMpc3
-  return=c(z=z, a=1/(1+z), H=Hz, OmegaM=OmegaMAtz, OmegaL=OmegaLAtz, OmegaK=OmegaKAtz, Factor=Factor, Rate=Rate, Sigma8=Sigma8Atz, RhoCrit=RhoCrit)
+    RhoCrit=(3*Hz^2)/(8*pi*G)*(km2m^2)*Mpc2m/Msol2kg #MsolperMpc3
+    RhoMean=RhoCrit*OmegaMAtz
+  return=c(z=z, a=1/(1+z), H=Hz, OmegaM=OmegaMAtz, OmegaL=OmegaLAtz, OmegaK=OmegaKAtz, Factor=Factor, Rate=Rate, Sigma8=Sigma8Atz, RhoCrit=RhoCrit, RhoMean=RhoMean)
   }
   return(as.data.frame(t(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK))))
 }
@@ -122,15 +123,15 @@ cosgrowRate=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE
     OmegaL=as.numeric(params['OmegaL'])
     if(!is.na(params['Sigma8'])){Sigma8=as.numeric(params['Sigma8'])}
   }
-  OmegaMtemp=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
-  OmegaLtemp=cosgrowOmegaL(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
+  OmegaMAtz=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
+  OmegaLAtz=cosgrowOmegaL(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
   growthfacttemp=cosgrowFactor(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
   if(fSigma8==FALSE){
     Sigma8temp=1
   }else{
     Sigma8temp=cosgrowSigma8(z=z, OmegaM=OmegaM, OmegaL=OmegaL,Sigma8=Sigma8)
   }
-  return(Sigma8temp*(-1 - OmegaMtemp/2 + OmegaLtemp + (5*OmegaMtemp)/(2*growthfacttemp)))
+  return(Sigma8temp*(-1 - OmegaMAtz/2 + OmegaLAtz + (5*OmegaMAtz)/(2*growthfacttemp)))
 }
 
 cosgrowSigma8=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, ref){
@@ -142,8 +143,8 @@ cosgrowSigma8=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, ref){
     OmegaL=as.numeric(params['OmegaL'])
     if(!is.na(params['Sigma8'])){Sigma8=as.numeric(params['Sigma8'])}
   }
-  OmegaMtemp=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
-  OmegaLtemp=cosgrowOmegaL(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
+  OmegaMAtz=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
+  OmegaLAtz=cosgrowOmegaL(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
   growthfacttempAt0=cosgrowFactor(z=0, OmegaM=OmegaM, OmegaL=OmegaL)
   growthfacttempAtz=cosgrowFactor(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
   return(Sigma8*(growthfacttempAtz/growthfacttempAt0)/(1+z))
@@ -157,9 +158,9 @@ cosgrowFactorApprox=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref){
     OmegaM=as.numeric(params['OmegaM'])
     OmegaL=as.numeric(params['OmegaL'])
   }
-  OmegaMtemp=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
-  OmegaLtemp=cosgrowOmegaL(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
-  return((5*OmegaMtemp/2)/(OmegaMtemp^(4/7)-OmegaLtemp+(1+0.5*OmegaMtemp)*(1+OmegaLtemp/70)))
+  OmegaMAtz=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
+  OmegaLAtz=cosgrowOmegaL(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
+  return((5*OmegaMAtz/2)/(OmegaMAtz^(4/7)-OmegaLAtz+(1+0.5*OmegaMAtz)*(1+OmegaLAtz/70)))
 }
 
 cosgrowRateApprox=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, ref){
@@ -176,9 +177,9 @@ cosgrowRateApprox=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8
   }else{
     Sigma8temp=cosgrowSigma8(z=z, OmegaM=OmegaM, OmegaL=OmegaL,Sigma8=Sigma8)
   }
-  OmegaMtemp=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
-  OmegaLtemp=cosgrowOmegaL(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
-  return(Sigma8temp*(OmegaMtemp^(4/7)+(1+OmegaMtemp/2)*(OmegaLtemp/70)))
+  OmegaMAtz=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
+  OmegaLAtz=cosgrowOmegaL(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
+  return(Sigma8temp*(OmegaMAtz^(4/7)+(1+OmegaMAtz/2)*(OmegaLAtz/70)))
 }
 
 cosgrowSigma8Approx=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, ref){
@@ -190,8 +191,8 @@ cosgrowSigma8Approx=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, ref){
     OmegaL=as.numeric(params['OmegaL'])
     if(!is.na(params['Sigma8'])){Sigma8=as.numeric(params['Sigma8'])}
   }
-  OmegaMtemp=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
-  OmegaLtemp=cosgrowOmegaL(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
+  OmegaMAtz=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
+  OmegaLAtz=cosgrowOmegaL(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
   growthfacttempAt0=cosgrowFactorApprox(z=0, OmegaM=OmegaM, OmegaL=OmegaL)
   growthfacttempAtz=cosgrowFactorApprox(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
   return(Sigma8*(growthfacttempAtz/growthfacttempAt0)/(1+z))
@@ -216,4 +217,26 @@ cosgrowRhoCrit=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   #rhocrit_MsolperMpc3=rhocrit_kgperm3 * (Mpc2m^3)/Msol2kg #this is correct, should be ~2.8e11 for H0=100 z=0
   RhoCrit=(3*Hub2)/(8*pi*G) * (km2m^2)*Mpc2m/Msol2kg #compact form of the above, in units MsolperMpc3
   return(RhoCrit)
+}
+
+cosgrowRhoMean=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z> -1)){stop('All z must be > -1')}
+  if(!missing(ref)){
+    params=.getcos(ref)
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
+  }
+  OmegaK=1-OmegaM-OmegaL
+  G=6.67384e-11 # m^3 kg^-1 s^-2
+  Hub2=cosgrowH(z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL)^2 # (km/s / Mpc)^2
+  km2m=1000
+  Mpc2m=3.08567758e22
+  Msol2kg=1.9891e30 # kg
+  #rhocrit_kgperm3=(3*Hub2)/(8*pi*G) * ((km2m^2)/(Mpc2m^2)) #this is correct, should be ~9.2e-27 for H0=70 z=0
+  #rhocrit_MsolperMpc3=rhocrit_kgperm3 * (Mpc2m^3)/Msol2kg #this is correct, should be ~2.8e11 for H0=100 z=0
+  OmegaMAtz=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
+  RhoMean=OmegaMAtz*(3*Hub2)/(8*pi*G) * (km2m^2)*Mpc2m/Msol2kg #compact form of the above, in units MsolperMpc3
+  return(RhoMean)
 }

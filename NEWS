@@ -22,4 +22,8 @@ v1.4 (not on CRAN)
 
 FEATURE: Added cosvararea function, which is a simpler interface to cosvarsph where the assumption is aside=bside.
 
+FEATURE: Added cosgrowRhoMean function, which is the mean matter density as a given redshift
+
+FIXED: cosgrow RhoCrit column had a bug that meant it scaled by H(z) not H(z)^2 (cosgrowRhoCrit had no bug).
+
 DOCS: Fixed a couple of document issues

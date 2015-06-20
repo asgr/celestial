@@ -13,6 +13,7 @@
 \alias{cosgrowRateApprox}
 \alias{cosgrowSigma8Approx}
 \alias{cosgrowRhoCrit}
+\alias{cosgrowRhoMean}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Cosmological Growth and Evolution Calculations
@@ -35,6 +36,7 @@
   cosgrowRateApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, ref)
   cosgrowSigma8Approx(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, ref)
   cosgrowRhoCrit(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrowRhoMean(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -79,7 +81,8 @@ OmegaK  \tab Omega curvature\cr
 Factor  \tab Exact growth factor (g, see cosgrowFactor below for details)\cr
 Rate    \tab Exact growth rate (f or f*Sigma8, see cosgrowRate below for details)\cr
 Sigma8  \tab Power spectrum fluctuation amplitude on the scale 8 Mpc/z\cr
-RhoCrit \tab critical mass density of the Universe at z, in units of Msol/Mpc^3\cr
+RhoCrit \tab Critical mass density of the Universe at z [3H(z)^2/8.pi.G], in units of Msol/Mpc^3\cr
+RhoMean \tab Mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in units of Msol/Mpc^3\cr
 }
 
   cosgrowz function returns the input redshift (only included for clarity).
@@ -106,7 +109,9 @@ RhoCrit \tab critical mass density of the Universe at z, in units of Msol/Mpc^3\
   
   cosgrowSigma8Approx function returns the approximate power spectrum fluctuation amplitude on the scale 8 Mpc/z at z, and is unitless.
   
-  cosgrowRhoCrit function returns the critical mass density of the Universe at z, in units of Msol/Mpc^3.
+  cosgrowRhoCrit function returns the critical mass density of the Universe at z [3H(z)^2/8.pi.G], in units of Msol/Mpc^3.
+  
+  cosgrowRhoMean function returns the mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in units of Msol/Mpc^3.
   
 }
 \references{
@@ -135,6 +140,7 @@ RhoCrit \tab critical mass density of the Universe at z, in units of Msol/Mpc^3\
   cosgrowRate(0.3)
   cosgrowRateApprox(0.3) #The approximation better than 1% for reasonable cosmologies.
   cosgrowRhoCrit(0.3)
+  cosgrowRhoMean(0.3)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
