@@ -81,7 +81,7 @@ OmegaK  \tab Omega curvature\cr
 Factor  \tab Exact growth factor (g, see cosgrowFactor below for details)\cr
 Rate    \tab Exact growth rate (f or f*Sigma8, see cosgrowRate below for details)\cr
 Sigma8  \tab Power spectrum fluctuation amplitude on the scale 8 Mpc/z\cr
-RhoCrit \tab Critical mass density of the Universe at z [3H(z)^2/8.pi.G], in units of Msol/Mpc^3\cr
+RhoCrit \tab Critical energy density of the Universe at z [3H(z)^2/8.pi.G], in units of Msol/Mpc^3\cr
 RhoMean \tab Mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in units of Msol/Mpc^3\cr
 }
 
@@ -109,10 +109,12 @@ RhoMean \tab Mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in unit
   
   cosgrowSigma8Approx function returns the approximate power spectrum fluctuation amplitude on the scale 8 Mpc/z at z, and is unitless.
   
-  cosgrowRhoCrit function returns the critical mass density of the Universe at z [3H(z)^2/8.pi.G], in units of Msol/Mpc^3.
+  cosgrowRhoCrit function returns the critical energy density of the Universe at z [3H(z)^2/8.pi.G], in units of Msol/Mpc^3.
   
   cosgrowRhoMean function returns the mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in units of Msol/Mpc^3.
-  
+}
+\note{
+  RhoCrit and RhoMean return Msol/Mpc^3, where Mpc is in *physical* units (hence both get denser at higher redshift). To get their respective values in comoving units you shoudl simply set z=0, since by definition comoving densities equal physcial densities at z=0. The difference between RhoCrit and RhoMean at z=0 is simply RhoMean=RhoCrit*OmegaM. Corrected for 1/(1+z)^3 RhoMean stays constant with redshift (as it should- we do not gain or lose mass within a cmovoing volume).
 }
 \references{
   Based on the equations in Hamilton A.J.S., 2001, MNRAS 322 419 and Lahav O., et al., 1991, MNRAS, 251, 136
