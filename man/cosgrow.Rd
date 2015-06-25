@@ -22,7 +22,8 @@
   These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified.
 }
 \usage{
-  cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, ref)
+  cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, Vol='Ang',
+  ref)
   cosgrowz(z = 1)
   cosgrowa(z = 1)
   cosgrowH(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
@@ -35,8 +36,8 @@
   cosgrowFactorApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
   cosgrowRateApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, ref)
   cosgrowSigma8Approx(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, ref)
-  cosgrowRhoCrit(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-  cosgrowRhoMean(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrowRhoCrit(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Vol='Ang', ref)
+  cosgrowRhoMean(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Vol='Ang', ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -57,6 +58,9 @@
   }
   \item{fSigma8}{
     Logical to express whether the growth rate of structure calculated by cosgrow, cosgrowRate or cosgrowRateApprox is given as f*Sigma8 (TRUE) or simply f (FALSE). This is useful for redshift space distortion comparisons (RSD), since RSD strictly measures f*Sigma8.
+  }
+  \item{Vol}{
+    Determines whether the Rho critical energy or mean mass densities are calculated with respect to angular / physical volumes (Ang) or with respect to comoving volumes (Co).
   }
   \item{ref}{
     The name of a reference cosmology to use, one of 137 / 737 / Planck / WMAP9 / WMAP7 / WMAP5 / WMAP3 / WMAP1 / Millennium / GiggleZ. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL. If ref=137 or ref=737 no specific Sigma8 is assumed, instead Sigma8 is set to whatever the input value is set to (by default this is 0.8).
@@ -124,7 +128,7 @@ RhoMean \tab Mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in unit
 }
 
 \seealso{
-  \code{\link{cosvol}}, \code{\link{cosmap}},  \code{\link{cosdist}}, \code{\link{cosref}}
+  \code{\link{cosvol}}, \code{\link{cosmap}},  \code{\link{cosdist}}, \code{\link{cosref}}, \code{\link{coshalo}}
 }
 
 \examples{
@@ -144,6 +148,7 @@ RhoMean \tab Mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in unit
   cosgrowRhoCrit(0.3)
   cosgrowRhoMean(0.3)
   cosgrowRhoMean(0)==cosgrowRhoMean(10)/(1+10)^3 #Mass is conserved within comoving volumes
+  cosgrowRhoMean(0)==cosgrowRhoMean(10,Vol='Co') #Mass is conserved within comoving volumes
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
