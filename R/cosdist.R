@@ -8,6 +8,7 @@
 }
 
 cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE, ref, error=FALSE){
+  z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -76,18 +77,21 @@ cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE, ref, error
 }
 
 cosdistz=function(z = 1){
+  z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   return(z)
 }
 
 cosdista=function(z = 1){
+  z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   return(1/(1 + z))
 }
 
 cosdistCoDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
+  z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -107,6 +111,7 @@ cosdistCoDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
 }
 
 cosdistCoDistTran=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
+  z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -136,6 +141,7 @@ cosdistCoDistTran=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
 }
 
 cosdistLumDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
+  z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -166,6 +172,7 @@ cosdistLumDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
 }
 
 cosdistAngDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
+  z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -196,6 +203,7 @@ cosdistAngDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
 }
 
 cosdistDistMod=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
+  z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -226,6 +234,7 @@ cosdistDistMod=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
 }
 
 cosdistAngSize=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
+  z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -256,6 +265,7 @@ cosdistAngSize=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
 }
 
 cosdistCoVol=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
+  z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -288,6 +298,7 @@ cosdistCoVol=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
 }
 
 cosdistUniAgeNow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
+  z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -327,6 +338,7 @@ cosdistUniAgeAtz=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
 }
 
 cosdistTravelTime=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
+  z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -350,6 +362,7 @@ cosdistHubTime=function(H0 = 100){
 }
 
 cosdistRelError=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref){
+  z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){

@@ -24,6 +24,8 @@ FEATURE: Added cosvararea function, which is a simpler interface to cosvarsph wh
 
 FEATURE: Added cosgrowRhoMean function, which is the mean matter density as a given redshift
 
+FEATURE: Added NFW profile stuff
+
 FIXED: cosgrow RhoCrit column had a bug that meant it scaled by H(z) not H(z)^2 (cosgrowRhoCrit had no bug).
 
 DOCS: Fixed a couple of document issues
