@@ -15,6 +15,7 @@ All 6 Virial parameter conversion functions. Each can map precisely to the other
 }
 \usage{
 coshaloMvirToSigma(Mvir=1e+12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
+<<<<<<< HEAD
 DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
 coshaloSigmaToMvir(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
 DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
@@ -26,6 +27,19 @@ coshaloSigmaToRvir(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='cri
 DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
 coshaloRvirToSigma(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
 DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
+=======
+DeltaVir=200, Munit=1, Lunit=1e3, Vunit=1e3, ref)
+coshaloSigmaToMvir(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
+DeltaVir=200, Munit=1, Lunit=1e3, Vunit=1e3, ref)
+coshaloMvirToRvir(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
+DeltaVir=200, Munit=1, Lunit=1e3, Vunit=1e3, ref)
+coshaloRvirToMvir(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
+DeltaVir=200, Munit=1, Lunit=1e3, Vunit=1e3, ref)
+coshaloSigmaToRvir(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
+DeltaVir=200, Munit=1, Lunit=1e3, Vunit=1e3, ref)
+coshaloRvirToSigma(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
+DeltaVir=200, Munit=1, Lunit=1e3, Vunit=1e3, ref)
+>>>>>>> 00f00022b03b80f989e0644448b923f31fdd3814
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
