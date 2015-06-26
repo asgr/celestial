@@ -40,7 +40,7 @@ cosdistUniAgeNow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 cosdistUniAgeAtz(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 cosdistTravelTime(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 cosdistRelError(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-cosdistCrit(z_lens=1, z_source=2, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistCrit(z_lens=1, z_source=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -174,6 +174,7 @@ cosdistUniAgeNow(0.3,70)
 cosdistUniAgeAtz(0.3,70)
 cosdistTravelTime(0.3,70)
 cosdistRelError(0.3)
+cosdistCrit(0.3,0.5,70)
 
 redshifts=seq(0,3,by=0.01)
 plot(redshifts, cosdist(redshifts, 70)[,'CoDist'], type='l', col='darkgreen', xlab='Redshift / z',
