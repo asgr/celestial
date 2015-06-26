@@ -384,4 +384,55 @@ cosdistRelError=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   return(Vectorize(temp)(z = z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK))
 }
 
+cosdistAngDist12=function(z1=1,z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
+  HubDist = (299792.458/H0)
+  z1=as.numeric(z1)
+  z2=as.numeric(z2)
+  if(!all(is.finite(z1))){stop('All z1 must be finite and numeric')}
+  if(!all(is.finite(z2))){stop('All z2 must be finite and numeric')}
+  if(!all(z1> -1)){stop('All z1 must be > -1')}
+  if(!all(z2> -1)){stop('All z2 must be > -1')}
+  if(!missing(ref)){
+    params=.getcos(ref)
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
+  }
+  OmegaK=1-OmegaM-OmegaL
+  if(OmegaK<0){stop('OmegaK must be >=0 to use this function!')}
+  temp = function(z, H0, OmegaM, OmegaL, OmegaK) {
+    Einv = function(z, OmegaM, OmegaL, OmegaK) {1/sqrt(OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
+    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK, subdivisions = 1000L)$value
+    if(OmegaK==0){
+      CoDistTran = CoDist
+    }else{
+      if(OmegaK>0){
+        CoDistTran = HubDist*(1/sqrt(OmegaK))*sinh(sqrt(OmegaK)*CoDist/HubDist)
+      }
+      if(OmegaK<0){
+        CoDistTran = HubDist*(1/sqrt(abs(OmegaK)))*sin(sqrt(abs(OmegaK))*CoDist/HubDist)
+      }
+    }
+    return=CoDistTran
+  }
+  CoDistTran1=Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK)
+  CoDistTran2=Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaK = OmegaK)
+  AngDist12=(1/(1+z2))*(CoDistTran2*sqrt(1+OmegaK*CoDistTran1^2/HubDist^2) - CoDistTran1*sqrt(1+OmegaK*CoDistTran2^2/HubDist^2))
+  return(AngDist12)
+}
 
+cosdistCrit=function(z_lens=1, z_source=2, z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM, ref){
+  #if(any(z_lens>z_source)){stop('All z_lens must be less than z_source!')}
+  c=299792458
+  G=6.67384e-11
+  msol_to_kg=1.98892e30
+  pc_to_m=3.08568e16
+  g = G*msol_to_kg/(pc_to_m)
+  g = g/1e6 #Get into Mpc units
+  Dl=cosdistAngDist(z=z_lens, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, ref=ref)
+  Ds=cosdistAngDist(z=z_source, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, ref=ref)
+  Dls=cosdistAngDist12(z1=z_lens, z2=z_source, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, ref=ref)
+  SigmaC=(c^2/(4*pi*g))*(Ds/(Dl*Dls))
+  SigmaC[z_lens>=z_source]=0
+  return(SigmaC)
+}

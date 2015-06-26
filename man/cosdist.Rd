@@ -5,6 +5,7 @@
 \alias{cosdistCoDist}
 \alias{cosdistLumDist}
 \alias{cosdistAngDist}
+\alias{cosdistAngDist12}
 \alias{cosdistCoDistTran}
 \alias{cosdistDistMod}
 \alias{cosdistAngSize}
@@ -14,6 +15,7 @@
 \alias{cosdistUniAgeAtz}
 \alias{cosdistTravelTime}
 \alias{cosdistRelError}
+\alias{cosdistCrit}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Cosmological Distance Calculations
@@ -28,6 +30,7 @@ cosdista(z=1)
 cosdistCoDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 cosdistLumDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 cosdistAngDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistAngDist12(z1=1, z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 cosdistCoDistTran(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 cosdistDistMod(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 cosdistAngSize(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
@@ -37,6 +40,7 @@ cosdistUniAgeNow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 cosdistUniAgeAtz(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 cosdistTravelTime(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 cosdistRelError(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistCrit(z_lens=1, z_source=2, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -61,11 +65,25 @@ cosdistRelError(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
   \item{error}{
     Flag for cosdist to calculate the relative error for distance/age values.
   }
+  \item{z1}{
+    Redshift, where z1 must be > -1 (can be a vector) and less than z2.
+  }
+  \item{z2}{
+    Redshift, where z2 must be > -1 (can be a vector) and greater than z1.
+  }
+  \item{z_lens}{
+    Redshift, where z_lens must be > -1 (can be a vector) and z_lens < z_source.
+  }
+  \item{z_source}{
+    Redshift, where z_source must be > -1 (can be a vector) and z_lens < z_source.
+  }
 }
 \details{
-Function is largely based on D. W. Hogg et al. 1999 and Wright et al 2006.
+Functions are largely based on D. W. Hogg et al. 1999 and Wright et al. 2006.
 
 Negative value of z> -1 are allowed, which produces future predictions based on present day cosmology.
+
+cosdistAngDist12 is only available for OmegaK>=0.
 }
 \value{
 cosdist function returns a data.frame (even if only 1 redshift if requested) with the following columns:
@@ -102,6 +120,8 @@ cosdistLumDist function returns the luminosity distance in units of Mpc.
 
 cosdistAngDist function returns the angular diameter distance in units of Mpc.
 
+cosdistAngDist12 function returns the angular diameter distance in units of Mpc between z1 and z2.
+
 cosdistCoDistTran function returns the transverse comoving distance in units of Mpc.
 
 cosdistDistMod function returns the distance modulus used where AbsMag = ApMag - DistMod, and DistMod = 5log10(LumDist)+25 in units of mag.
@@ -119,6 +139,8 @@ cosdistUniAgeAtz function returns the age of the Universe at the specified redsh
 cosdistTravelTime function returns the light travel time from the specified redshift (AKA look back time) in units of Gyrs.
 
 cosdistRelError function returns the relative error of the distance/age integrals (this is the main source of error in the calculations).
+
+cosdistCrit function returns the critical surface mass density (see also \code{\link{cosNFW}}).
 }
 \references{
 Based on the equations in:
@@ -131,7 +153,7 @@ Aaron Robotham
 }
 
 \seealso{
-\code{\link{cosvol}}, \code{\link{cosmap}}, \code{\link{cosgrow}}, \code{\link{cosref}}
+\code{\link{cosvol}}, \code{\link{cosmap}}, \code{\link{cosgrow}}, \code{\link{cosref}}, \code{\link{cosNFW}}
 }
 
 \examples{
@@ -142,6 +164,7 @@ cosdista(0.3)
 cosdistCoDist(0.3,70)
 cosdistLumDist(0.3,70)
 cosdistAngDist(0.3,70)
+cosdistAngDist12(0.3,0.5,70)
 cosdistCoDistTran(0.3,70)
 cosdistDistMod(0.3,70)
 cosdistAngSize(0.3,70)
