@@ -6,7 +6,7 @@
 \alias{cosNFWsigma_mean}
 \alias{cosNFWgamma}
 \title{
-Navaro Frenk and White profile
+Navarro Frenk and White profile
 }
 \description{
 Density and total mass values for Navaro Frenk and White (NFW) profiles
@@ -103,7 +103,7 @@ cosNFWmass_Rmax(Rmax=rad_mean200) #For the same profile this is a factor 1.31 la
 
 #Shear checks:
 
-magplot(10^seq(-2,2,by=0.1),cosNFWgamma(10^seq(-2,2,by=0.1),Rs=0.2,c=10),type='l',log='xy', xlab='R/Rs', ylab='ESD')
+plot(10^seq(-2,2,by=0.1),cosNFWgamma(10^seq(-2,2,by=0.1),Rs=0.2,c=10),type='l',log='xy', xlab='R/Rs', ylab='ESD')
 legend('topright', legend=c('Rs=0.2','c=10'))
 
 }
