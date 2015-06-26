@@ -421,7 +421,7 @@ cosdistAngDist12=function(z1=1,z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref){
   return(AngDist12)
 }
 
-cosdistCrit=function(z_lens=1, z_source=2, z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM, ref){
+cosdistCrit=function(z_lens=1, z_source=2, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM, ref){
   #if(any(z_lens>z_source)){stop('All z_lens must be less than z_source!')}
   c=299792458
   G=6.67384e-11
