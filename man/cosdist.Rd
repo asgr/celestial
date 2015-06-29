@@ -146,6 +146,7 @@ cosdistCrit function returns the critical surface mass density (see also \code{\
 Based on the equations in:
 
 Hogg D.W., 1999, arXiv, 9905116
+
 Wright E.L., 2006, PASP, 118, 1711
 }
 \author{

@@ -91,7 +91,7 @@ cosvararea is a simplifed version of cosvarsph, where the assumption is that asi
 The output is the approximate percentage cosmic (or sample) variance that is expected for the volume specified.
 }
 \references{
-Driver & Robotham, 2010, MNRAS, 407, 2131
+Driver S.P. & Robotham A.S.G., 2010, MNRAS, 407, 2131
 }
 \author{
 Aaron Robotham and Simon Driver

@@ -121,7 +121,11 @@ RhoMean \tab Mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in unit
   RhoCrit and RhoMean return Msol/Mpc^3, where Mpc is in *physical* units (hence both get denser at higher redshift). To get their respective values in comoving units you shoudl simply set z=0, since by definition comoving densities equal physcial densities at z=0. The difference between RhoCrit and RhoMean at z=0 is simply RhoMean=RhoCrit*OmegaM. Corrected for 1/(1+z)^3 RhoMean stays constant with redshift (as it should- we do not gain or lose mass within a cmovoing volume).
 }
 \references{
-  Based on the equations in Hamilton A.J.S., 2001, MNRAS 322 419 and Lahav O., et al., 1991, MNRAS, 251, 136
+  Based on the equations in:
+  
+  Hamilton A.J.S., 2001, MNRAS 322 419
+  
+  Lahav O., et al., 1991, MNRAS, 251, 136
 }
 \author{
   Aaron Robotham

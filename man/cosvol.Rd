@@ -43,7 +43,11 @@ inunit = "deg2", ref)
 A 3 element vector. The first element (voltot) specifies the comoving volume of the requested cone segment in Gpc^3, the second element (volmeanz) specifies the mean redshift when mass is uniformly distributed in the volume, the third element (volmedz) specifies the median redshift when mass is uniformly distributed in the volume.
 }
 \references{
-Based on the equations in Hogg D.W., 1999, arXiv, 9905116 and Wright E.L., 2006, PASP, 118, 1711
+Based on the equations in:
+
+Hogg D.W., 1999, arXiv, 9905116
+
+Wright E.L., 2006, PASP, 118, 1711
 }
 \author{
 Aaron Robotham

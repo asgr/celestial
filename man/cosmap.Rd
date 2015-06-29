@@ -80,7 +80,11 @@ The cosmapval output (when out='cos') includes an additional final column named 
 cosmapfunc uses base R approxfun to map cosparamx onto cosparamy between zrange[1] and zrange[2] in uniform steps of expansion factor (a=1/(1+z)). cosmofunc returns the output function created by approxfun.
 }
 \references{
-Based on the equations in Hogg D.W., 1999, arXiv, 9905116 and Wright E.L., 2006, PASP, 118, 1711
+  Based on the equations in:
+  
+  Hogg D.W., 1999, arXiv, 9905116
+  
+  Wright E.L., 2006, PASP, 118, 1711
 }
 \author{
 Aaron Robotham

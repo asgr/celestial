@@ -81,9 +81,9 @@ cosNFWgamma outputs the radial dependence of the weak lensing shear (Eqn. 12 of 
 }
 
 \references{
-Navarro, J.F., Frenk, C.S., White, Simon D.M., 1996, ApJ, 462
+Navarro J.F., Frenk C.S., White Simon D.M., 1996, ApJ, 462
 
-Wright, C.Oaxaca., Brainerd, T.G., 2000, ApJ, 534
+Wright C.O., Brainerd T.G., 2000, ApJ, 534
 }
 
 \author{
