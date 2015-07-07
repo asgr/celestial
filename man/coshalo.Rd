@@ -15,17 +15,17 @@ All 6 Virial parameter conversion functions. Each can map precisely to the other
 }
 \usage{
 coshaloMvirToSigma(Mvir=1e+12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
-DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
+Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
 coshaloSigmaToMvir(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
-DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
+Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
 coshaloMvirToRvir(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
-DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
+Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
 coshaloRvirToMvir(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
-DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
+Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
 coshaloSigmaToRvir(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
-DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
+Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
 coshaloRvirToSigma(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Rho='crit',
-DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
+Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -52,6 +52,9 @@ DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
   }
   \item{Rho}{
     Set whether the critical energy density is used (crit) or the mean mass density (mean).
+  }
+  \item{Dist}{
+    Determines the distance type, i.e. whether the Rho critical energy or mean mass densities are calculated with respect to angular / physical distances (Ang) or with respect to comoving distances (Co). In effect this means Rvir values are either angular / physical (Ang) or comoving (Co). It does not affect Mvir <-> Sigma conversions, but does affect Mvir <-> Rvir and Rvir <-> Sigma. 
   }
   \item{DeltaVir}{
     Desired overdensity of the halo with respect to Rho.

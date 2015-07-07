@@ -1,6 +1,6 @@
-cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, Vol='Ang', ref){
+cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, Dist='Co', ref){
   z=as.numeric(z)
-  if(!Vol %in% c('Co','Ang')){stop('Vol must be one of Ang, or Co')}
+  if(!Dist %in% c('Co','Ang')){stop('Dist must be one of Ang, or Co')}
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -33,7 +33,7 @@ cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=F
     Msol2kg=1.9891e30 # kg
     RhoCrit=(3*Hz^2)/(8*pi*G)*(km2m^2)*Mpc2m/Msol2kg #MsolperMpc3
     RhoMean=RhoCrit*OmegaMAtz
-    if(Vol=='Co'){
+    if(Dist=='Co'){
       RhoCrit=RhoCrit/(1+z)^3
       RhoMean=RhoMean/(1+z)^3
     }
@@ -215,9 +215,9 @@ cosgrowSigma8Approx=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, ref){
   return(Sigma8*(growthfacttempAtz/growthfacttempAt0)/(1+z))
 }
 
-cosgrowRhoCrit=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Vol='Ang', ref){
+cosgrowRhoCrit=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Dist='Co', ref){
   z=as.numeric(z)
-  if(!Vol %in% c('Co','Ang')){stop('Vol must be one of Ang, or Co')}
+  if(!Dist %in% c('Co','Ang')){stop('Dist must be one of Ang, or Co')}
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -233,13 +233,13 @@ cosgrowRhoCrit=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Vol='Ang', ref
   Mpc2m=3.08567758e22
   Msol2kg=1.9891e30 # kg
   RhoCrit=(3*Hub2)/(8*pi*G)*(km2m^2)*Mpc2m/Msol2kg #units MsolperMpc3
-  if(Vol=='Co'){RhoCrit=RhoCrit/(1+z)^3}
+  if(Dist=='Co'){RhoCrit=RhoCrit/(1+z)^3}
   return(RhoCrit)
 }
 
-cosgrowRhoMean=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Vol='Ang', ref){
+cosgrowRhoMean=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Dist='Co', ref){
   z=as.numeric(z)
-  if(!Vol %in% c('Co','Ang')){stop('Vol must be one of Ang, or Co')}
+  if(!Dist %in% c('Co','Ang')){stop('Dist must be one of Ang, or Co')}
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -256,6 +256,6 @@ cosgrowRhoMean=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Vol='Ang', ref
   Msol2kg=1.9891e30 # kg
   OmegaMAtz=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL)
   RhoMean=OmegaMAtz*(3*Hub2)/(8*pi*G)*(km2m^2)*Mpc2m/Msol2kg #units MsolperMpc3
-  if(Vol=='Co'){RhoMean=RhoMean/(1+z)^3}
+  if(Dist=='Co'){RhoMean=RhoMean/(1+z)^3}
   return(RhoMean)
 }
