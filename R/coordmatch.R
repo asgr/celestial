@@ -89,38 +89,6 @@ coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcomp
     Nmatch=NA
   }
   
-#   if(findbest & is.na(Nmatch[1])==FALSE){
-#     bestID=tempmatch[[1]]
-#     bestsep=tempmatch[[2]]
-#     
-#     if(besttype=='absbest'){
-#       checkunique=unique(bestID)
-#       checkunique=checkunique[checkunique>0]
-#       for(i in 1:length(checkunique)){
-#         allIDs=which(bestID==checkunique[i])
-#         minsep=which.min(bestsep[allIDs])
-#         allIDs=allIDs[-minsep]
-#         bestID[allIDs]=0
-#         bestsep[allIDs]=NA
-#       }
-#     }
-#     
-#     arrdim=dim(bestID)
-#     bestmatches={}
-#     while(any(bestID>0)){
-#       nextbestwhich=which.min(bestsep)
-#       nextbestarrID=arrayInd(nextbestwhich,arrdim)
-#       nextbestID=bestID[nextbestwhich]
-#       bestmatches=rbind(bestmatches,c(nextbestarrID[1,1],nextbestID,bestsep[nextbestwhich]))
-#       bestsep[bestID==nextbestID]=NA
-#       bestID[bestID==nextbestID]=0
-#       bestsep[nextbestarrID[1,1],]=NA
-#       bestID[nextbestarrID[1,1],]=0
-#     }
-#     output=list(ID=tempmatch[[1]], sep=tempmatch[[2]], Nmatch=Nmatch, bestmatches=bestmatches)
-#   }else{
-#     output=list(ID=tempmatch[[1]], sep=tempmatch[[2]], Nmatch=Nmatch)
-#   }
   if(is.na(Nmatch[1])==FALSE){
     bestID=tempmatch[[1]][,1]
     bestsep=tempmatch[[2]][,1]
@@ -136,7 +104,7 @@ coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcomp
     bestrefID=bestrefID[reorderID]
     bestcompareID=bestcompareID[reorderID]
     bestsep=bestsep[reorderID]
-    bestmatch=cbind(refID=bestrefID, compareID=bestcompareID, sep=bestsep)
+    bestmatch=data.frame(refID=bestrefID, compareID=bestcompareID, sep=bestsep)
     output=list(ID=tempmatch[[1]], sep=tempmatch[[2]], Nmatch=Nmatch, bestmatch=bestmatch)
   }else{
     output=list(ID=tempmatch[[1]], sep=tempmatch[[2]], Nmatch=Nmatch, bestmatch=NA)

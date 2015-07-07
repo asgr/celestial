@@ -59,7 +59,7 @@ The output of coordmatch is a list containing:
 \item{ID}{The full matrix of matching IDs. The rows are ordered identically to coordmatch, and the ID value is the row position in coordcompare for the match.}
 \item{sep}{The full matrix of matching separations in the same units as radunit. The rows are ordered identically to coordmatch, and the sep value is the separation for each matrix location in the ID list object.}
 \item{Nmatch}{Nmatch is a vector giving the total number of matches for each coordmatch row.}
-\item{bestmatch}{A two column matrix giving the best matching IDs. Only objects with at least one match are listed. Column 1 gives the row position from coordref and column 2 gives the corresponding best matching position in coordcompare.}
+\item{bestmatch}{A three column data.frame giving the best matching IDs. Only objects with at least one match are listed. Column 1 (refID) gives the row position from coordref and column 2 (compareID) gives the corresponding best matching position in coordcompare. Column 3 (sep) gives the separation between the matched ref and compare positions in the same units as radunit.}
 
 The output of coordmatchsing is a list containing:
 
