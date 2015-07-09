@@ -6,7 +6,7 @@ if(any(deg< -90 | deg>90)){stop('All deg values should be -90<=deg<=90')}
     DEG = floor(deg)
     MIN = floor((deg - DEG) * 60)
     SEC = (deg - DEG - MIN/60) * 3600
-    SEC=round(SEC,digits)
+    SEC=round(SEC,digits+2)
     SEC[SEC<0]=0; SEC[SEC>60]=60
     MIN[SEC == 60] = MIN[SEC == 60] + 1
     SEC[SEC == 60] = 0
