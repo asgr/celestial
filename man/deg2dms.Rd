@@ -10,7 +10,7 @@ Convert decimal degrees to dms (degrees, minutes, seconds) format. This is proba
 }
 
 \usage{
-deg2dms(deg,type='mat',sep=':',digits=2)
+deg2dms(deg, type='mat', sep=':', digits=2)
 }
 
 \arguments{

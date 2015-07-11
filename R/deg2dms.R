@@ -1,5 +1,4 @@
-deg2dms <-
-function(deg,type='mat',sep=':',digits=2){
+deg2dms = function(deg, type='mat', sep=':', digits=2){
 if(any(deg< -90 | deg>90)){stop('All deg values should be -90<=deg<=90')}
     temp = sign(deg)
     deg = abs(deg)
