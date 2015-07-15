@@ -1,7 +1,7 @@
-cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, zrange=c(0,20), step='z', res=100, degen='lo', ref){
+cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Sigma8=0.8, fSigma8=FALSE, zrange=c(0,20), step='z', res=100, degen='lo', ref){
   
-  paramlistx=c('z', 'a', 'CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','OmegaM','OmegaL','OmegaK','Factor','Rate','Sigma8','RhoCrit')
-  paramlisty=c('z', 'a', 'CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','OmegaM','OmegaL','OmegaK','Factor','Rate','Sigma8','RhoCrit')
+  paramlistx=c('z', 'a', 'CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz', 'TravelTime', 'H', 'OmegaM', 'OmegaL', 'OmegaR', 'OmegaK', 'Factor', 'Rate', 'Sigma8', 'RhoCrit', 'RhoMean')
+  paramlisty=c('z', 'a', 'CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz', 'TravelTime', 'H', 'OmegaM', 'OmegaL', 'OmegaR', 'OmegaK', 'Factor', 'Rate', 'Sigma8', 'RhoCrit', 'RhoMean')
   if(! cosparamx %in% paramlistx){stop('cosparamx is not an allowed cosmological parameter, see help options.')}
   if(! cosparamy %in% paramlisty){stop('cosparamy is not an allowed cosmological parameter, see help options.')}
   if(! degen %in% c('lo','hi')){stop('degen option must either be set to lo or hi.')}
@@ -21,6 +21,7 @@ cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0=100, OmegaM=0.3, OmegaL
     H0=as.numeric(params['H0'])
     OmegaM=as.numeric(params['OmegaM'])
     OmegaL=as.numeric(params['OmegaL'])
+    if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
     if(!is.na(params['Sigma8'])){Sigma8=as.numeric(params['Sigma8'])}
   }
   
@@ -38,35 +39,35 @@ cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0=100, OmegaM=0.3, OmegaL
   }
   
   if(cosparamx %in% c('CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','RhoCrit')){
-    combxparams=list(z=zvals, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL)
+    combxparams=list(z=zvals, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR)
   }
   if(cosparamx %in% c('z', 'a')){
     combxparams=list(z=zvals)
   }
   if(cosparamx %in% c('OmegaM', 'OmegaL', 'OmegaK','Factor')){
-    combxparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL)
+    combxparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR)
   }
   if(cosparamx %in% c('Rate')){
-    combxparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, Sigma8=Sigma8, fSigma8=fSigma8)
+    combxparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Sigma8=Sigma8, fSigma8=fSigma8)
   }
   if(cosparamx %in% c('Sigma8')){
-    combxparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, Sigma8=Sigma8)
+    combxparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Sigma8=Sigma8)
   }
   
   if(cosparamy %in% c('CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','RhoCrit')){
-    combyparams=list(z=zvals, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL)
+    combyparams=list(z=zvals, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR=OmegaR)
   }
   if(cosparamy %in% c('z', 'a')){
     combyparams=list(z=zvals)
   }
   if(cosparamy %in% c('OmegaM', 'OmegaL', 'OmegaK','Factor')){
-    combyparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL)
+    combyparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR)
   }
   if(cosparamy %in% c('Rate')){
-    combyparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, Sigma8=Sigma8, fSigma8=fSigma8)
+    combyparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Sigma8=Sigma8, fSigma8=fSigma8)
   }
   if(cosparamy %in% c('Sigma8')){
-    combyparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, Sigma8=Sigma8)
+    combyparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Sigma8=Sigma8)
   }
   
   tempx=do.call(paste(pre_x,cosparamx,sep=''),combxparams)
@@ -84,19 +85,20 @@ cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0=100, OmegaM=0.3, OmegaL
   return=approxfun(tempx,tempy)
 }
 
-cosmapval=function(val=50, cosparam='CoVol', H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, zrange=c(-0.99,100), res=100, iter=8, out='cos', degen='lo', ref){
+cosmapval=function(val=50, cosparam='CoVol', H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Sigma8=0.8, fSigma8=FALSE, zrange=c(-0.99,100), res=100, iter=8, out='cos', degen='lo', ref){
   if(!missing(ref)){
     params=.getcos(ref)
     H0=as.numeric(params['H0'])
     OmegaM=as.numeric(params['OmegaM'])
     OmegaL=as.numeric(params['OmegaL'])
+    if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
     if(!is.na(params['Sigma8'])){Sigma8=as.numeric(params['Sigma8'])}
   }
-  temp=function(val, cosparam, H0, OmegaM, OmegaL, Sigma8, fSigma8, zlo, zhi, res, iter, out){
+  temp=function(val, cosparam, H0, OmegaM, OmegaL, OmegaR, Sigma8, fSigma8, zlo, zhi, res, iter, out){
     if(cosparam=='DistMod' & zlo==0){zlo=1e-5}
     zrangetemp=c(zlo, zhi)
     for(i in 1:iter){
-    tempz=cosmapfunc(cosparamx=cosparam, cosparamy='z', H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, Sigma8=Sigma8, fSigma8=fSigma8, zrange=zrangetemp, step='z', res=res, degen=degen)
+    tempz=cosmapfunc(cosparamx=cosparam, cosparamy='z', H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Sigma8=Sigma8, fSigma8=fSigma8, zrange=zrangetemp, step='z', res=res, degen=degen)
     currentz=tempz(val)
     if(is.na(currentz)){stop('Required cosmological value does not fall within specified redshift/z range')}
     zlonew=max(zrangetemp[1],currentz-(zrangetemp[2]-zrangetemp[1])/res)
@@ -104,8 +106,8 @@ cosmapval=function(val=50, cosparam='CoVol', H0=100, OmegaM=0.3, OmegaL=1-OmegaM
     zrangetemp=c(zlonew,zhinew)
     }
     if(out=='cos'){
-      outdist=unlist(cosdist(currentz, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, age=TRUE, error=T))
-      outgrow=unlist(cosgrow(currentz, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, Sigma8=Sigma8, fSigma8=fSigma8))
+      outdist=unlist(cosdist(currentz, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, age=TRUE, error=T))
+      outgrow=unlist(cosgrow(currentz, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Sigma8=Sigma8, fSigma8=fSigma8))
       output=c(outdist,outgrow[3:9])
       Error=abs(val-output[[cosparam]])
       if(Error>0){Error=Error/output[[cosparam]]}
@@ -117,10 +119,10 @@ cosmapval=function(val=50, cosparam='CoVol', H0=100, OmegaM=0.3, OmegaL=1-OmegaM
     return=output
   }
   if(out=='cos'){
-    output=as.data.frame(t(Vectorize(temp)(val=val, cosparam=cosparam, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, Sigma8=Sigma8, fSigma8=fSigma8, zlo=zrange[1], zhi=zrange[2], res=res, iter=iter, out=out)))
+    output=as.data.frame(t(Vectorize(temp)(val=val, cosparam=cosparam, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Sigma8=Sigma8, fSigma8=fSigma8, zlo=zrange[1], zhi=zrange[2], res=res, iter=iter, out=out)))
   }
   if(out=='z'){
-    output=Vectorize(temp)(val=val, cosparam=cosparam, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, Sigma8=Sigma8, fSigma8=fSigma8, zlo=zrange[1], zhi=zrange[2], res=res, iter=iter, out=out)
+    output=Vectorize(temp)(val=val, cosparam=cosparam, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Sigma8=Sigma8, fSigma8=fSigma8, zlo=zrange[1], zhi=zrange[2], res=res, iter=iter, out=out)
   }
   return(output)
 }

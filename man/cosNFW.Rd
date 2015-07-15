@@ -69,9 +69,9 @@ These functions calculate various aspects of the NFW profile.
 \value{
 cosNFW outputs the instantaneous NFW profile density.
 
-coshaloNFWmass_c outputs the total mass given Rs and c in Msun/h.
+cosNFWmass_c outputs the total mass given Rs and c in Msun/h.
 
-coshaloNFWmass_Rmax outputs the total mass given Rs and Rmax in Msun/h.
+cosNFWmass_Rmax outputs the total mass given Rs and Rmax in Msun/h.
 
 cosNFWsigma outputs the line-of-sight surface mass density at Rad (Eqn. 11 of Wright \& Brainerd, 2000).
 
@@ -104,7 +104,8 @@ cosNFWmass_Rmax(Rmax=rad_mean200) #For the same profile this is a factor 1.31 la
 
 #Shear checks:
 
-plot(10^seq(-2,2,by=0.1),cosNFWgamma(10^seq(-2,2,by=0.1),Rs=0.2,c=10),type='l',log='xy', xlab='R/Rs', ylab='ESD')
+plot(10^seq(-2,2,by=0.1), cosNFWgamma(10^seq(-2,2,by=0.1),Rs=0.2,c=10), type='l',
+log='xy', xlab='R/Rs', ylab='ESD')
 legend('topright', legend=c('Rs=0.2','c=10'))
 
 }

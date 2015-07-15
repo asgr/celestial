@@ -9,10 +9,11 @@ Cosmological Mapping Functions
 Functions for mapping from one arbitrary csomological parameter to another. This includes the provision of a generic interpolation function and another exact value lookup.
 }
 \usage{
-cosmapval(val=50, cosparam="CoVol", H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8,
-fSigma8=FALSE, zrange=c(-0.99,100), res=100, iter=8, out='cos', degen='lo', ref)
-cosmapfunc(cosparamx="CoVol", cosparamy="z", H0=100, OmegaM=0.3, OmegaL=1-OmegaM,
-Sigma8=0.8, fSigma8=FALSE, zrange=c(0,20), step='z', res=100, degen='lo', ref)
+cosmapval(val=50, cosparam="CoVol", H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0,
+Sigma8=0.8, fSigma8=FALSE, zrange=c(-0.99,100), res=100, iter=8, out='cos', degen='lo',
+ref)
+cosmapfunc(cosparamx="CoVol", cosparamy="z", H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
+OmegaR=0, Sigma8=0.8, fSigma8=FALSE, zrange=c(0,20), step='z', res=100, degen='lo', ref)
 }
 
 \arguments{
@@ -35,7 +36,10 @@ Cosmological parameter, must be one of: z, a, CoDist, LumDist, AngDist, CoDistTr
     Omega matter (default is 0.3).
   }
   \item{OmegaL}{
-    Omega Lambda (default is for a flat Universe with OmegaL=1-OmegaM).
+    Omega Lambda (default is for a flat Universe with OmegaL = 1-OmegaM = 0.7).
+  }
+  \item{OmegaR}{
+    Omega Radiation (default is 0, but OmegaM/3400 is typical).
   }
   \item{Sigma8}{
     The value of Sigma8 to use if fsigma8=TRUE (by default this is a reasonable 0.8 for simplicity).

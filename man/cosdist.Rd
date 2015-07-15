@@ -18,29 +18,30 @@
 \alias{cosdistCrit}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Cosmological Distance Calculations
+Cosmological distance calculations
 }
 \description{
 These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified.
 }
 \usage{
-cosdist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, age=FALSE, ref, error=FALSE)
+cosdist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, age=FALSE, ref, error=FALSE)
 cosdistz(z=1)
 cosdista(z=1)
-cosdistCoDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-cosdistLumDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-cosdistAngDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-cosdistAngDist12(z1=1, z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-cosdistCoDistTran(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-cosdistDistMod(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-cosdistAngSize(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-cosdistCoVol(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistCoDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+cosdistLumDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+cosdistAngDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+cosdistAngDist12(z1=1, z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+cosdistCoDistTran(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+cosdistDistMod(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+cosdistAngSize(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+cosdistCoVol(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
 cosdistHubTime(H0=100)
-cosdistUniAgeNow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-cosdistUniAgeAtz(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-cosdistTravelTime(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-cosdistRelError(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-cosdistCrit(z_lens=1, z_source=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+cosdistUniAgeNow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+cosdistUniAgeAtz(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+cosdistTravelTime(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+cosdistRelError(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+cosdistCrit(z_lens=1, z_source=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0,
+ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -54,7 +55,10 @@ cosdistCrit(z_lens=1, z_source=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
     Omega matter (default is 0.3).
   }
   \item{OmegaL}{
-    Omega Lambda (default is for a flat Universe with OmegaL = 1-OmegaM = 0.7).
+    Omega Lambda (default is for a flat Universe with OmegaL = 1-OmegaM-OmegaR = 0.7).
+  }
+  \item{OmegaR}{
+    Omega Radiation (default is 0, but OmegaM/3400 is typical).
   }
   \item{age}{
     Flag for cosdist function to return age or not- this slows calculation, so is by default turned off.
@@ -140,7 +144,7 @@ cosdistTravelTime function returns the light travel time from the specified reds
 
 cosdistRelError function returns the relative error of the distance/age integrals (this is the main source of error in the calculations).
 
-cosdistCrit function returns the critical surface mass density (see also \code{\link{cosNFW}}).
+cosdistCrit function returns the critical surface mass density, SigmaC (see also \code{\link{cosNFW}}).
 }
 \references{
 Based on the equations in:

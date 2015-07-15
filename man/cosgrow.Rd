@@ -4,6 +4,7 @@
 \alias{cosgrowa}
 \alias{cosgrowOmegaM}
 \alias{cosgrowOmegaL}
+\alias{cosgrowOmegaR}
 \alias{cosgrowOmegaK}
 \alias{cosgrowH}
 \alias{cosgrowFactor}
@@ -16,28 +17,33 @@
 \alias{cosgrowRhoMean}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Cosmological Growth and Evolution Calculations
+  Cosmological growth and evolution calculations
 }
 \description{
-  These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified.
+  These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaR+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified and OmegaR=0 (so no radiation pressure at any epoch).
 }
 \usage{
-  cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, Dist='Co',
-  ref)
+  cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Sigma8=0.8, fSigma8=FALSE, Dist='Co',
+  Mass='Msun', ref)
   cosgrowz(z = 1)
   cosgrowa(z = 1)
-  cosgrowH(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-  cosgrowOmegaM(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-  cosgrowOmegaL(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-  cosgrowOmegaK(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
+  cosgrowH(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+  cosgrowOmegaM(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+  cosgrowOmegaL(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+  cosgrowOmegaR(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+  cosgrowOmegaK(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
   cosgrowFactor(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-  cosgrowRate(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, ref)
+  cosgrowRate(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8,
+  fSigma8=FALSE, ref)
   cosgrowSigma8(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, ref)
   cosgrowFactorApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-  cosgrowRateApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, fSigma8=FALSE, ref)
+  cosgrowRateApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8,
+  fSigma8=FALSE, ref)
   cosgrowSigma8Approx(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, ref)
-  cosgrowRhoCrit(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Dist='Co', ref)
-  cosgrowRhoMean(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM, Dist='Co', ref)
+  cosgrowRhoCrit(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Dist='Co',
+  Mass='Msun', ref)
+  cosgrowRhoMean(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Dist='Co',
+  Mass='Msun', ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -51,7 +57,10 @@
     Omega matter (default is 0.3).
   }
   \item{OmegaL}{
-    Omega Lambda (default is for a flat Universe with OmegaL=1-OmegaM).
+    Omega Lambda (default is for a flat Universe with OmegaL = 1-OmegaM-OmegaR = 0.7).
+  }
+  \item{OmegaR}{
+    Omega Radiation (default is 0, but ~OmegaM/3400 is typical).
   }
   \item{Sigma8}{
     The value of Sigma8 to use if fsigma8=TRUE (by default this is a reasonable 0.8 for simplicity).
@@ -61,6 +70,9 @@
   }
   \item{Dist}{
     Determines the distance type, i.e. whether the Rho critical energy or mean mass densities are calculated with respect to angular / physical distances (Ang) or with respect to comoving distances (Co).
+  }
+  \item{Mass}{
+    Determines the mass type, i.e. whether Rho ritical energy or mean mass densities are calculated with respect to solar masses (Msun) or with respect to kilograms (kg).
   }
   \item{ref}{
     The name of a reference cosmology to use, one of 137 / 737 / Planck / WMAP9 / WMAP7 / WMAP5 / WMAP3 / WMAP1 / Millennium / GiggleZ. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL. If ref=137 or ref=737 no specific Sigma8 is assumed, instead Sigma8 is set to whatever the input value is set to (by default this is 0.8).
@@ -79,9 +91,10 @@ cosgrow function returns a data.frame (even if only 1 redshift if requested) wit
 z       \tab Requested redshift\cr
 a       \tab Universe expansion factor, as given by a=1/(1+z)\cr
 H       \tab Hubble value in units of (km/s)/Mpc\cr
-OmegaM  \tab Omega matter\cr
-OmegaL  \tab Omega lambda\cr
-OmegaK  \tab Omega curvature\cr
+OmegaM  \tab Omega Matter\cr
+OmegaL  \tab Omega Lambda\cr
+OmegaR  \tab Omega Radiation\cr
+OmegaK  \tab Omega K(c)urvature\cr
 Factor  \tab Exact growth factor (g, see cosgrowFactor below for details)\cr
 Rate    \tab Exact growth rate (f or f*Sigma8, see cosgrowRate below for details)\cr
 Sigma8  \tab Power spectrum fluctuation amplitude on the scale 8 Mpc/z\cr
@@ -95,11 +108,13 @@ RhoMean \tab Mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in unit
   
   cosgrowH function returns the value of the Hubble constant at z, in units of km/s/Mpc.
   
-  cosgrowOmegaM function returns the value of Omega matter at z.
+  cosgrowOmegaM function returns the value of Omega Matter at z.
   
-  cosgrowOmegaL function returns the value of Omega lambda at z.
+  cosgrowOmegaL function returns the value of Omega Lambda at z.
   
-  cosgrowOmegaK function returns the value of Omega curvature at z.
+  cosgrowOmegaR function returns the value of Omega Radiaion at z.
+  
+  cosgrowOmegaK function returns the value of Omega K(c)urvature at z.
   
   cosgrowFactor function returns the exact value of the growth factor (typically referred to as 'g' in the astronomy literature), at z.
   
@@ -118,7 +133,9 @@ RhoMean \tab Mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in unit
   cosgrowRhoMean function returns the mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in units of Msol/Mpc^3.
 }
 \note{
-  RhoCrit and RhoMean return Msol/Mpc^3, where Mpc is in *physical* units (hence both get denser at higher redshift). To get their respective values in comoving units you shoudl simply set z=0, since by definition comoving densities equal physcial densities at z=0. The difference between RhoCrit and RhoMean at z=0 is simply RhoMean=RhoCrit*OmegaM. Corrected for 1/(1+z)^3 RhoMean stays constant with redshift (as it should- we do not gain or lose mass within a cmovoing volume).
+  The difference between RhoCrit and RhoMean at z=0 is simply RhoMean=RhoCrit*OmegaM. Corrected for 1/(1+z)^3 RhoMean stays constant with redshift (as it should- to first order we do not gain or lose mass within a comovoing volume).
+  
+  The growth rate and growth factor does not make use of OmegaR in the cosgrow function, hence OmegaR cannot be provided in the individual functions. This is because correctly accounting for the effect of radiation pressure before the surface of last scattering (z~1100) on teh growth rate of structure is highly complex, and beyodn the scope of this calculator. In the case of cosgrow, even if OmegaR is specified it is, in effect, set to zero when making growth factor and rate calculations.
 }
 \references{
   Based on the equations in:
@@ -151,8 +168,29 @@ RhoMean \tab Mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in unit
   cosgrowRateApprox(0.3) #Approximation better than 1% for reasonable cosmologies.
   cosgrowRhoCrit(0.3)
   cosgrowRhoMean(0.3)
-  cosgrowRhoMean(0)==cosgrowRhoMean(10,Dist='Ang')/(1+10)^3 #Mass is conserved within comoving volumes
-  cosgrowRhoMean(0)==cosgrowRhoMean(10,Dist='Co') #Mass is conserved within comoving volumes
+  cosgrowRhoMean(0)-cosgrowRhoMean(2,Dist='Ang')/(1+2)^3 #Mass is conserved in co-vol
+  cosgrowRhoMean(0)-cosgrowRhoMean(10,Dist='Co') #Mass is conserved in co-vol
+  
+  # Comparison of the various energy densities that make up the Universe for Planck 2013:
+  
+  plot(cosdistUniAgeAtz(10^seq(-3,4.9,by=0.1), ref='Planck')*1e9,
+  cosgrowRhoCrit(10^seq(-3,4.9,by=0.1), ref='Planck', Dist='m', Mass='kg')*
+  cosgrowOmegaR(10^seq(-3,4.9,by=0.1), ref='Planck'), type='l',log='xy',
+  xlab='Years since Universe formed', ylab=expression('Energy Density'*(kg/m^3)))
+  
+  lines(cosdistUniAgeAtz(10^seq(-3,4.9,by=0.1), ref='Planck')*1e9,
+  cosgrowRhoCrit(10^seq(-3,4.9,by=0.1), ref='Planck', Dist='m', Mass='kg')*
+  cosgrowOmegaM(10^seq(-3,4.9,by=0.1), ref='Planck'), col='red')
+  
+  lines(cosdistUniAgeAtz(10^seq(-3,4.9,by=0.1), ref='Planck')*1e9,
+  cosgrowRhoCrit(10^seq(-3,4.9,by=0.1), ref='Planck', Dist='m', Mass='kg')*
+  cosgrowOmegaL(10^seq(-3,4.9,by=0.1), ref='Planck'), col='blue')
+
+  abline(v=cosdistUniAgeAtz(0.33,ref='Planck')*1e9,lty=2) # Matter = Vacuum
+  abline(v=cosdistUniAgeAtz(3391,ref='Planck')*1e9,lty=2) # Matter = Radiation
+  
+  legend('topright', legend=c('Radiation Energy Density', 'Matter Energy Density',
+  'Vacuum Energy Density'), lty=1, col=c('black','red','blue'))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
