@@ -5,7 +5,7 @@ cosvol=function(area=60, zmax=1, zmin=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-Ome
     H0=as.numeric(params['H0'])
     OmegaM=as.numeric(params['OmegaM'])
     OmegaL=as.numeric(params['OmegaL'])
-    OmegaR=as.numeric(params['OmegaR'])
+    if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
   if(inunit=='amin2'){area=area/3600}
   if(inunit=='asec2'){area=area/12960000}
