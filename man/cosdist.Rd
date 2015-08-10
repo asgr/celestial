@@ -24,7 +24,8 @@ Cosmological distance calculations
 These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified.
 }
 \usage{
-cosdist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, age=FALSE, ref, error=FALSE)
+cosdist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, age=FALSE,
+ref, error=FALSE)
 cosdistz(z=1)
 cosdista(z=1)
 cosdistCoDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
@@ -90,7 +91,7 @@ Negative value of z> -1 are allowed, which produces future predictions based on 
 cosdistAngDist12 is only available for OmegaK>=0.
 }
 \value{
-cosdist function returns a data.frame (even if only 1 redshift if requested) with the following columns:
+\item{cosdist}{Returns a data.frame (even if only 1 redshift if requested) with the following columns:}
 \tabular{ll}{
 z       \tab Requested redshift\cr
 a       \tab Universe expansion factor, as given by a=1/(1+z)\cr
@@ -114,37 +115,39 @@ If error=TRUE is set then the relative error for distance/age values is calculat
 RelError \tab Relative error of the distance/age integrals (this is the main source of error in the calculations)\cr
 }
 
-cosdistz function returns the input redshift (only included for clarity).
+The outputs of the standalone functions are:
 
-cosdista function returns the Universe expansion factor, as given by a=1/(1+z).
+\item{cosdistz}{Returns the input redshift (only included for clarity).}
 
-cosdistCoDist function returns the line-of-sight (i.e. radial) comoving distance in units of Mpc.
+\item{cosdista}{Returns the Universe expansion factor, as given by a=1/(1+z).}
 
-cosdistLumDist function returns the luminosity distance in units of Mpc.
+\item{cosdistCoDist}{Returns the line-of-sight (i.e. radial) comoving distance in units of Mpc.}
 
-cosdistAngDist function returns the angular diameter distance in units of Mpc.
+\item{cosdistLumDist}{Returns the luminosity distance in units of Mpc.}
 
-cosdistAngDist12 function returns the angular diameter distance in units of Mpc between z1 and z2.
+\item{cosdistAngDist}{Returns the angular diameter distance in units of Mpc.}
 
-cosdistCoDistTran function returns the transverse comoving distance in units of Mpc.
+\item{cosdistAngDist12}{Returns the angular diameter distance in units of Mpc between z1 and z2.}
 
-cosdistDistMod function returns the distance modulus used where AbsMag = ApMag - DistMod, and DistMod = 5log10(LumDist)+25 in units of mag.
+\item{cosdistCoDistTran}{Returns the transverse comoving distance in units of Mpc.}
 
-cosdistAngSize function returns the physical projected size of an object at z in units of kpc/arcsec.
+\item{cosdistDistMod}{Returns the distance modulus used where AbsMag = ApMag - DistMod, and DistMod = 5log10(LumDist)+25 in units of mag.}
 
-cosdistCoVol function returns the comoving volume of Universe within z in units of Gpc^3.
+\item{cosdistAngSize}{Returns the physical projected size of an object at z in units of kpc/arcsec.}
 
-cosdistHubTime function returns the approximate Hubble age of the Universe in units of Gyrs.
+\item{cosdistCoVol}{Returns the comoving volume of Universe within z in units of Gpc^3.}
 
-cosdistUniAgeNow function returns the age of the Universe now in units of Gyrs.
+\item{cosdistHubTime}{Returns the approximate Hubble age of the Universe in units of Gyrs.}
 
-cosdistUniAgeAtz function returns the age of the Universe at the specified redshift (z) in units of Gyrs.
+\item{cosdistUniAgeNow}{Returns the age of the Universe now in units of Gyrs.}
 
-cosdistTravelTime function returns the light travel time from the specified redshift (AKA look back time) in units of Gyrs.
+\item{cosdistUniAgeAtz}{Returns the age of the Universe at the specified redshift (z) in units of Gyrs.}
 
-cosdistRelError function returns the relative error of the distance/age integrals (this is the main source of error in the calculations).
+\item{cosdistTravelTime}{Returns the light travel time from the specified redshift (AKA look back time) in units of Gyrs.}
 
-cosdistCrit function returns the critical surface mass density, SigmaC (see also \code{\link{cosNFW}}).
+\item{cosdistRelError}{Returns the relative error of the distance/age integrals (this is the main source of error in the calculations).}
+
+\item{cosdistCrit}{Returns the critical surface mass density, SigmaC (see also \code{\link{cosNFW}}).}
 }
 \references{
 Based on the equations in:

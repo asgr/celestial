@@ -17,7 +17,9 @@ The included data is a table of the following cosmological parameters:
 Ref         \tab  H0    \tab  OmegaM \tab  OmegaL \tab  OmegaR  \tab  Sigma8  \cr
 737         \tab  70.0  \tab  0.300  \tab  0.700  \tab  NA      \tab  NA      \cr
 137         \tab  100.0 \tab  0.300  \tab  0.700  \tab  NA      \tab  NA      \cr
-Planck      \tab  67.3  \tab  0.315  \tab  0.685  \tab  9.289295e-05  \tab  0.829  \cr
+Planck13    \tab  67.3  \tab  0.315  \tab  0.685  \tab  9.289295e-05  0.829   \cr 
+Planck15    \tab  67.8  \tab  0.308  \tab  0.692  \tab  9.150327e-05  0.815   \cr
+Planck      \tab  67.8  \tab  0.308  \tab  0.692  \tab  9.150327e-05  0.815   \cr
 WMAP9       \tab  69.7  \tab  0.288  \tab  0.712  \tab  8.780488e-05  \tab  0.817  \cr
 WMAP7       \tab  70.4  \tab  0.275  \tab  0.725  \tab  8.569648e-05  \tab  0.816  \cr
 WMAP5       \tab  70.5  \tab  0.274  \tab  0.726  \tab  8.45679e-05   \tab  0.812  \cr

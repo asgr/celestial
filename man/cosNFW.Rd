@@ -15,9 +15,12 @@ Density and total mass values for Navaro Frenk and White (NFW) profiles
 cosNFW(Rad=0, Rho0=2.412e15, Rs=0.03253)
 cosNFWmass_c(Rho0=2.412e15, Rs=0.03253, c=5)
 cosNFWmass_Rmax(Rho0=2.412e15, Rs=0.03253, Rmax=0.16265)
-cosNFWsigma(Rad=0.03253, Rs=0.03253, c=5, z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM, Rho = "crit", DeltaVir = 200, ref)
-cosNFWsigma_mean(Rad=0.03253, Rs=0.03253, c=5, z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM, Rho = "crit", DeltaVir = 200, ref)
-cosNFWgamma(Rad=0.03253, Rs=0.03253, c=5, SigmaC=1, z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM, Rho = "crit", DeltaVir = 200, ref)
+cosNFWsigma(Rad=0.03253, Rs=0.03253, c=5, z = 0, H0 = 100, OmegaM = 0.3,
+OmegaL = 1-OmegaM, Rho = "crit", DeltaVir = 200, ref)
+cosNFWsigma_mean(Rad=0.03253, Rs=0.03253, c=5, z = 0, H0 = 100, OmegaM = 0.3,
+OmegaL = 1-OmegaM, Rho = "crit", DeltaVir = 200, ref)
+cosNFWgamma(Rad=0.03253, Rs=0.03253, c=5, SigmaC=1, z = 0, H0 = 100,
+OmegaM = 0.3, OmegaL = 1-OmegaM, Rho = "crit", DeltaVir = 200, ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -67,17 +70,17 @@ These functions calculate various aspects of the NFW profile.
 }
 
 \value{
-cosNFW outputs the instantaneous NFW profile density.
+\item{cosNFW}{Returns the instantaneous NFW profile density.}
 
-cosNFWmass_c outputs the total mass given Rs and c in Msun/h.
+\item{cosNFWmass_c}{Returns the total mass given Rs and c in Msun/h.}
 
-cosNFWmass_Rmax outputs the total mass given Rs and Rmax in Msun/h.
+\item{cosNFWmass_Rmax}{Returns the total mass given Rs and Rmax in Msun/h.}
 
-cosNFWsigma outputs the line-of-sight surface mass density at Rad (Eqn. 11 of Wright \& Brainerd, 2000).
+\item{cosNFWsigma}{Returns the line-of-sight surface mass density at Rad (Eqn. 11 of Wright \& Brainerd, 2000).}
 
-cosNFWsigma_mean outputs the means surface mass density within Rad (Eqn. 13 of Wright \& Brainerd, 2000).
+\item{cosNFWsigma_mean}{Returns the means surface mass density within Rad (Eqn. 13 of Wright \& Brainerd, 2000).}
 
-cosNFWgamma outputs the radial dependence of the weak lensing shear (Eqn. 12 of Wright \& Brainerd, 2000).
+\item{cosNFWgamma}{Returns the radial dependence of the weak lensing shear (Eqn. 12 of Wright \& Brainerd, 2000).}
 }
 
 \references{

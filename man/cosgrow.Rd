@@ -23,7 +23,8 @@
   These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaR+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified and OmegaR=0 (so no radiation pressure at any epoch).
 }
 \usage{
-  cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Sigma8=0.8, fSigma8=FALSE, Dist='Co',
+  cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Sigma8=0.8,
+  fSigma8=FALSE, Dist='Co',
   Mass='Msun', ref)
   cosgrowz(z = 1)
   cosgrowa(z = 1)
@@ -86,7 +87,7 @@
   The approximation routines are generally accurate to sub 1 percent, and since they do not involve numericla integration they are substantially faster when computing large grids of numbers, i.e. they are recommended for plots, since the accuracy is sub the line width.
 }
 \value{
-cosgrow function returns a data.frame (even if only 1 redshift if requested) with the following parameters evaluated at the respective redshift/s:
+\item{cosgrow}{Returns a data.frame (even if only 1 redshift if requested) with the following parameters evaluated at the respective redshift/s:}
 \tabular{ll}{
 z       \tab Requested redshift\cr
 a       \tab Universe expansion factor, as given by a=1/(1+z)\cr
@@ -102,35 +103,37 @@ RhoCrit \tab Critical energy density of the Universe at z [3H(z)^2/8.pi.G], in u
 RhoMean \tab Mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in units of Msol/Mpc^3\cr
 }
 
-  cosgrowz function returns the input redshift (only included for clarity).
+The outputs of the standalone functions are:
+
+  \item{cosgrowz}{Returns the input redshift (only included for clarity).}
   
-  cosgrowa function returns the Universe expansion factor, as given by a=1/(1+z).
+  \item{cosgrowa}{Returns the Universe expansion factor, as given by a=1/(1+z).}
   
-  cosgrowH function returns the value of the Hubble constant at z, in units of km/s/Mpc.
+  \item{cosgrowH}{Returns the value of the Hubble constant at z, in units of km/s/Mpc.}
   
-  cosgrowOmegaM function returns the value of Omega Matter at z.
+  \item{cosgrowOmegaM}{Returns the value of Omega Matter at z.}
   
-  cosgrowOmegaL function returns the value of Omega Lambda at z.
+  \item{cosgrowOmegaL}{Returns the value of Omega Lambda at z.}
   
-  cosgrowOmegaR function returns the value of Omega Radiaion at z.
+  \item{cosgrowOmegaR}{Returns the value of Omega Radiaion at z.}
   
-  cosgrowOmegaK function returns the value of Omega K(c)urvature at z.
+  \item{cosgrowOmegaK}{Returns the value of Omega K(c)urvature at z.}
   
-  cosgrowFactor function returns the exact value of the growth factor (typically referred to as 'g' in the astronomy literature), at z.
+  \item{cosgrowFactor}{Returns the exact value of the growth factor (typically referred to as 'g' in the astronomy literature), at z.}
   
-  cosgrowRate function returns either the true (typically referred to as 'f' in the astronomy literature) or RSD type (f*Sigma8) value of the growth rate of structure, at z.
+  \item{cosgrowRate}{Returns either the true (typically referred to as 'f' in the astronomy literature) or RSD type (f*Sigma8) value of the growth rate of structure, at z.}
   
-  cosgrowSigma8 function returns the power spectrum fluctuation amplitude on the scale 8 Mpc/z at z, and is unitless.
+  \item{cosgrowSigma8}{Returns the power spectrum fluctuation amplitude on the scale 8 Mpc/z at z, and is unitless.}
   
-  cosgrowFactorApprox function returns the approximate value of the growth factor (typically referred to as 'g' in the astronomy literature), at z.
+  \item{cosgrowFactorApprox}{Returns the approximate value of the growth factor (typically referred to as 'g' in the astronomy literature), at z.}
   
-  cosgrowRateApprox function returns either the approximate true (typically referred to as 'f' in the astronomy literature) or approximate RSD type (f*Sigma8) value of the growth rate of structure, at z.
+  \item{cosgrowRateApprox}{Returns either the approximate true (typically referred to as 'f' in the astronomy literature) or approximate RSD type (f*Sigma8) value of the growth rate of structure, at z.}
   
-  cosgrowSigma8Approx function returns the approximate power spectrum fluctuation amplitude on the scale 8 Mpc/z at z, and is unitless.
+  \item{cosgrowSigma8Approx}{Returns the approximate power spectrum fluctuation amplitude on the scale 8 Mpc/z at z, and is unitless.}
   
-  cosgrowRhoCrit function returns the critical energy density of the Universe at z [3H(z)^2/8.pi.G], in units of Msol/Mpc^3.
+  \item{cosgrowRhoCrit}{Returns the critical energy density of the Universe at z [3H(z)^2/8.pi.G], in units of Msol/Mpc^3.}
   
-  cosgrowRhoMean function returns the mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in units of Msol/Mpc^3.
+  \item{cosgrowRhoMean}{Returns the mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in units of Msol/Mpc^3.}
 }
 \note{
   The difference between RhoCrit and RhoMean at z=0 is simply RhoMean=RhoCrit*OmegaM. Corrected for 1/(1+z)^3 RhoMean stays constant with redshift (as it should- to first order we do not gain or lose mass within a comovoing volume).
