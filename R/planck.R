@@ -43,12 +43,16 @@ cosplanckPeakWave=function(Temp=2.725){
   return(kNIST2010speedOfLightInVacuum*kNIST2010PlanckConstant/EnPeakLambda)
 }
 
-cosplanckSBLawRad=function(Temp=2.725){
+cosplanckSBLawRad_sr=function(Temp=2.725){
   return(kNIST2010StefanBoltzmannConstant*Temp^4/pi)
 }
 
-cosplanckSBLawEn=function(Temp=2.725){
+cosplanckSBLawRad=function(Temp=2.725){
   return(kNIST2010StefanBoltzmannConstant*Temp^4)
+}
+
+cosplanckSBLawEn=function(Temp=2.725){
+  return((4/kNIST2010speedOfLightInVacuum)*kNIST2010StefanBoltzmannConstant*Temp^4)
 }
 
 cosplanckLawRadPhotEnAv=function(Temp=2.725){

@@ -97,15 +97,20 @@ Below h is the Planck constant, \eqn{k_B}{k[B]} is the Boltzmann constant, c is 
 \deqn{\lambda_{peak} = 4.965 k_B T}{%
       lambda[peak] = 4.965.k[B].T}
 
-\code{cosplanckSBLawRad} gives the spectral radiance version of the Stefan-Boltzmann Law, defined as:
+\code{cosplanckSBLawRad_sr} gives the spectral radiance version of the Stefan-Boltzmann Law, defined as:
 
 \deqn{L = \sigma T^4/\pi}{%
       L = sigma.T^4/pi}
 
-\code{cosplanckSBLawEn} gives the emissive power (or radiant exitance) version of the Stefan-Boltzmann Law, defined as:
+\code{cosplanckSBLawRad} gives the emissive power (or radiant exitance) version of the Stefan-Boltzmann Law, defined as:
 
 \deqn{j^* = \sigma T^4}{%
       j^* = sigma.T^4}
+      
+\code{cosplanckSBLawEn} gives the energy density version of the Stefan-Boltzmann Law, defined as:
+
+\deqn{\epsilon = 4 \sigma T^4 / c}{%
+      epsilon = 4.sigma.T^4/c}
       
 Notice that \eqn{j^*}{J^*} and L merely differ by a factor of \eqn{\pi}{pi}, i.e. L is per steradian.
 
@@ -165,12 +170,16 @@ The wavelength location of the radiation peak for a black body as found in \code
 
 Stefan-Boltzmann Law:
 
+\item{cosplanckSBLawRad_sr}{
+Total energy radiated per metre squared per second per steradian across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}). This is the radiance version of the Stefan-Boltzmann Law.
+}
+
 \item{cosplanckSBLawRad}{
-Total energy radiated per metre squared per second per steradian across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}). This is the radiance version of the relation.
+Total energy radiated per metre squared per second across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}.sr\eqn{^{-1}}{^-1}). This is the power version of the Stefan-Boltzmann Law.
 }
 
 \item{cosplanckSBLawEn}{
-Total energy radiated per metre squared per second across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}.sr\eqn{^{-1}}{^-1}). This is the power version of the relation.
+Total energy per metre cubed across all wavelengths for a black body (J.m\eqn{^{-3}}{^-3}). This is the energy density version of the Stefan-Boltzmann Law.
 }
 
 Photon properties:
@@ -249,7 +258,7 @@ integrate(cosplanckLawRadWaveN,1e-4,1e-1)
 
 #Stefan-Boltzmann Law:
 
-cosplanckSBLawRad()
+cosplanckSBLawRad_sr()
 
 #We can get (almost, some rounding is off) the same answer by multiplying
 #the total number of photons produced by a black body per metre squared per
