@@ -51,8 +51,77 @@ Redshift, where z must be > -1 (can be a vector).
 }
 }
 \details{
-The functions with \code{Rad} in the name are related the spectral radiance form of Planck's Law (typically designated I or B), whilst those with \code{En} are related to the spectral energy density form of Planck's Law (u), where u=I.4.pi/c
+The functions with \code{Rad} in the name are related the spectral radiance form of Planck's Law (typically designated I or B), whilst those with \code{En} are related to the spectral energy density form of Planck's Law (u), where \eqn{u=4\pi I/c}{u=4.pi.I/c}.
+
+To calculate the number of photons in a mode we simply use \eqn{E=h\nu=h c / \lambda}{E=h.nu=h.c/lambda}.
+
+Below h is the Planck constant, \eqn{k_B}{k[B]} is the Boltzmann constant, c is the speed-of-light in a vacuum and \eqn{\sigma}{sigma} is the Stefan-Boltzmann constant.
+
+\code{cosplanckLawRadFreq} is the spectral radiance per unit frequency version of Planck's Law, defined as:
+
+\deqn{B_\nu(\nu,T) = I_\nu(\nu,T) = \frac{2 h \nu^3}{c^2} \frac{1}{e^{h \nu / k_B T}-1}}{%
+      B[nu](nu,T) = I[nu](nu,T) = (2.h.nu^3/c^2).(1/(exp(h.nu/k[B].T)-1))}
+      
+\code{cosplanckLawRadWave} is the spectral radiance per unit wavelength version of Planck's Law, defined as:
+
+\deqn{B_\lambda(\lambda,T) = I_\lambda(\lambda,T) = \frac{2 h c^2}{\lambda^5} \frac{1}{e^{h c / \lambda k_B T}-1}}{%
+      B[lambda](lambda,T) = I[lambda](lambda,T) = (2.h.c^2/lambda^5).(1/(exp(h.c/lambda.k[B].T)-1))}
+
+\code{cosplanckLawRadFreqN} is the number of photons per unit frequency, defined as:
+
+\deqn{B_\nu(\nu,T) = I_\nu(\nu,T) = \frac{2 \nu^2}{c^2} \frac{1}{e^{h \nu / k_B T}-1}}{%
+      B[nu](nu,T) = I[nu](nu,T) = (2.nu^2/c^2).(1/(exp(h.nu/k[B].T)-1))}
+      
+\code{cosplanckLawRadWaveN} is the number of photons per unit wavelength, defined as:
+
+\deqn{B_\lambda(\lambda,T) = I_\lambda(\lambda,T) = \frac{2 c}{\lambda^4} \frac{1}{e^{h c / \lambda k_B T}-1}}{%
+      B[lambda](lambda,T) = I[lambda](lambda,T) = (2.c/lambda^4).(1/(exp(h.c/lambda.k[B].T)-1))}
+      
+\code{cosplanckLawEnFreq} is the spectral energy density per unit frequency version of Planck's Law, defined as:
+
+\deqn{u_\nu(\nu,T) = \frac{8 \pi h \nu^3}{c^3} \frac{1}{e^{h\nu/k_B T}-1}}{%
+      u[nu](nu,T) = (8.pi.h.nu^3/c^3).(1/(exp(h.nu/k[B].T)-1))}
+      
+\code{cosplanckLawEnWave} is the spectral energy density per unit wavelength version of Planck's Law, defined as:
+
+\deqn{u_\lambda(\lambda,T) = \frac{8 \pi h c}{\lambda^5} \frac{1}{e^{h c / \lambda k_B T}-1}}{%
+      u[lambda](lambda,T) = (8.pi.h.c/lambda^5).(1/(exp(h.c/lambda.k[B].T)-1))}
+
+\code{cosplanckPeakFreq} gives the location in frequency of the peak of \eqn{I_\nu(\nu,T)}{I[nu](nu,T)}, defined as:
+
+\deqn{\nu_{peak} = 2.821 k_B T}{%
+      nu[peak] = 2.821.k[B].T}
+      
+\code{cosplanckPeakWave} gives the location in wavelength of the peak of \eqn{I_\lambda(\lambda,T)}{I[lambda](lambda,T)}, defined as:
+
+\deqn{\lambda_{peak} = 4.965 k_B T}{%
+      lambda[peak] = 4.965.k[B].T}
+
+\code{cosplanckSBLawRad} gives the spectral radiance version of the Stefan-Boltzmann Law, defined as:
+
+\deqn{L = \sigma T^4/\pi}{%
+      L = sigma.T^4/pi}
+
+\code{cosplanckSBLawEn} gives the emissive power (or radiant exitance) version of the Stefan-Boltzmann Law, defined as:
+
+\deqn{j^* = \sigma T^4}{%
+      j^* = sigma.T^4}
+      
+Notice that \eqn{j^*}{J^*} and L merely differ by a factor of \eqn{\pi}{pi}, i.e. L is per steradian.
+
+\code{cosplanckLawRadPhotEnAv} gives the average energy of the emitted black body photon, defined as:
+
+\deqn{<E_{phot}> = 3.729282 \times 10^{-23} T}{%
+      <E[phot]> = 3.729282e-23 T}
+
+\code{cosplanckLawRadPhotN} gives the total number of photons produced by black body per metre squared per second per steradian, defined as:
+
+\deqn{N_{phot} = 1.5205 \times 10^{15} T^3 / \pi}{%
+      N[phot] = 1.5205e+15.T^3/pi}
+
+Various confidence building sanity checks of how to use these functions are given in the Examples below.
 }
+
 \value{
 Planck's Law in terms of spectral radiance:
 
@@ -77,11 +146,11 @@ The energy per metre cubed per unit wavelength for a black body (J.m\eqn{^{-3}}{
 Photon counts:
 
 \item{cosplanckLawRadFreqN}{
-The number of photons per unit frequency for a black body (Hz\eqn{^{-1}}{^-1}).
+The number of photons per steradian per metre squared per second per unit frequency for a black body (photons.sr\eqn{^{-1}}{^-1}.m\eqn{^{-2}}{^-2}.s\eqn{^{-1}}{^-1}.Hz\eqn{^{-1}}{^-1}).
 }
 
 \item{cosplanckLawRadWaveN}{
-The number of photons per unit wavelength for a black body (m\eqn{^{-1}}{^-1}).
+The number of photonsper steradian per metre squared per second per unit wavelength for a black body (photons.sr\eqn{^{-1}}{^-1}.m\eqn{^{-2}}{^-2}.s\eqn{^{-1}}{^-1}.m\eqn{^{-1}}{^-1}).
 }
 
 Peak locations (via Wien's displacement law):
@@ -97,11 +166,11 @@ The wavelength location of the radiation peak for a black body as found in \code
 Stefan-Boltzmann Law:
 
 \item{cosplanckSBLawRad}{
-Total energy radiated per unit surface area per unit time per steradian across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}). This is the radiance version of the relation.
+Total energy radiated per metre squared per second per steradian across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}). This is the radiance version of the relation.
 }
 
 \item{cosplanckSBLawEn}{
-Total energy radiated per unit surface area per unit time across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}.sr\eqn{^{-1}}{^-1}). This is the power version of the relation.
+Total energy radiated per metre squared per second across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}.sr\eqn{^{-1}}{^-1}). This is the power version of the relation.
 }
 
 Photon properties:
@@ -133,6 +202,16 @@ Aaron Robotham
 \code{\link{cosgrow}}
 }
 \examples{
+#Classic example for different temperature stars:
+
+waveseq=10^seq(-7,-5,by=0.01)
+plot(waveseq, cosplanckLawRadWave(waveseq,5000),
+log='x', type='l', xlab=expression(Wavelength / m),
+ylab=expression('Spectral Radiance' / W*sr^{-1}*m^{-2}*m^{-1}), col='blue')
+lines(waveseq, cosplanckLawRadWave(waveseq,4000), col='green')
+lines(waveseq, cosplanckLawRadWave(waveseq,3000), col='red')
+legend('topright', legend=c('3000K','4000K','5000K'), col=c('red','green','blue'), lty=1)
+
 #CMB now:
 
 plot(10^seq(9,12,by=0.01), cosplanckLawRadFreq(10^seq(9,12,by=0.01)),
