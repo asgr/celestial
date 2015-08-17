@@ -332,7 +332,7 @@ cosdistUniAgeNow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, Omega
 
 cosdistUniAgeAtz=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
-  if(!all(z>=0)){stop('All z must be >=0')}
+  if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
     params=.getcos(ref)
     H0=as.numeric(params['H0'])
