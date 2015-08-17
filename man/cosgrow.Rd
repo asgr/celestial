@@ -70,7 +70,7 @@
     Logical to express whether the growth rate of structure calculated by cosgrow, cosgrowRate or cosgrowRateApprox is given as f*Sigma8 (TRUE) or simply f (FALSE). This is useful for redshift space distortion comparisons (RSD), since RSD strictly measures f*Sigma8.
   }
   \item{Dist}{
-    Determines the distance type, i.e. whether the Rho critical energy or mean mass densities are calculated with respect to angular / physical distances (Ang) or with respect to comoving distances (Co).
+    Determines the distance type, i.e. whether the Rho critical energy or mean mass densities are calculated with respect to angular / physical distances (Ang), with respect to comoving distances (Co) or with respect to phyiscal metres (m).
   }
   \item{Mass}{
     Determines the mass type, i.e. whether Rho ritical energy or mean mass densities are calculated with respect to solar masses (Msun) or with respect to kilograms (kg).
