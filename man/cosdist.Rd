@@ -7,6 +7,7 @@
 \alias{cosdistAngDist}
 \alias{cosdistAngDist12}
 \alias{cosdistCoDistTran}
+\alias{cosdistCoDist12ang}
 \alias{cosdistDistMod}
 \alias{cosdistAngSize}
 \alias{cosdistCoVol}
@@ -33,6 +34,8 @@ cosdistLumDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
 cosdistAngDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
 cosdistAngDist12(z1=1, z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
 cosdistCoDistTran(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+cosdistCoDist12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
+OmegaR=0, ref) 
 cosdistDistMod(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
 cosdistAngSize(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
 cosdistCoVol(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
@@ -71,16 +74,19 @@ ref)
     Flag for cosdist to calculate the relative error for distance/age values.
   }
   \item{z1}{
-    Redshift, where z1 must be > -1 (can be a vector) and less than z2.
+    Redshift for object 1, where z1 must be > -1 (can be a vector) and less than z2.
   }
   \item{z2}{
-    Redshift, where z2 must be > -1 (can be a vector) and greater than z1.
+    Redshift for object 2, where z2 must be > -1 (can be a vector) and greater than z1.
   }
   \item{z_lens}{
     Redshift, where z_lens must be > -1 (can be a vector) and z_lens < z_source.
   }
   \item{z_source}{
     Redshift, where z_source must be > -1 (can be a vector) and z_lens < z_source.
+  }
+  \item{ang}{
+    The observed angular separation between object 1 and object 2 in degrees.
   }
 }
 \details{
@@ -127,9 +133,11 @@ The outputs of the standalone functions are:
 
 \item{cosdistAngDist}{Returns the angular diameter distance in units of Mpc.}
 
-\item{cosdistAngDist12}{Returns the angular diameter distance in units of Mpc between z1 and z2.}
+\item{cosdistAngDist12}{Returns the radial angular diameter distance separation in units of Mpc between objects at \option{z1} and \option{z2} that have small angular separations on sky.}
 
 \item{cosdistCoDistTran}{Returns the transverse comoving distance in units of Mpc.}
+
+\item{cosdistCoDist12ang}{Returns the total comoving diameter distance in units of Mpc between objects at \option{z1} and \option{z2} with a separation \option{ang}. This works for curved cosmologies (i.e. OmegaK!=0) and for large radial and tangential separations. For small separations at a certain value of z for both objects the result is very similar to cosdistCoDistTran(z)*sin(ang*pi/180). This function was mostly extracted from Eqn 3.19 in Peacock (1999).}
 
 \item{cosdistDistMod}{Returns the distance modulus used where AbsMag = ApMag - DistMod, and DistMod = 5log10(LumDist)+25 in units of mag.}
 
@@ -154,6 +162,8 @@ Based on the equations in:
 
 Hogg D.W., 1999, arXiv, 9905116
 
+Peacock J.A., 1999, Cosmological Physics, Cambridge University Press
+
 Wright E.L., 2006, PASP, 118, 1711
 }
 \author{
@@ -174,6 +184,7 @@ cosdistLumDist(0.3,70)
 cosdistAngDist(0.3,70)
 cosdistAngDist12(0.3,0.5,70)
 cosdistCoDistTran(0.3,70)
+cosdistCoDist12ang(0,2,10)
 cosdistDistMod(0.3,70)
 cosdistAngSize(0.3,70)
 cosdistCoVol(0.3,70)
@@ -183,6 +194,22 @@ cosdistUniAgeAtz(0.3,70)
 cosdistTravelTime(0.3,70)
 cosdistRelError(0.3)
 cosdistCrit(0.3,0.5,70)
+
+#A check of the comoving separation between objects function:
+
+cosdistCoDistTran(2,OmegaM = 0.3, OmegaL=1)*sin(pi/180)
+cosdistCoDist12ang(2,2,ang=1,OmegaM=0.3,OmegaL=1)
+
+#Very close, however cosdistCoDist12ang lets us go further:
+
+cosdistCoDist12ang(1,2,ang=10,OmegaM=0.3,OmegaL=1)
+cosdistCoDist12ang(2,2,ang=180,OmegaM=0.3,OmegaL=1)
+
+#The second number should be be the same as:
+
+cosdistCoDist(2,OmegaM=0.3,OmegaL=1)*2
+
+#Nice plot of distance estimates:
 
 redshifts=seq(0,3,by=0.01)
 plot(redshifts, cosdist(redshifts, 70)[,'CoDist'], type='l', col='darkgreen', xlab='Redshift / z',

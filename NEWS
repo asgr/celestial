@@ -33,3 +33,5 @@ FEATURE: Added various Planck related functions (cosplanck).
 DOCS: Fixed a couple of document issues.
 
 FEATURE: Added Planck 2015 cosmology to cosref.
+
+FEATURE: Added cosdistCoDist12ang function for arbitrary comoving separations.

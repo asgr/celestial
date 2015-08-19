@@ -10,6 +10,7 @@
 \alias{cosplanckPeakFreq}
 \alias{cosplanckPeakWave}
 \alias{cosplanckSBLawRad}
+\alias{cosplanckSBLawRad_sr}
 \alias{cosplanckSBLawEn}
 \alias{cosplanckLawRadPhotEnAv}
 \alias{cosplanckLawRadPhotN}
@@ -30,6 +31,7 @@ cosplanckLawRadWaveN(lambda,Temp=2.725)
 cosplanckPeakFreq(Temp=2.725)
 cosplanckPeakWave(Temp=2.725)
 cosplanckSBLawRad(Temp=2.725)
+cosplanckSBLawRad_sr(Temp=2.725)
 cosplanckSBLawEn(Temp=2.725)
 cosplanckLawRadPhotEnAv(Temp=2.725)
 cosplanckLawRadPhotN(Temp=2.725)
@@ -97,15 +99,15 @@ Below h is the Planck constant, \eqn{k_B}{k[B]} is the Boltzmann constant, c is 
 \deqn{\lambda_{peak} = 4.965 k_B T}{%
       lambda[peak] = 4.965.k[B].T}
 
-\code{cosplanckSBLawRad_sr} gives the spectral radiance version of the Stefan-Boltzmann Law, defined as:
-
-\deqn{L = \sigma T^4/\pi}{%
-      L = sigma.T^4/pi}
-
 \code{cosplanckSBLawRad} gives the emissive power (or radiant exitance) version of the Stefan-Boltzmann Law, defined as:
 
 \deqn{j^* = \sigma T^4}{%
       j^* = sigma.T^4}
+      
+\code{cosplanckSBLawRad_sr} gives the spectral radiance version of the Stefan-Boltzmann Law, defined as:
+
+\deqn{L = \sigma T^4/\pi}{%
+      L = sigma.T^4/pi}
       
 \code{cosplanckSBLawEn} gives the energy density version of the Stefan-Boltzmann Law, defined as:
 
@@ -170,12 +172,12 @@ The wavelength location of the radiation peak for a black body as found in \code
 
 Stefan-Boltzmann Law:
 
-\item{cosplanckSBLawRad_sr}{
-Total energy radiated per metre squared per second per steradian across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}). This is the radiance version of the Stefan-Boltzmann Law.
-}
-
 \item{cosplanckSBLawRad}{
 Total energy radiated per metre squared per second across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}.sr\eqn{^{-1}}{^-1}). This is the power version of the Stefan-Boltzmann Law.
+}
+
+\item{cosplanckSBLawRad_sr}{
+Total energy radiated per metre squared per second per steradian across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}). This is the radiance version of the Stefan-Boltzmann Law.
 }
 
 \item{cosplanckSBLawEn}{
