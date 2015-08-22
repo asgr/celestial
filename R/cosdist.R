@@ -455,75 +455,238 @@ cosdistCrit=function(z_lens=1, z_source=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-O
   return(SigmaC)
 }
 
-cosdistCoDist12ang=function (z1 = 1, z2 = 2, ang = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1 - 
-    OmegaM - OmegaR, OmegaR = 0, ref) 
-{
-    HubDist = (299792.458/H0)
-    z1 = as.numeric(z1)
-    z2 = as.numeric(z2)
-    if (!all(is.finite(z1))) {
-        stop("All z1 must be finite and numeric")
+cosdistCoDist12ang=function(z1 = 1, z2 = 2, ang = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM - OmegaR, OmegaR = 0, ref){
+  HubDist = (299792.458/H0)
+  z1 = as.numeric(z1)
+  z2 = as.numeric(z2)
+  if (!all(is.finite(z1))) {
+    stop("All z1 must be finite and numeric")
+  }
+  if (!all(is.finite(z2))) {
+    stop("All z2 must be finite and numeric")
+  }
+  if (!all(z1 > -1)) {
+    stop("All z1 must be > -1")
+  }
+  if (!all(z2 > -1)) {
+    stop("All z2 must be > -1")
+  }
+  if (!missing(ref)) {
+    params = .getcos(ref)
+    H0 = as.numeric(params["H0"])
+    OmegaM = as.numeric(params["OmegaM"])
+    OmegaL = as.numeric(params["OmegaL"])
+    if (!is.na(params["OmegaR"])) {
+      OmegaR = as.numeric(params["OmegaR"])
     }
-    if (!all(is.finite(z2))) {
-        stop("All z2 must be finite and numeric")
+  }
+  OmegaK = 1 - OmegaM - OmegaL - OmegaR
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
+    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {
+      1/sqrt(OmegaR * (1 + z)^4 + OmegaM * (1 + z)^3 + 
+               OmegaK * (1 + z)^2 + OmegaL)
     }
-    if (!all(z1 > -1)) {
-        stop("All z1 must be > -1")
+    rDist = integrate(Einv, 0, z, OmegaM = OmegaM, 
+                      OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, 
+                      subdivisions = 1000L)$value
+    return = rDist
+  }
+  rDist1 = Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, 
+                           OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
+  rDist2 = Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, 
+                           OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
+  if(OmegaK==0){
+    #k is 0
+    Skr12squared= rDist1^2+
+      rDist2^2-
+      2*rDist1*rDist2*cos(ang*pi/180)
+    CoSep12=HubDist*sqrt(Skr12squared)
+  }
+  if(OmegaK>0){
+    #k is -ve so use sinh and cosh
+    rDist1=rDist1*sqrt(abs(OmegaK))
+    rDist2=rDist2*sqrt(abs(OmegaK))
+    Skr12squared= sinh(rDist1)^2*cosh(rDist2)^2+
+      sinh(rDist2)^2*cosh(rDist1)^2-
+      sinh(rDist1)^2*sinh(rDist2)^2*sin(ang*pi/180)^2-
+      2*sinh(rDist1)*sinh(rDist2)*cosh(rDist1)*cosh(rDist2)*cos(ang*pi/180)
+    CoSep12=HubDist*asinh(sqrt(Skr12squared))/sqrt(abs(OmegaK))
+  }
+  if(OmegaK<0){
+    #k is +ve so use sin and cos
+    rDist1=rDist1*sqrt(abs(OmegaK))
+    rDist2=rDist2*sqrt(abs(OmegaK))
+    Skr12squared= sin(rDist1)^2*cos(rDist2)^2+
+      sin(rDist2)^2*cos(rDist1)^2+
+      sin(rDist1)^2*sin(rDist2)^2*sin(ang*pi/180)^2-
+      2*sin(rDist1)*sin(rDist2)*cos(rDist1)*cos(rDist2)*cos(ang*pi/180)
+    CoSep12=HubDist*asin(sqrt(Skr12squared))/sqrt(abs(OmegaK))
+  }
+  return(CoSep12)
+}
+
+cosdistAngDist12ang=function(z1 = 1, z2 = 2, ang = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM - OmegaR, OmegaR = 0, ref){
+  HubDist = (299792.458/H0)
+  z1 = as.numeric(z1)
+  z2 = as.numeric(z2)
+  if (!all(is.finite(z1))) {
+    stop("All z1 must be finite and numeric")
+  }
+  if (!all(is.finite(z2))) {
+    stop("All z2 must be finite and numeric")
+  }
+  if (!all(z1 > -1)) {
+    stop("All z1 must be > -1")
+  }
+  if (!all(z2 > -1)) {
+    stop("All z2 must be > -1")
+  }
+  if (!missing(ref)) {
+    params = .getcos(ref)
+    H0 = as.numeric(params["H0"])
+    OmegaM = as.numeric(params["OmegaM"])
+    OmegaL = as.numeric(params["OmegaL"])
+    if (!is.na(params["OmegaR"])) {
+      OmegaR = as.numeric(params["OmegaR"])
     }
-    if (!all(z2 > -1)) {
-        stop("All z2 must be > -1")
+  }
+  OmegaK = 1 - OmegaM - OmegaL - OmegaR
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
+    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {
+      1/sqrt(OmegaR * (1 + z)^4 + OmegaM * (1 + z)^3 + 
+               OmegaK * (1 + z)^2 + OmegaL)
     }
-    if (!missing(ref)) {
-        params = .getcos(ref)
-        H0 = as.numeric(params["H0"])
-        OmegaM = as.numeric(params["OmegaM"])
-        OmegaL = as.numeric(params["OmegaL"])
-        if (!is.na(params["OmegaR"])) {
-            OmegaR = as.numeric(params["OmegaR"])
-        }
+    rDist = integrate(Einv, 0, z, OmegaM = OmegaM, 
+                      OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, 
+                      subdivisions = 1000L)$value
+    return = rDist
+  }
+  rDist1 = Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
+  rDist2 = Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
+  if(OmegaK==0){
+    #k is 0
+    Skr12squared= rDist1^2+
+      rDist2^2-
+      2*rDist1*rDist2*cos(ang*pi/180)
+    CoSep12=HubDist*sqrt(Skr12squared)
+  }
+  if(OmegaK>0){
+    #k is -ve so use sinh and cosh
+    rDist1=rDist1*sqrt(abs(OmegaK))
+    rDist2=rDist2*sqrt(abs(OmegaK))
+    Skr12squared= sinh(rDist1)^2*cosh(rDist2)^2+
+      sinh(rDist2)^2*cosh(rDist1)^2-
+      sinh(rDist1)^2*sinh(rDist2)^2*sin(ang*pi/180)^2-
+      2*sinh(rDist1)*sinh(rDist2)*cosh(rDist1)*cosh(rDist2)*cos(ang*pi/180)
+    CoSep12=HubDist*asinh(sqrt(Skr12squared))/sqrt(abs(OmegaK))
+  }
+  if(OmegaK<0){
+    #k is +ve so use sin and cos
+    rDist1=rDist1*sqrt(abs(OmegaK))
+    rDist2=rDist2*sqrt(abs(OmegaK))
+    Skr12squared= sin(rDist1)^2*cos(rDist2)^2+
+      sin(rDist2)^2*cos(rDist1)^2+
+      sin(rDist1)^2*sin(rDist2)^2*sin(ang*pi/180)^2-
+      2*sin(rDist1)*sin(rDist2)*cos(rDist1)*cos(rDist2)*cos(ang*pi/180)
+    CoSep12=HubDist*asin(sqrt(Skr12squared))/sqrt(abs(OmegaK))
+  }
+  CoDiff=rDist2*HubDist+CoSep12
+  MaxCo=cosdistCoDist(1e5, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR)
+  if(CoDiff>MaxCo){
+    print('Objects not in common light cone!')
+    out=NA
+  }else{
+    zem=cosmapval(CoDiff,'CoDist',H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, zrange = c(0,1e5), out='z')
+    zeff=cosdistzeff(zref=z1,zem=zem)
+    out=CoSep12/(1+zeff)
+  }
+  return(out)
+}
+
+cosdistLumDist12ang=function(z1 = 1, z2 = 2, ang = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM - OmegaR, OmegaR = 0, ref){
+  HubDist = (299792.458/H0)
+  z1 = as.numeric(z1)
+  z2 = as.numeric(z2)
+  if (!all(is.finite(z1))) {
+    stop("All z1 must be finite and numeric")
+  }
+  if (!all(is.finite(z2))) {
+    stop("All z2 must be finite and numeric")
+  }
+  if (!all(z1 > -1)) {
+    stop("All z1 must be > -1")
+  }
+  if (!all(z2 > -1)) {
+    stop("All z2 must be > -1")
+  }
+  if (!missing(ref)) {
+    params = .getcos(ref)
+    H0 = as.numeric(params["H0"])
+    OmegaM = as.numeric(params["OmegaM"])
+    OmegaL = as.numeric(params["OmegaL"])
+    if (!is.na(params["OmegaR"])) {
+      OmegaR = as.numeric(params["OmegaR"])
     }
-    OmegaK = 1 - OmegaM - OmegaL - OmegaR
-    temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
-        Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {
-            1/sqrt(OmegaR * (1 + z)^4 + OmegaM * (1 + z)^3 + 
-                OmegaK * (1 + z)^2 + OmegaL)
-        }
-        rDist = integrate(Einv, 0, z, OmegaM = OmegaM, 
-            OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, 
-            subdivisions = 1000L)$value
-        return = rDist
+  }
+  OmegaK = 1 - OmegaM - OmegaL - OmegaR
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
+    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {
+      1/sqrt(OmegaR * (1 + z)^4 + OmegaM * (1 + z)^3 + 
+               OmegaK * (1 + z)^2 + OmegaL)
     }
-    rDist1 = Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, 
-        OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
-    rDist2 = Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, 
-        OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
-    if(OmegaK==0){
-      #k is 0
-      Skr12squared= rDist1^2+
-                    rDist2^2-
-                    2*rDist1*rDist2*cos(ang*pi/180)
-      CoSep12=HubDist*sqrt(Skr12squared)
-    }
-    if(OmegaK>0){
-      #k is -ve so use sinh and cosh
-      rDist1=rDist1*sqrt(abs(OmegaK))
-      rDist2=rDist2*sqrt(abs(OmegaK))
-      Skr12squared= sinh(rDist1)^2*cosh(rDist2)^2+
-                    sinh(rDist2)^2*cosh(rDist1)^2-
-                    sinh(rDist1)^2*sinh(rDist2)^2*sin(ang*pi/180)^2-
-                    2*sinh(rDist1)*sinh(rDist2)*cosh(rDist1)*cosh(rDist2)*cos(ang*pi/180)
-      CoSep12=HubDist*asinh(sqrt(Skr12squared))/sqrt(abs(OmegaK))
-    }
-    if(OmegaK<0){
-      #k is +ve so use sin and cos
-      rDist1=rDist1*sqrt(abs(OmegaK))
-      rDist2=rDist2*sqrt(abs(OmegaK))
-      Skr12squared= sin(rDist1)^2*cos(rDist2)^2+
-                    sin(rDist2)^2*cos(rDist1)^2+
-                    sin(rDist1)^2*sin(rDist2)^2*sin(ang*pi/180)^2-
-                    2*sin(rDist1)*sin(rDist2)*cos(rDist1)*cos(rDist2)*cos(ang*pi/180)
-      CoSep12=HubDist*asin(sqrt(Skr12squared))/sqrt(abs(OmegaK))
-    }
-    
-    return(CoSep12)
+    rDist = integrate(Einv, 0, z, OmegaM = OmegaM, 
+                      OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, 
+                      subdivisions = 1000L)$value
+    return = rDist
+  }
+  rDist1 = Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
+  rDist2 = Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
+  if(OmegaK==0){
+    #k is 0
+    Skr12squared= rDist1^2+
+      rDist2^2-
+      2*rDist1*rDist2*cos(ang*pi/180)
+    CoSep12=HubDist*sqrt(Skr12squared)
+  }
+  if(OmegaK>0){
+    #k is -ve so use sinh and cosh
+    rDist1=rDist1*sqrt(abs(OmegaK))
+    rDist2=rDist2*sqrt(abs(OmegaK))
+    Skr12squared= sinh(rDist1)^2*cosh(rDist2)^2+
+      sinh(rDist2)^2*cosh(rDist1)^2-
+      sinh(rDist1)^2*sinh(rDist2)^2*sin(ang*pi/180)^2-
+      2*sinh(rDist1)*sinh(rDist2)*cosh(rDist1)*cosh(rDist2)*cos(ang*pi/180)
+    CoSep12=HubDist*asinh(sqrt(Skr12squared))/sqrt(abs(OmegaK))
+  }
+  if(OmegaK<0){
+    #k is +ve so use sin and cos
+    rDist1=rDist1*sqrt(abs(OmegaK))
+    rDist2=rDist2*sqrt(abs(OmegaK))
+    Skr12squared= sin(rDist1)^2*cos(rDist2)^2+
+      sin(rDist2)^2*cos(rDist1)^2+
+      sin(rDist1)^2*sin(rDist2)^2*sin(ang*pi/180)^2-
+      2*sin(rDist1)*sin(rDist2)*cos(rDist1)*cos(rDist2)*cos(ang*pi/180)
+    CoSep12=HubDist*asin(sqrt(Skr12squared))/sqrt(abs(OmegaK))
+  }
+  CoDiff=rDist2*HubDist+CoSep12
+  MaxCo=cosdistCoDist(1e5, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR)
+  if(CoDiff>MaxCo){
+    print('Objects not in common light cone!')
+    out=NA
+  }else{
+    zem=cosmapval(CoDiff,'CoDist',H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, zrange = c(0,1e5), out='z')
+    zeff=cosdistzeff(zref=z1,zem=zem)
+    out=CoSep12*(1+zeff)
+  }
+  return(out)
+}
+
+cosdistzeff=function(zref=1,zem=2){
+   if (!all(zref > -1)) {
+        stop("All zref must be > -1")
+  }
+  if (!all(zem > -1)) {
+        stop("All zem must be > -1")
+  }
+  return((1+zem)/(1+zref)-1)
 }

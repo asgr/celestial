@@ -17,6 +17,10 @@
 \alias{cosdistTravelTime}
 \alias{cosdistRelError}
 \alias{cosdistCrit}
+\alias{cosdistCoDist12ang}
+\alias{cosdistLumDist12ang}
+\alias{cosdistAngDist12ang}
+\alias{cosdistzeff}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Cosmological distance calculations
@@ -28,6 +32,7 @@ These functions allows comoving, angular size and luminosity distances to be cal
 cosdist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, age=FALSE,
 ref, error=FALSE)
 cosdistz(z=1)
+cosdistzeff(zref = 1, zem = 2)
 cosdista(z=1)
 cosdistCoDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
 cosdistLumDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
@@ -36,6 +41,10 @@ cosdistAngDist12(z1=1, z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
 cosdistCoDistTran(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
 cosdistCoDist12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
 OmegaR=0, ref) 
+cosdistLumDist12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
+OmegaR=0, ref)
+cosdistAngDist12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
+OmegaR=0, ref)
 cosdistDistMod(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
 cosdistAngSize(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
 cosdistCoVol(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
@@ -78,6 +87,12 @@ ref)
   }
   \item{z2}{
     Redshift for object 2, where z2 must be > -1 (can be a vector) and greater than z1.
+  }
+  \item{zref}{
+    Redshift for the reference object, i.e. the object that we caste as the observer of another object at zem.
+  }
+  \item{zem}{
+    Redshift for the emitting  object, i.e. the object that we caste as being observed by another object at zref.
   }
   \item{z_lens}{
     Redshift, where z_lens must be > -1 (can be a vector) and z_lens < z_source.
@@ -125,7 +140,9 @@ The outputs of the standalone functions are:
 
 \item{cosdistz}{Returns the input redshift (only included for clarity).}
 
-\item{cosdista}{Returns the Universe expansion factor, as given by a=1/(1+z).}
+\item{cosdistzeff}{Returns the apparent redshift that the object at zref will observe the object at zem for the Universe age that zref is observed to have now. This is given by \eqn{(1+zem)/(1+zref)}{(1+zem)/(1+zref)}.}
+
+\item{cosdista}{Returns the Universe expansion factor, as given by \eqn{a=1/(1+z)}{a=1/(1+z)}.}
 
 \item{cosdistCoDist}{Returns the line-of-sight (i.e. radial) comoving distance in units of Mpc.}
 
@@ -137,7 +154,11 @@ The outputs of the standalone functions are:
 
 \item{cosdistCoDistTran}{Returns the transverse comoving distance in units of Mpc.}
 
-\item{cosdistCoDist12ang}{Returns the total comoving diameter distance in units of Mpc between objects at \option{z1} and \option{z2} with a separation \option{ang}. This works for curved cosmologies (i.e. OmegaK!=0) and for large radial and tangential separations. For small separations at a certain value of z for both objects the result is very similar to cosdistCoDistTran(z)*sin(ang*pi/180). This function was mostly extracted from Eqn 3.19 in Peacock (1999).}
+\item{cosdistCoDist12ang}{Returns the total comoving distance in units of Mpc between objects at \option{z1} and \option{z2} with a separation \option{ang}. This works for curved cosmologies (i.e. OmegaK!=0) and for large radial and tangential separations. For small separations at a certain value of z for both objects the result is very similar to cosdistCoDistTran(z)*sin(ang*pi/180). This function was mostly extracted from Eqn 3.19 in Peacock (1999).}
+
+\item{cosdistLumDist12ang}{Returns the total luminosity distance in units of Mpc between objects at \option{z1} and \option{z2} with a separation \option{ang}. This is equal to cosdistCoDist12ang*(1+zeff), where zeff is the apparent redshift that the object at z1 will observe the object at z2 for the Universe age that z1 is observed to have now. See \code{cosdistCoDist12ang} for details.}
+
+\item{cosdistAngDist12ang}{Returns the total angular diameter distance in units of Mpc between objects at \option{z1} and \option{z2} with a separation \option{ang}. This is equal to cosdistCoDist12ang/(1+zeff), where zeff is the apparent redshift that the object at z1 will observe the object at z2 for the Universe age that z1 is observed to have now. See \code{cosdistCoDist12ang} for details.}
 
 \item{cosdistDistMod}{Returns the distance modulus used where AbsMag = ApMag - DistMod, and DistMod = 5log10(LumDist)+25 in units of mag.}
 
