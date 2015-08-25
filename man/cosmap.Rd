@@ -10,10 +10,11 @@ Functions for mapping from one arbitrary csomological parameter to another. This
 }
 \usage{
 cosmapval(val=50, cosparam="CoVol", H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0,
-Sigma8=0.8, fSigma8=FALSE, zrange=c(-0.99,100), res=100, iter=8, out='cos', degen='lo',
-ref)
+w0=-1, wprime=0, Sigma8=0.8, fSigma8=FALSE, zrange=c(-0.99,100), res=100, iter=8,
+out='cos', degen='lo', ref)
 cosmapfunc(cosparamx="CoVol", cosparamy="z", H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, Sigma8=0.8, fSigma8=FALSE, zrange=c(0,20), step='z', res=100, degen='lo', ref)
+OmegaR=0, w0=-1, wprime=0, Sigma8=0.8, fSigma8=FALSE, zrange=c(0,20), step='z', res=100,
+degen='lo', ref)
 }
 
 \arguments{
@@ -40,6 +41,12 @@ Cosmological parameter, must be one of: z, a, CoDist, LumDist, AngDist, CoDistTr
   }
   \item{OmegaR}{
     Omega Radiation (default is 0, but OmegaM/3400 is typical).
+  }
+  \item{w0}{
+    The value of dark energy equation of state at z=0. See \code{\link{cosgrow}} for more details.
+  }
+  \item{wprime}{
+    The evolution term that governs how the dark energy equation of state evolves with redshift. See \code{\link{cosgrow}} for more details.
   }
   \item{Sigma8}{
     The value of Sigma8 to use if fsigma8=TRUE (by default this is a reasonable 0.8 for simplicity).

@@ -8,32 +8,38 @@ Cosmological volume calculator
 Given the sky area, two redshifts and the cosmology, this function calculates the comoving volume.
 }
 \usage{
-cosvol(area = 60, zmax = 1, zmin = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM-OmegaR,
-OmegaR=0, inunit = "deg2", ref)
+cosvol(area=60, zmax=1, zmin=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0,
+w0=-1, wprime=0, inunit = "deg2", ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{area}{
     Sky area in units of innunit (default is square degrees)
-}
+  }
   \item{zmax}{
     Maximum redshift of comoving cone.
-}
+  }
   \item{zmin}{
     Minimum redshift of comoving cone.
-}
+  }
   \item{H0}{
     Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc)
-}
+  }
   \item{OmegaM}{
     Omega Matter (default is 0.3).
-}
+  }
   \item{OmegaL}{
     Omega Lambda (default is for a flat Universe with OmegaL = 1-OmegaM-OmegaR = 0.7).
-}
+  }
   \item{OmegaR}{
     Omega Radiation (default is 0, but OmegaM/3400 is typical).
-}
+  }
+  \item{w0}{
+    The value of dark energy equation of state at z=0. See \code{\link{cosgrow}} for more details.
+  }
+  \item{wprime}{
+    The evolution term that governs how the dark energy equation of state evolves with redshift. See \code{\link{cosgrow}} for more details.
+  }
   \item{inunit}{
     The units of angular area provided. Allowed options are deg2 for square degrees, amin2 for square arc minutes, asec2 for square arc seconds and rad2 or sr for steradians.
 }

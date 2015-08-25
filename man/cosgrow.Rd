@@ -6,6 +6,7 @@
 \alias{cosgrowOmegaL}
 \alias{cosgrowOmegaR}
 \alias{cosgrowOmegaK}
+\alias{cosgrowDecelq}
 \alias{cosgrowH}
 \alias{cosgrowFactor}
 \alias{cosgrowRate}
@@ -15,6 +16,8 @@
 \alias{cosgrowSigma8Approx}
 \alias{cosgrowRhoCrit}
 \alias{cosgrowRhoMean}
+\alias{cosgrowEoSwDE}
+\alias{cosgrowRhoDE}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Cosmological growth and evolution calculations
@@ -23,28 +26,35 @@
   These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaR+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified and OmegaR=0 (so no radiation pressure at any epoch).
 }
 \usage{
-  cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Sigma8=0.8,
-  fSigma8=FALSE, Dist='Co',
+  cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1, wprime = 0,
+  Sigma8=0.8, fSigma8=FALSE, Dist='Co',
   Mass='Msun', ref)
   cosgrowz(z = 1)
   cosgrowa(z = 1)
-  cosgrowH(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-  cosgrowOmegaM(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-  cosgrowOmegaL(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-  cosgrowOmegaR(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-  cosgrowOmegaK(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-  cosgrowFactor(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-  cosgrowRate(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8,
-  fSigma8=FALSE, ref)
-  cosgrowSigma8(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, ref)
-  cosgrowFactorApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM, ref)
-  cosgrowRateApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8,
-  fSigma8=FALSE, ref)
-  cosgrowSigma8Approx(z=1, OmegaM=0.3, OmegaL=1-OmegaM, Sigma8=0.8, ref)
-  cosgrowRhoCrit(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Dist='Co',
-  Mass='Msun', ref)
-  cosgrowRhoMean(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Dist='Co',
-  Mass='Msun', ref)
+  cosgrowH(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0,
+  ref)
+  cosgrowOmegaM(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref)
+  cosgrowOmegaL(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref)
+  cosgrowOmegaR(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref)
+  cosgrowOmegaK(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref)
+  cosgrowDecelq(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref)
+  cosgrowEoSwDE(z=1, w0=-1, wprime=0)
+  cosgrowRhoDE(z=1,w0=-1, wprime=0, rhoDE=1)
+  cosgrowFactor(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref)
+  cosgrowRate(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0,
+  Sigma8=0.8, fSigma8=FALSE, ref)
+  cosgrowSigma8(z=1, OmegaM=0.3,OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0,
+  Sigma8=0.8, ref)
+  cosgrowFactorApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0,
+  ref)
+  cosgrowRateApprox(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0,
+  Sigma8=0.8, fSigma8=FALSE, ref)
+  cosgrowSigma8Approx(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0,
+  Sigma8=0.8, ref)
+  cosgrowRhoCrit(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1,
+  wprime=0, Dist='Co', Mass='Msun', ref)
+  cosgrowRhoMean(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1,
+  wprime=0, Dist='Co', Mass='Msun', ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -62,6 +72,15 @@
   }
   \item{OmegaR}{
     Omega Radiation (default is 0, but ~OmegaM/3400 is typical).
+  }
+  \item{w0}{
+    The value of dark energy equation of state at z=0.
+  }
+  \item{wprime}{
+    The evolution term that governs how the dark energy equation of state evolves with redshift.
+  }
+  \item{rhoDE}{
+    The z=0 reference energy density for dark energy.
   }
   \item{Sigma8}{
     The value of Sigma8 to use if fsigma8=TRUE (by default this is a reasonable 0.8 for simplicity).
@@ -96,11 +115,12 @@ OmegaM  \tab Omega Matter\cr
 OmegaL  \tab Omega Lambda\cr
 OmegaR  \tab Omega Radiation\cr
 OmegaK  \tab Omega K(c)urvature\cr
+Decelq  \tab Traditional deceleration parameter q\cr
 Factor  \tab Exact growth factor (g, see cosgrowFactor below for details)\cr
 Rate    \tab Exact growth rate (f or f*Sigma8, see cosgrowRate below for details)\cr
 Sigma8  \tab Power spectrum fluctuation amplitude on the scale 8 Mpc/z\cr
-RhoCrit \tab Critical energy density of the Universe at z [3H(z)^2/8.pi.G], in units of Msol/Mpc^3\cr
-RhoMean \tab Mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in units of Msol/Mpc^3\cr
+RhoCrit \tab Critical energy density of the Universe at z, where \eqn{\rho_{crit}=(3.H(z)^2)/(8.\pi.G)}{RhoCrit=(3.H(z)^2)/(8.pi.G)}, in units of \eqn{M_{\odot}/Mpc^3}{Msol/Mpc^3}\cr
+RhoMean \tab Mean mass density of the Universe at z, where \eqn{\rho_{mean}=\rho_{crit}.\Omega_{M}(z)}{RhoMean=RhoCrit.OmegaM(z)}, in units of \eqn{M_{\odot}/Mpc^3}{Msol/Mpc^3}\cr
 }
 
 The outputs of the standalone functions are:
@@ -119,6 +139,12 @@ The outputs of the standalone functions are:
   
   \item{cosgrowOmegaK}{Returns the value of Omega K(c)urvature at z.}
   
+  \item{cosgrowDecelq}{Returns the traditional deceleration parameter q, given by q=OmegaM/2+Omegar-OmegaL.}
+  
+  \item{cosgrowEoSwDE}{Returns w for the dark energy equation of state, where \eqn{P=w.\rho_{DE}.c^2}{P=w.rho.c^2} and \eqn{w=w_0+2.w'.(1-1/(1+z))}{w=w[0]+2.w'.(1-1/(1+z))}, as described in Wright (2006).}
+  
+  \item{cosgrowRhoDE}{Returns the energy density for dark energy, given by \eqn{\rho_{DE}.e^{-6.w'.(1-1/(1 + z))}/(1 + z)^{-(3 + 3.w_0 + 6.w')}}{RhoDE.e^{-6.w'.(1-1/(1 + z))}/(1 + z)^{-(3 + 3.w_0 + 6.w')}}, as described in Wright (2006)..}
+  
   \item{cosgrowFactor}{Returns the exact value of the growth factor (typically referred to as 'g' in the astronomy literature), at z.}
   
   \item{cosgrowRate}{Returns either the true (typically referred to as 'f' in the astronomy literature) or RSD type (f*Sigma8) value of the growth rate of structure, at z.}
@@ -131,14 +157,16 @@ The outputs of the standalone functions are:
   
   \item{cosgrowSigma8Approx}{Returns the approximate power spectrum fluctuation amplitude on the scale 8 Mpc/z at z, and is unitless.}
   
-  \item{cosgrowRhoCrit}{Returns the critical energy density of the Universe at z [3H(z)^2/8.pi.G], in units of Msol/Mpc^3.}
+  \item{cosgrowRhoCrit}{Returns the critical energy density of the Universe at z, where \eqn{\rho_{crit}=(3.H(z)^2)/(8.\pi.G)}{RhoCrit=(3.H(z)^2)/(8.pi.G)}, in units of \eqn{M_{\odot}/Mpc^3}{Msol/Mpc^3}.}
   
-  \item{cosgrowRhoMean}{Returns the mean mass density of the Universe at z [RhoCrit.OmegaM(z)], in units of Msol/Mpc^3.}
+  \item{cosgrowRhoMean}{Returns the mean mass density of the Universe at z, where \eqn{\rho_{mean}=\rho_{crit}.\Omega_{M}(z)}{RhoMean=RhoCrit.OmegaM(z)}, in units of \eqn{M_{\odot}/Mpc^3}{Msol/Mpc^3}.}
 }
 \note{
   The difference between RhoCrit and RhoMean at z=0 is simply RhoMean=RhoCrit*OmegaM. Corrected for 1/(1+z)^3 RhoMean stays constant with redshift (as it should- to first order we do not gain or lose mass within a comovoing volume).
   
   The growth rate and growth factor does not make use of OmegaR in the cosgrow function, hence OmegaR cannot be provided in the individual functions. This is because correctly accounting for the effect of radiation pressure before the surface of last scattering (z~1100) on teh growth rate of structure is highly complex, and beyodn the scope of this calculator. In the case of cosgrow, even if OmegaR is specified it is, in effect, set to zero when making growth factor and rate calculations.
+  
+  The evolution of the dark matter equation of state (w) is parameterised as described in Wright (2006).
 }
 \references{
   Based on the equations in:
@@ -146,6 +174,8 @@ The outputs of the standalone functions are:
   Hamilton A.J.S., 2001, MNRAS 322 419
   
   Lahav O., et al., 1991, MNRAS, 251, 136
+  
+  Wright E.L., 2006, PASP, 118, 1711
 }
 \author{
   Aaron Robotham
@@ -165,6 +195,8 @@ The outputs of the standalone functions are:
   cosgrowOmegaL(0.3)
   cosgrowOmegaK(0.3)
   sum(cosgrowOmegaM(0.3)+cosgrowOmegaL(0.3)+cosgrowOmegaK(0.3)) #Still 1.
+  cosgrowDecelq(0.3)
+  cosgrowEoSwDE(0.3)
   cosgrowFactor(0.3)
   cosgrowFactorApprox(0.3) #Approximation better than 1% for reasonable cosmologies.
   cosgrowRate(0.3)

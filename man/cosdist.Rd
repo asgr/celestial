@@ -29,32 +29,44 @@ Cosmological distance calculations
 These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified.
 }
 \usage{
-cosdist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, age=FALSE,
-ref, error=FALSE)
+cosdist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1, wprime = 0,
+age=FALSE, ref, error=FALSE)
 cosdistz(z=1)
 cosdistzeff(zref = 1, zem = 2)
 cosdista(z=1)
-cosdistCoDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-cosdistLumDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-cosdistAngDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-cosdistAngDist12(z1=1, z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-cosdistCoDistTran(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+cosdistCoDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
+wprime = 0, ref)
+cosdistLumDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
+wprime = 0, ref)
+cosdistAngDist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
+wprime = 0, ref)
+cosdistAngDist12(z1=1, z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0,
+w0 = -1, wprime = 0, ref)
+cosdistCoDistTran(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
+wprime = 0, ref)
 cosdistCoDist12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, ref) 
+OmegaR=0, w0 = -1, wprime = 0, ref) 
 cosdistLumDist12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, ref)
+OmegaR=0, w0 = -1, wprime = 0, ref)
 cosdistAngDist12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, ref)
-cosdistDistMod(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-cosdistAngSize(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-cosdistCoVol(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
+OmegaR=0, w0 = -1, wprime = 0, ref)
+cosdistDistMod(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
+wprime = 0, ref)
+cosdistAngSize(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
+wprime = 0, ref)
+cosdistCoVol(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
+wprime = 0, ref)
 cosdistHubTime(H0=100)
-cosdistUniAgeNow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-cosdistUniAgeAtz(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-cosdistTravelTime(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-cosdistRelError(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
-cosdistCrit(z_lens=1, z_source=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0,
+cosdistUniAgeNow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
+wprime = 0, ref)
+cosdistUniAgeAtz(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
+wprime = 0, ref)
+cosdistTravelTime(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
+wprime = 0, ref)
+cosdistRelError(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1, wprime = 0,
 ref)
+cosdistCrit(z_lens=1, z_source=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0,
+w0 = -1, wprime = 0, ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -72,6 +84,12 @@ ref)
   }
   \item{OmegaR}{
     Omega Radiation (default is 0, but OmegaM/3400 is typical).
+  }
+  \item{w0}{
+    The value of dark energy equation of state at z=0. See \code{\link{cosgrow}} for more details.
+  }
+  \item{wprime}{
+    The evolution term that governs how the dark energy equation of state evolves with redshift. See \code{\link{cosgrow}} for more details.
   }
   \item{age}{
     Flag for cosdist function to return age or not- this slows calculation, so is by default turned off.
@@ -144,7 +162,7 @@ The outputs of the standalone functions are:
 
 \item{cosdista}{Returns the Universe expansion factor, as given by \eqn{a=1/(1+z)}{a=1/(1+z)}.}
 
-\item{cosdistCoDist}{Returns the line-of-sight (i.e. radial) comoving distance in units of Mpc.}
+\item{cosdistCoDist}{Returns the line-of-sight (i.e. radial) comoving distance in units of Mpc. For a flat Universe (OmegaK=0) this is exactly the samething as the transverse comoving distance, and by extension it is also the proper motion distance.}
 
 \item{cosdistLumDist}{Returns the luminosity distance in units of Mpc.}
 
@@ -152,7 +170,7 @@ The outputs of the standalone functions are:
 
 \item{cosdistAngDist12}{Returns the radial angular diameter distance separation in units of Mpc between objects at \option{z1} and \option{z2} that have small angular separations on sky.}
 
-\item{cosdistCoDistTran}{Returns the transverse comoving distance in units of Mpc.}
+\item{cosdistCoDistTran}{Returns the transverse comoving distance in units of Mpc. This is equivilant to the proper motion distance for all values of Universe curvature (OmegaK !=0), and is the same thing as the line-of-sight comoving distance for a flat Universe (OmegaK=0).}
 
 \item{cosdistCoDist12ang}{Returns the total comoving distance in units of Mpc between objects at \option{z1} and \option{z2} with a separation \option{ang}. This works for curved cosmologies (i.e. OmegaK!=0) and for large radial and tangential separations. For small separations at a certain value of z for both objects the result is very similar to cosdistCoDistTran(z)*sin(ang*pi/180). This function was mostly extracted from Eqn 3.19 in Peacock (1999).}
 

@@ -7,7 +7,15 @@
   return(out)
 }
 
-cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, age=FALSE, ref, error=FALSE){
+.Einv=function(z, OmegaM, OmegaL, OmegaR, OmegaK, w0=-1, wprime=0){
+  return(1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1)))
+}
+
+.Einvz=function(z, OmegaM, OmegaL, OmegaR, OmegaK, w0=-1, wprime=0){
+  return(1/(sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1)) * (1 + z)))
+}
+
+cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, age=FALSE, ref, error=FALSE){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -19,15 +27,9 @@ cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, age=
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
-  Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
-  if(age){
-    Einvz = function(z, OmegaM, OmegaL, OmegaR, OmegaK){
-      1/(sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))
-    }
-  }
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0=w0, wprime=wprime) {
     HubDist = (299792.458/H0)
-    temp = suppressWarnings(integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L))
+    temp = suppressWarnings(integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0, wprime, subdivisions = 1000L))
     CoDist = HubDist * temp$value
     if(error){
       if(z>0){
@@ -37,48 +39,48 @@ cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, age=
       }
     }
     
-      if(OmegaK==0){
-        CoDistTran = CoDist
-        CoVol = ((4/3) * pi * CoDist^3)/1e9
-      }else{
-        if(OmegaK>0){
-          CoDistTran = HubDist*(1/sqrt(OmegaK))*sinh(sqrt(OmegaK)*CoDist/HubDist)
-          CoVol = ((4*pi*HubDist^3/(2*OmegaK))*((CoDistTran/HubDist)*sqrt(1+OmegaK*(CoDistTran/HubDist)^2)-(1/sqrt(abs(OmegaK)))*asinh(sqrt(abs(OmegaK))*(CoDistTran/HubDist))))/1e9
-        }
-        if(OmegaK<0){
-          CoDistTran = HubDist*(1/sqrt(abs(OmegaK)))*sin(sqrt(abs(OmegaK))*CoDist/HubDist)
-          CoVol = ((4*pi*HubDist^3/(2*OmegaK))*((CoDistTran/HubDist)*sqrt(1+OmegaK*(CoDistTran/HubDist)^2)-(1/sqrt(abs(OmegaK)))*asin(sqrt(abs(OmegaK))*(CoDistTran/HubDist))))/1e9
-        }
+    if(OmegaK==0){
+      CoDistTran = CoDist
+      CoVol = ((4/3) * pi * CoDist^3)/1e9
+    }else{
+      if(OmegaK>0){
+        CoDistTran = HubDist*(1/sqrt(OmegaK))*sinh(sqrt(OmegaK)*CoDist/HubDist)
+        CoVol = ((4*pi*HubDist^3/(2*OmegaK))*((CoDistTran/HubDist)*sqrt(1+OmegaK*(CoDistTran/HubDist)^2)-(1/sqrt(abs(OmegaK)))*asinh(sqrt(abs(OmegaK))*(CoDistTran/HubDist))))/1e9
       }
-      
-      a=1/(1+z)
-      LumDist = (1+z)*CoDistTran
-      AngDist = CoDistTran/(1+z)
-      if(z>=0){DistMod = 5*log10(LumDist)+25}else{DistMod=NA}
-      AngSize = AngDist*(pi/(180*60*60))*1000
-      
-      if (age) {
-        HT = (3.08568025e+19/(H0*31556926))/1e9
-        UniAge = HT*integrate(Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
-        zAge = HT*integrate(Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
-      }
-      if(error){
-        if (age) {
-          return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol, HubTime = HT, UniAgeNow = UniAge, UniAgeAtz = UniAge - zAge, TravelTime = zAge, RelError=RelError)
-        }
-        else {
-          return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol, RelError=RelError)
-        }
-      }else{
-        if (age) {
-          return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol, HubTime = HT, UniAgeNow = UniAge, UniAgeAtz = UniAge - zAge, TravelTime = zAge)
-        }
-        else {
-          return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol)
-        }
+    if(OmegaK<0){
+        CoDistTran = HubDist*(1/sqrt(abs(OmegaK)))*sin(sqrt(abs(OmegaK))*CoDist/HubDist)
+        CoVol = ((4*pi*HubDist^3/(2*OmegaK))*((CoDistTran/HubDist)*sqrt(1+OmegaK*(CoDistTran/HubDist)^2)-(1/sqrt(abs(OmegaK)))*asin(sqrt(abs(OmegaK))*(CoDistTran/HubDist))))/1e9
       }
     }
-    return(as.data.frame(t(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK))))
+      
+    a=1/(1+z)
+    LumDist = (1+z)*CoDistTran
+    AngDist = CoDistTran/(1+z)
+    if(z>=0){DistMod = 5*log10(LumDist)+25}else{DistMod=NA}
+    AngSize = AngDist*(pi/(180*60*60))*1000
+      
+    if (age) {
+      HT = (3.08568025e+19/(H0*31556926))/1e9
+      UniAge = HT*integrate(.Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
+      zAge = HT*integrate(.Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
+    }
+    if(error){
+      if (age) {
+        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol, HubTime = HT, UniAgeNow = UniAge, UniAgeAtz = UniAge - zAge, TravelTime = zAge, RelError=RelError)
+      }
+      else {
+        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol, RelError=RelError)
+      }
+    }else{
+      if (age) {
+        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol, HubTime = HT, UniAgeNow = UniAge, UniAgeAtz = UniAge - zAge, TravelTime = zAge)
+      }
+      else {
+        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol)
+      }
+    }
+  }
+  return(as.data.frame(t(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))))
 }
 
 cosdistz=function(z = 1){
@@ -95,7 +97,7 @@ cosdista=function(z = 1){
   return(1/(1 + z))
 }
 
-cosdistCoDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+cosdistCoDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -107,16 +109,15 @@ cosdistCoDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
-    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
+    CoDist = HubDist * integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     return=CoDist
   }
-  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK))
+  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
-cosdistCoDistTran=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+cosdistCoDistTran=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -128,10 +129,9 @@ cosdistCoDistTran=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, Omeg
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
-    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
+    CoDist = HubDist * integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     if(OmegaK==0){
       CoDistTran = CoDist
     }else{
@@ -144,10 +144,10 @@ cosdistCoDistTran=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, Omeg
     }
     return=CoDistTran
   }
-  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK))
+  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
-cosdistLumDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+cosdistLumDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -159,10 +159,10 @@ cosdistLumDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
-    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
+    
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
+    CoDist = HubDist * integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     if(OmegaK==0){
       CoDistTran = CoDist
     }else{
@@ -176,10 +176,10 @@ cosdistLumDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
     LumDist = (1+z) * CoDistTran
     return=LumDist
   }
-  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK))
+  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
-cosdistAngDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+cosdistAngDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -191,10 +191,10 @@ cosdistAngDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
-    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
+    
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
+    CoDist = HubDist * integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     if(OmegaK==0){
       CoDistTran = CoDist
     }else{
@@ -208,10 +208,10 @@ cosdistAngDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
     AngDist = CoDistTran / (1 + z)
     return=AngDist
   }
-  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK))
+  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
-cosdistDistMod=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+cosdistDistMod=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -223,10 +223,10 @@ cosdistDistMod=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
-    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
+    
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
+    CoDist = HubDist * integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     if(OmegaK==0){
       CoDistTran = CoDist
     }else{
@@ -240,10 +240,10 @@ cosdistDistMod=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
     if(z>=0){DistMod = 5*log10(CoDistTran*(1+z))+25}else{DistMod=NA}
     return=DistMod
   }
-  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK))
+  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
-cosdistAngSize=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+cosdistAngSize=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -255,10 +255,10 @@ cosdistAngSize=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
-    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
+    
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
+    CoDist = HubDist * integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     if(OmegaK==0){
       CoDistTran = CoDist
     }else{
@@ -272,10 +272,10 @@ cosdistAngSize=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
     AngSize = (CoDistTran / (1 + z)) * (pi/(180 * 60 * 60)) * 1000
     return=AngSize
   }
-  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK))
+  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
-cosdistCoVol=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+cosdistCoVol=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -287,10 +287,10 @@ cosdistCoVol=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0,
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
-    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
+    
     HubDist = (299792.458/H0)
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
+    CoDist = HubDist * integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     if(OmegaK==0){
       CoDistTran = CoDist
       CoVol = ((4/3) * pi * CoDist^3)/1e9
@@ -306,10 +306,10 @@ cosdistCoVol=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0,
     }
     return=CoVol
   }
-  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK))
+  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
-cosdistUniAgeNow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+cosdistUniAgeNow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -321,16 +321,15 @@ cosdistUniAgeNow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, Omega
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
-  Einvz = function(z, OmegaM, OmegaL, OmegaR, OmegaK){1/(sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     HT = (3.08568025e+19/(H0 * 31556926))/1e9
-    UniAge = HT * integrate(Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
+    UniAge = HT * integrate(.Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     return=UniAge
   }
-  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK))
+  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
-cosdistUniAgeAtz=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+cosdistUniAgeAtz=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
   if(!missing(ref)){
@@ -341,17 +340,16 @@ cosdistUniAgeAtz=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, Omega
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
-  Einvz = function(z, OmegaM, OmegaL, OmegaR, OmegaK){1/(sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     HT = (3.08568025e+19/(H0 * 31556926))/1e9
-    UniAge = HT * integrate(Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
-    zAge = HT * integrate(Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
+    UniAge = HT * integrate(.Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
+    zAge = HT * integrate(.Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     return=UniAge-zAge
   }
-  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK))
+  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
-cosdistTravelTime=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+cosdistTravelTime=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -363,20 +361,19 @@ cosdistTravelTime=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, Omeg
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
-  Einvz = function(z, OmegaM, OmegaL, OmegaR, OmegaK){1/(sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL) * (1 + z))}
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     HT = (3.08568025e+19/(H0 * 31556926))/1e9
-    zAge = HT * integrate(Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
+    zAge = HT * integrate(.Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     return=zAge
   }
-  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK))
+  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
 cosdistHubTime=function(H0 = 100){
  return((3.08568025e+19/(H0 * 31556926))/1e9)
 }
 
-cosdistRelError=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+cosdistRelError=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -388,9 +385,8 @@ cosdistRelError=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
-  temp = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {
-    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
-    temp = integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)
+  temp = function(z, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
+    temp = integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)
       if(z>0){
         RelError = abs(temp$abs.error/temp$value)
       }else{
@@ -398,10 +394,10 @@ cosdistRelError=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
       }
     return=RelError
   }
-  return(Vectorize(temp)(z = z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK))
+  return(Vectorize(temp)(z = z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
-cosdistAngDist12=function(z1=1,z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+cosdistAngDist12=function(z1=1,z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   HubDist = (299792.458/H0)
   z1=as.numeric(z1)
   z2=as.numeric(z2)
@@ -418,9 +414,8 @@ cosdistAngDist12=function(z1=1,z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
   if(OmegaK<0){stop('OmegaK must be >=0 to use this function!')}
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
-    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL)}
-    CoDist = HubDist * integrate(Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, subdivisions = 1000L)$value
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
+    CoDist = HubDist * integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     if(OmegaK==0){
       CoDistTran = CoDist
     }else{
@@ -433,13 +428,13 @@ cosdistAngDist12=function(z1=1,z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
     }
     return=CoDistTran
   }
-  CoDistTran1=Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
-  CoDistTran2=Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
+  CoDistTran1=Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
+  CoDistTran2=Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
   AngDist12=(1/(1+z2))*(CoDistTran2*sqrt(1+OmegaK*CoDistTran1^2/HubDist^2) - CoDistTran1*sqrt(1+OmegaK*CoDistTran2^2/HubDist^2))
   return(AngDist12)
 }
 
-cosdistCrit=function(z_lens=1, z_source=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+cosdistCrit=function(z_lens=1, z_source=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   #if(any(z_lens>z_source)){stop('All z_lens must be less than z_source!')}
   c=299792458
   G=6.67384e-11
@@ -447,15 +442,15 @@ cosdistCrit=function(z_lens=1, z_source=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-O
   pc_to_m=3.08568e16
   g = G*msol_to_kg/(pc_to_m)
   g = g/1e6 #Get into Mpc units
-  Dl=cosdistAngDist(z=z_lens, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
-  Ds=cosdistAngDist(z=z_source, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
-  Dls=cosdistAngDist12(z1=z_lens, z2=z_source, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
+  Dl=cosdistAngDist(z=z_lens, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, w0=w0, wprime=wprime, ref=ref)
+  Ds=cosdistAngDist(z=z_source, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, w0=w0, wprime=wprime, ref=ref)
+  Dls=cosdistAngDist12(z1=z_lens, z2=z_source, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, w0=w0, wprime=wprime, ref=ref)
   SigmaC=(c^2/(4*pi*g))*(Ds/(Dl*Dls))
   SigmaC[z_lens>=z_source]=0
   return(SigmaC)
 }
 
-cosdistCoDist12ang=function(z1 = 1, z2 = 2, ang = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM - OmegaR, OmegaR = 0, ref){
+cosdistCoDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   HubDist = (299792.458/H0)
   z1 = as.numeric(z1)
   z2 = as.numeric(z2)
@@ -481,20 +476,12 @@ cosdistCoDist12ang=function(z1 = 1, z2 = 2, ang = 0, H0 = 100, OmegaM = 0.3, Ome
     }
   }
   OmegaK = 1 - OmegaM - OmegaL - OmegaR
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
-    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {
-      1/sqrt(OmegaR * (1 + z)^4 + OmegaM * (1 + z)^3 + 
-               OmegaK * (1 + z)^2 + OmegaL)
-    }
-    rDist = integrate(Einv, 0, z, OmegaM = OmegaM, 
-                      OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, 
-                      subdivisions = 1000L)$value
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
+    rDist = integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     return = rDist
   }
-  rDist1 = Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, 
-                           OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
-  rDist2 = Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, 
-                           OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
+  rDist1 = Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
+  rDist2 = Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
   if(OmegaK==0){
     #k is 0
     Skr12squared= rDist1^2+
@@ -525,7 +512,7 @@ cosdistCoDist12ang=function(z1 = 1, z2 = 2, ang = 0, H0 = 100, OmegaM = 0.3, Ome
   return(CoSep12)
 }
 
-cosdistAngDist12ang=function(z1 = 1, z2 = 2, ang = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM - OmegaR, OmegaR = 0, ref){
+cosdistAngDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   HubDist = (299792.458/H0)
   z1 = as.numeric(z1)
   z2 = as.numeric(z2)
@@ -551,18 +538,12 @@ cosdistAngDist12ang=function(z1 = 1, z2 = 2, ang = 0, H0 = 100, OmegaM = 0.3, Om
     }
   }
   OmegaK = 1 - OmegaM - OmegaL - OmegaR
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
-    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {
-      1/sqrt(OmegaR * (1 + z)^4 + OmegaM * (1 + z)^3 + 
-               OmegaK * (1 + z)^2 + OmegaL)
-    }
-    rDist = integrate(Einv, 0, z, OmegaM = OmegaM, 
-                      OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, 
-                      subdivisions = 1000L)$value
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
+    rDist = integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     return = rDist
   }
-  rDist1 = Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
-  rDist2 = Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
+  rDist1 = Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
+  rDist2 = Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
   if(OmegaK==0){
     #k is 0
     Skr12squared= rDist1^2+
@@ -591,19 +572,19 @@ cosdistAngDist12ang=function(z1 = 1, z2 = 2, ang = 0, H0 = 100, OmegaM = 0.3, Om
     CoSep12=HubDist*asin(sqrt(Skr12squared))/sqrt(abs(OmegaK))
   }
   CoDiff=rDist2*HubDist+CoSep12
-  MaxCo=cosdistCoDist(1e5, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR)
+  MaxCo=cosdistCoDist(1e5, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, w0=w0, wprime=wprime)
   if(CoDiff>MaxCo){
     print('Objects not in common light cone!')
     out=NA
   }else{
-    zem=cosmapval(CoDiff,'CoDist',H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, zrange = c(0,1e5), out='z')
+    zem=cosmapval(CoDiff, 'CoDist', H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, w0=w0, wprime=wprime, zrange = c(0,1e5), out='z')
     zeff=cosdistzeff(zref=z1,zem=zem)
     out=CoSep12/(1+zeff)
   }
   return(out)
 }
 
-cosdistLumDist12ang=function(z1 = 1, z2 = 2, ang = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1 - OmegaM - OmegaR, OmegaR = 0, ref){
+cosdistLumDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   HubDist = (299792.458/H0)
   z1 = as.numeric(z1)
   z2 = as.numeric(z2)
@@ -630,17 +611,11 @@ cosdistLumDist12ang=function(z1 = 1, z2 = 2, ang = 0, H0 = 100, OmegaM = 0.3, Om
   }
   OmegaK = 1 - OmegaM - OmegaL - OmegaR
   temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
-    Einv = function(z, OmegaM, OmegaL, OmegaR, OmegaK) {
-      1/sqrt(OmegaR * (1 + z)^4 + OmegaM * (1 + z)^3 + 
-               OmegaK * (1 + z)^2 + OmegaL)
-    }
-    rDist = integrate(Einv, 0, z, OmegaM = OmegaM, 
-                      OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, 
-                      subdivisions = 1000L)$value
+    rDist = integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     return = rDist
   }
-  rDist1 = Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
-  rDist2 = Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK)
+  rDist1 = Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
+  rDist2 = Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
   if(OmegaK==0){
     #k is 0
     Skr12squared= rDist1^2+
@@ -669,19 +644,19 @@ cosdistLumDist12ang=function(z1 = 1, z2 = 2, ang = 0, H0 = 100, OmegaM = 0.3, Om
     CoSep12=HubDist*asin(sqrt(Skr12squared))/sqrt(abs(OmegaK))
   }
   CoDiff=rDist2*HubDist+CoSep12
-  MaxCo=cosdistCoDist(1e5, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR)
+  MaxCo=cosdistCoDist(1e5, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, w0=w0, wprime=wprime)
   if(CoDiff>MaxCo){
     print('Objects not in common light cone!')
     out=NA
   }else{
-    zem=cosmapval(CoDiff,'CoDist',H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, zrange = c(0,1e5), out='z')
+    zem=cosmapval(CoDiff,'CoDist',H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, w0=w0, wprime=wprime, zrange = c(0,1e5), out='z')
     zeff=cosdistzeff(zref=z1,zem=zem)
     out=CoSep12*(1+zeff)
   }
   return(out)
 }
 
-cosdistzeff=function(zref=1,zem=2){
+cosdistzeff=function(zref=1, zem=2){
    if (!all(zref > -1)) {
         stop("All zref must be > -1")
   }
