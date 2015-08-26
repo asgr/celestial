@@ -17,3 +17,4 @@ skyarea=function(long=c(129,141),lat=c(-2,3),inunit='deg',outunit='deg2',sep=":"
   if(outunit=='rad2' | outunit=='sr'){area=area/(180/pi)^2}
   return(c(area=area,areafrac=areafrac))
 }
+#hello
