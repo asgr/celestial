@@ -610,7 +610,7 @@ cosdistLumDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Ome
     }
   }
   OmegaK = 1 - OmegaM - OmegaL - OmegaR
-  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK) {
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     rDist = integrate(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, subdivisions = 1000L)$value
     return = rDist
   }
