@@ -34,6 +34,6 @@ DOCS: Fixed a couple of document issues.
 
 FEATURE: Added Planck 2015 cosmology to cosref.
 
-FEATURE: Added cosdistCoDist12ang function for arbitrary comoving separations.
+FEATURE: Added cosdistCoDist12ang function (and related) for arbitrary comoving separations.
 
 FEATURE: Added Duffy 2008 mass to concentration relation.
