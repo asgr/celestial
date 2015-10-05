@@ -100,7 +100,7 @@ These functions calculate various aspects of the NFW profile.
 
 \item{cosNFWgamma}{Returns the radial dependence of the weak lensing shear (Eqn. 12 of Wright \& Brainerd, 2000).}
 
-\item{cosNFWduffym2c}{Returns the Duffy (2008) predicted concentration for a given halo mass given .}
+\item{cosNFWduffym2c}{Returns the Duffy (2008) predicted concentration for a given halo mass.}
 }
 
 \references{
