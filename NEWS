@@ -37,3 +37,5 @@ FEATURE: Added Planck 2015 cosmology to cosref.
 FEATURE: Added cosdistCoDist12ang function (and related) for arbitrary comoving separations.
 
 FEATURE: Added Duffy 2008 mass to concentration relation.
+
+FEATURE: Added Driver & Robotham 2010 cosmic variance calculator.
