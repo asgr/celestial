@@ -11,8 +11,8 @@ cosNFWmass_Rmax=function(Rho0=2.412e15, Rs=0.03253, Rmax=0.16265){
   return(4*pi*Rho0*Rs^3*(log((Rs+Rmax)/Rs)-Rmax/(Rs+Rmax)))
 }
 
-cosNFWsigma=function(Rad=0.03253, Rs=0.03253, c=5, z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM, Rho = "crit", DeltaVir = 200, ref){
-  Mvir=coshaloRvirToMvir(Rvir=Rs*c, z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, Rho=Rho, DeltaVir=DeltaVir, ref=ref)
+cosNFWsigma=function(Rad=0.03253, Rs=0.03253, c=5, z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM-OmegaR,  OmegaR=0, Rho = "crit", DeltaVir = 200, ref){
+  Mvir=coshaloRvirToMvir(Rvir=Rs*c, z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Rho=Rho, DeltaVir=DeltaVir, ref=ref)
   Rho0=Mvir/cosNFWmass_c(Rho0=1, Rs=Rs, c=c)
   x=Rad/Rs
   temp=rep(NA, length(x))
@@ -25,8 +25,8 @@ cosNFWsigma=function(Rad=0.03253, Rs=0.03253, c=5, z = 0, H0 = 100, OmegaM = 0.3
   return(temp)
 }
 
-cosNFWsigma_mean=function(Rad=0.03253, Rs=0.03253, c=5, z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM, Rho = "crit", DeltaVir = 200, ref){
-  Mvir=coshaloRvirToMvir(Rvir=Rs*c, z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, Rho=Rho, DeltaVir=DeltaVir, ref=ref)
+cosNFWsigma_mean=function(Rad=0.03253, Rs=0.03253, c=5, z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM-OmegaR,  OmegaR=0, Rho = "crit", DeltaVir = 200, ref){
+  Mvir=coshaloRvirToMvir(Rvir=Rs*c, z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Rho=Rho, DeltaVir=DeltaVir, ref=ref)
   Rho0=Mvir/cosNFWmass_c(Rho0=1, Rs=Rs, c=c)
   x=Rad/Rs
   temp=rep(NA, length(x))
@@ -39,7 +39,12 @@ cosNFWsigma_mean=function(Rad=0.03253, Rs=0.03253, c=5, z = 0, H0 = 100, OmegaM 
   return(temp)
 }
 
-cosNFWgamma=function(Rad=0.03253, Rs=0.03253, c=5, SigmaC=1, z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM, Rho = "crit", DeltaVir = 200, ref){
-  temp=(cosNFWsigma_mean(Rad=Rad, Rs=Rs, c=c, z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, Rho=Rho, DeltaVir=DeltaVir)-cosNFWsigma(Rad=Rad, Rs=Rs, c=c, z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, Rho=Rho, DeltaVir=DeltaVir))/SigmaC
+cosNFWgamma=function(Rad=0.03253, Rs=0.03253, c=5, SigmaC=1, z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM-OmegaR,  OmegaR=0, Rho = "crit", DeltaVir = 200, ref){
+  temp=(cosNFWsigma_mean(Rad=Rad, Rs=Rs, c=c, z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL,  OmegaR=OmegaR, Rho=Rho, DeltaVir=DeltaVir, ref=ref)-cosNFWsigma(Rad=Rad, Rs=Rs, c=c, z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL,  OmegaR=OmegaR, Rho=Rho, DeltaVir=DeltaVir, ref=ref))/SigmaC
   return(temp)
+}
+
+cosNFWduffym2c=function(M=2e12, z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM-OmegaR,  OmegaR=0, Rho = "crit", A=6.71, B=-0.091, C=-0.44, ref){
+  if(Rho=='mean'){M=M/cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL,  OmegaR=OmegaR, ref=ref)}
+  return(A*(M/2e12/(H0/100))^B*(1+z)^C)
 }

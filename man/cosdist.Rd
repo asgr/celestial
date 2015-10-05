@@ -20,6 +20,8 @@
 \alias{cosdistCoDist12ang}
 \alias{cosdistLumDist12ang}
 \alias{cosdistAngDist12ang}
+\alias{cosdistzem12ang}
+\alias{cosdistzeff12ang}
 \alias{cosdistzeff}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -49,6 +51,10 @@ OmegaR=0, w0 = -1, wprime = 0, ref)
 cosdistLumDist12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
 OmegaR=0, w0 = -1, wprime = 0, ref)
 cosdistAngDist12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
+OmegaR=0, w0 = -1, wprime = 0, ref)
+cosdistzem12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
+OmegaR=0, w0 = -1, wprime = 0, ref)
+cosdistzeff12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
 OmegaR=0, w0 = -1, wprime = 0, ref)
 cosdistDistMod(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
 wprime = 0, ref)
@@ -178,6 +184,10 @@ The outputs of the standalone functions are:
 
 \item{cosdistAngDist12ang}{Returns the total angular diameter distance in units of Mpc between objects at \option{z1} and \option{z2} with a separation \option{ang}. This is equal to cosdistCoDist12ang/(1+zeff), where zeff is the apparent redshift that the object at z1 will observe the object at z2 for the Universe age that z1 is observed to have now. See \code{cosdistCoDist12ang} for details.}
 
+\item{cosdistzem12ang}{Returns the apparent redshift that the object at \option{z1} would observe the object at \option{z2} to be for our current Universe age. See \code{cosdistCoDist12ang} for details.}
+
+\item{cosdistzeff12ang}{Returns the apparent redshift that the object at \option{z1} would observe the object at \option{z2} to be for the Universe age that z1 is observed to have now. See \code{cosdistCoDist12ang} for details.}
+
 \item{cosdistDistMod}{Returns the distance modulus used where AbsMag = ApMag - DistMod, and DistMod = 5log10(LumDist)+25 in units of mag.}
 
 \item{cosdistAngSize}{Returns the physical projected size of an object at z in units of kpc/arcsec.}
@@ -200,6 +210,8 @@ The outputs of the standalone functions are:
 Based on the equations in:
 
 Hogg D.W., 1999, arXiv, 9905116
+
+Liske J., 2000, MNRAS, 319, 557L
 
 Peacock J.A., 1999, Cosmological Physics, Cambridge University Press
 
@@ -233,6 +245,9 @@ cosdistUniAgeAtz(0.3,70)
 cosdistTravelTime(0.3,70)
 cosdistRelError(0.3)
 cosdistCrit(0.3,0.5,70)
+cosdistzeff(1,2)
+cosdistzem12ang(1,2)
+cosdistzeff12ang(1,2)
 
 #A check of the comoving separation between objects function:
 

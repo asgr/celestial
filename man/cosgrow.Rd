@@ -175,6 +175,8 @@ The outputs of the standalone functions are:
   
   Lahav O., et al., 1991, MNRAS, 251, 136
   
+  Peacock J.A., 1999, Cosmological Physics, Cambridge University Press
+  
   Wright E.L., 2006, PASP, 118, 1711
 }
 \author{

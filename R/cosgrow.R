@@ -22,8 +22,8 @@ cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-
     OmegaMatz=(OmegaM*(1+z)^3)/OmegaSum
     OmegaLatz=OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1)/OmegaSum
     OmegaKatz=(OmegaK*(1+z)^2)/OmegaSum
-    Factor=(5*OmegaM/2)*(Hz/H0)*(1+z)*integrate(.Einva3, 0, 1/(1+z), OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, OmegaK=OmegaK, w0=w0, wprime=wprime,subdivisions=1000L)$value
-    Factor0=(5*OmegaM/2)*integrate(.Einva3, 0, 1, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, OmegaK=OmegaK, w0=w0, wprime=wprime, subdivisions=1000L)$value
+    Factor=(5*OmegaM/2)*(Hz/H0)*(1+z)*integral(.Einva3, 0, 1/(1+z), OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, OmegaK=OmegaK, w0=w0, wprime=wprime)
+    Factor0=(5*OmegaM/2)*integral(.Einva3, 0, 1, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, OmegaK=OmegaK, w0=w0, wprime=wprime)
     Sigma8atz=Sigma8*(Factor/Factor0)/(1+z)
     if(fSigma8==FALSE){
       Rate=-1 - OmegaMatz/2 + OmegaLatz + (5*OmegaMatz)/(2*Factor)
@@ -159,7 +159,7 @@ cosgrowFactor=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1,
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
   temp=function(z, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime){
-    growthfactor=(5*OmegaM/2)*cosgrowH(z, H0=1, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, w0=w0, wprime=wprime)*(1+z)*integrate(.Einva3,0,1/(1+z), OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, OmegaK=OmegaK, w0=w0, wprime=wprime, subdivisions=1000L)$value
+    growthfactor=(5*OmegaM/2)*cosgrowH(z, H0=1, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, w0=w0, wprime=wprime)*(1+z)*integral(.Einva3,0,1/(1+z), OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, OmegaK=OmegaK, w0=w0, wprime=wprime)
     return=growthfactor
   }
   return(Vectorize(temp)(z = z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR=OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))

@@ -8,4 +8,4 @@ Maintainer: Aaron Robotham <aaron.robotham@uwa.edu.au>
 Description: Contains a number of common astronomy conversion routines, particularly the HMS and degrees schemes, which can be fiddly to convert between on mass due to the textural nature of the former. It allows users to coordinate match datasets quickly. It also contains functions for various cosmological calculations.
 License: GPL-3
 LazyData: TRUE
-Depends: R (>= 3.00), RANN, NISTunits
+Depends: R (>= 3.00), RANN, NISTunits, pracma
