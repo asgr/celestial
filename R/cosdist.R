@@ -1,8 +1,9 @@
 .getcos=function(ref){
   cosref = NULL
   data('cosref',envir = environment())
-  if(ref %in% cosref[,'Ref']==FALSE){stop(paste('Provided ref name is not allowed, must be one of',paste(as.character(cosref[,1]),sep='',collapse=', '),'. See ?cosref for details.'))}
-  out=as.numeric(cosref[cosref[,'Ref']==ref,])
+  allownames=tolower(as.character(cosref[,'Ref']))
+  if(tolower(ref) %in% allownames==FALSE){stop(paste('Provided ref name is not allowed, must be one of',paste(as.character(cosref[,'Ref']),sep='',collapse=', '),' (case insensitive). See ?cosref for details.'))}
+  out=as.numeric(cosref[allownames==tolower(ref),])
   names(out)=colnames(cosref)
   return(out)
 }
