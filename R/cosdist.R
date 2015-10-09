@@ -451,7 +451,11 @@ cosdistCrit=function(z_lens=1, z_source=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-O
   return(SigmaC)
 }
 
-cosdistCoDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
+cosdistCoDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, inunit='deg', ref){
+  if(inunit %in% c('deg','amin','asec','rad')==FALSE){stop('inunit must be one of deg, amin, asec, or rad')}
+  if(inunit=='amin'){ang=ang/60}
+  if(inunit=='asec'){ang=ang/3600}
+  if(inunit=='rad'){ang=ang*180/pi}
   HubDist = (299792.458/H0)
   z1 = as.numeric(z1)
   z2 = as.numeric(z2)
@@ -513,7 +517,11 @@ cosdistCoDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Omeg
   return(CoSep12)
 }
 
-cosdistAngDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
+cosdistAngDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, inunit='deg', ref){
+  if(inunit %in% c('deg','amin','asec','rad')==FALSE){stop('inunit must be one of deg, amin, asec, or rad')}
+  if(inunit=='amin'){ang=ang/60}
+  if(inunit=='asec'){ang=ang/3600}
+  if(inunit=='rad'){ang=ang*180/pi}
   HubDist = (299792.458/H0)
   z1 = as.numeric(z1)
   z2 = as.numeric(z2)
@@ -585,7 +593,11 @@ cosdistAngDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Ome
   return(out)
 }
 
-cosdistLumDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
+cosdistLumDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, inunit='deg', ref){
+  if(inunit %in% c('deg','amin','asec','rad')==FALSE){stop('inunit must be one of deg, amin, asec, or rad')}
+  if(inunit=='amin'){ang=ang/60}
+  if(inunit=='asec'){ang=ang/3600}
+  if(inunit=='rad'){ang=ang*180/pi}
   HubDist = (299792.458/H0)
   z1 = as.numeric(z1)
   z2 = as.numeric(z2)
@@ -657,7 +669,11 @@ cosdistLumDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Ome
   return(out)
 }
 
-cosdistzem12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
+cosdistzem12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, inunit='deg', ref){
+  if(inunit %in% c('deg','amin','asec','rad')==FALSE){stop('inunit must be one of deg, amin, asec, or rad')}
+  if(inunit=='amin'){ang=ang/60}
+  if(inunit=='asec'){ang=ang/3600}
+  if(inunit=='rad'){ang=ang*180/pi}
   HubDist = (299792.458/H0)
   z1 = as.numeric(z1)
   z2 = as.numeric(z2)
@@ -727,7 +743,11 @@ cosdistzem12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-
   return(out)
 }
 
-cosdistzeff12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
+cosdistzeff12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, inunit='deg', ref){
+  if(inunit %in% c('deg','amin','asec','rad')==FALSE){stop('inunit must be one of deg, amin, asec, or rad')}
+  if(inunit=='amin'){ang=ang/60}
+  if(inunit=='asec'){ang=ang/3600}
+  if(inunit=='rad'){ang=ang*180/pi}
   HubDist = (299792.458/H0)
   z1 = as.numeric(z1)
   z2 = as.numeric(z2)

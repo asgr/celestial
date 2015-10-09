@@ -47,15 +47,15 @@ w0 = -1, wprime = 0, ref)
 cosdistCoDistTran(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
 wprime = 0, ref)
 cosdistCoDist12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, w0 = -1, wprime = 0, ref) 
+OmegaR=0, w0 = -1, wprime = 0, inunit='deg', ref) 
 cosdistLumDist12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, w0 = -1, wprime = 0, ref)
+OmegaR=0, w0 = -1, wprime = 0, inunit='deg', ref)
 cosdistAngDist12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, w0 = -1, wprime = 0, ref)
+OmegaR=0, w0 = -1, wprime = 0, inunit='deg', ref)
 cosdistzem12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, w0 = -1, wprime = 0, ref)
+OmegaR=0, w0 = -1, wprime = 0, inunit='deg', ref)
 cosdistzeff12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, w0 = -1, wprime = 0, ref)
+OmegaR=0, w0 = -1, wprime = 0, inunit='deg', ref)
 cosdistDistMod(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
 wprime = 0, ref)
 cosdistAngSize(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
@@ -126,6 +126,9 @@ w0 = -1, wprime = 0, ref)
   }
   \item{ang}{
     The observed angular separation between object 1 and object 2 in degrees.
+  }
+  \item{inunit}{
+    The units of angular coordinate provided for \option{ang}. Allowed options are deg for degress, amin for arc minutes, asec for arc seconds, and rad for radians.
   }
 }
 \details{
