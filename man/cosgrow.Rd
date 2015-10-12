@@ -92,7 +92,7 @@
     Determines the distance type, i.e. whether the Rho critical energy or mean mass densities are calculated with respect to angular / physical distances (Ang), with respect to comoving distances (Co) or with respect to phyiscal metres (m).
   }
   \item{Mass}{
-    Determines the mass type, i.e. whether Rho ritical energy or mean mass densities are calculated with respect to solar masses (Msun) or with respect to kilograms (kg).
+    Determines the mass type, i.e. whether Rho critical energy or mean mass densities are calculated with respect to solar masses (Msun) or with respect to kilograms (kg).
   }
   \item{ref}{
     The name of a reference cosmology to use, one of 137 / 737 / Planck / Planck13 / Planck15 / WMAP / WMAP9 / WMAP7 / WMAP5 / WMAP3 / WMAP1 / Millennium / GiggleZ. Planck=Planck15 and WMAP=WMAP9. The usage is case insensitive, so wmap9 is an allowed input. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL. If ref=137 or ref=737 no specific Sigma8 is assumed, instead Sigma8 is set to whatever the input value is set to (by default this is 0.8).
