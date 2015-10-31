@@ -10,5 +10,5 @@ function(long,lat,radius=1,deg=TRUE){
     	long = long * pi/180
 		lat = lat * pi/180
 	}
-return=cbind(x=radius*cos(long)*cos(lat),y=radius*sin(long)*cos(lat),z=radius*sin(lat))
+return(cbind(x=radius*cos(long)*cos(lat),y=radius*sin(long)*cos(lat),z=radius*sin(lat)))
 }

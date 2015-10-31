@@ -1,14 +1,16 @@
 dms2deg <-
 function(d=0,m=0,s=0,sign='d',sep=':'){
+  if(is.character(d)){
+    signlogic=grepl('-',d)
+    sign=rep(1,length(d))
+    sign[signlogic]=-1
+  }
   if(length(dim(d))==2){
     if(dim(d)[2]==3){
       if(is.character(d[1,1]) & missing(m) & missing(s)){
         m=as.numeric(d[,2])
         s=as.numeric(d[,3])
         d=d[,1]
-        signlogic=grepl('-',d)
-        sign=rep(1,length(d))
-        sign[signlogic]=-1
         d=abs(as.numeric(d))
       }else{
         m=d[,2]
@@ -18,6 +20,9 @@ function(d=0,m=0,s=0,sign='d',sep=':'){
     }else{stop("d has wrong dimension, should be a Nx3 table/matrix")}
   }
   if(is.character(d[1]) & missing(m) & missing(s)){
+    #signlogic=grepl('-',d)
+    #sign=rep(1,length(d))
+    #sign[signlogic]=-1
     if(sep!='DMS' & sep!='dms'){
       temp=strsplit(d,split=sep,fixed=TRUE)
       split=as.numeric(unlist(temp))
@@ -27,9 +32,9 @@ function(d=0,m=0,s=0,sign='d',sep=':'){
     if(sep=='dms'){split=unlist(strsplit(d,split='d',fixed=TRUE));skip=2}
     nsplit=length(split)/skip
     d=split[seq(1,(nsplit-1)*skip+1,by=skip)]
-    signlogic=grepl('-',d)
-    sign=rep(1,nsplit)
-    sign[signlogic]=-1
+    #signlogic=grepl('-',d)
+    #sign=rep(1,nsplit)
+    #sign[signlogic]=-1
     d=abs(as.numeric(d))
     if(sep!='DMS' & sep!='dms'){
       if(skip>=2){m=as.numeric(split[seq(2,(nsplit-1)*skip+2,by=skip)])}
@@ -63,6 +68,6 @@ if(sign[1]!='d' & length(sign) != length(d)){stop('d and sign lengths do not mat
     D=floor(as.numeric(d))
     M=floor(as.numeric(m))
     S=as.numeric(s)
-    totaldeg=(D)*sign + (M/60)*sign + (S/3600)*sign
+    totaldeg=(D+(M/60)+(S/3600))*sign
     return(totaldeg)
 }
