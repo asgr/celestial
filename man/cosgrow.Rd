@@ -18,6 +18,7 @@
 \alias{cosgrowRhoMean}
 \alias{cosgrowEoSwDE}
 \alias{cosgrowRhoDE}
+\alias{cosgrowDeltaVir}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Cosmological growth and evolution calculations
@@ -55,6 +56,7 @@
   wprime=0, Dist='Co', Mass='Msun', ref)
   cosgrowRhoMean(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1,
   wprime=0, Dist='Co', Mass='Msun', ref)
+  cosgrowDeltaVir(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -160,6 +162,7 @@ The outputs of the standalone functions are:
   \item{cosgrowRhoCrit}{Returns the critical energy density of the Universe at z, where \eqn{\rho_{crit}=(3.H(z)^2)/(8.\pi.G)}{RhoCrit=(3.H(z)^2)/(8.pi.G)}, in units of \eqn{M_{\odot}/Mpc^3}{Msol/Mpc^3}.}
   
   \item{cosgrowRhoMean}{Returns the mean mass density of the Universe at z, where \eqn{\rho_{mean}=\rho_{crit}.\Omega_{M}(z)}{RhoMean=RhoCrit.OmegaM(z)}, in units of \eqn{M_{\odot}/Mpc^3}{Msol/Mpc^3}.}
+  \item{cosgrowDeltaVir}{Returns the delta-critical virial radius overdensity criterion for a range of flat Universes with varying OmegaM. Taken from Eqn. 6 of Bryan & Norman (1998).}
 }
 \note{
   The difference between RhoCrit and RhoMean at z=0 is simply RhoMean=RhoCrit*OmegaM. Corrected for 1/(1+z)^3 RhoMean stays constant with redshift (as it should- to first order we do not gain or lose mass within a comovoing volume).
@@ -170,6 +173,8 @@ The outputs of the standalone functions are:
 }
 \references{
   Based on the equations in:
+  
+  Bryan & Norman, 1998, ApJ, 495, 80
   
   Hamilton A.J.S., 2001, MNRAS 322 419
   

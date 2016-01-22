@@ -1,4 +1,8 @@
 coshaloMvirToSigma=function(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref){
+  if(DeltaVir=='get'){
+    DeltaVir=cosgrowDeltaVir(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
+    Rho='crit'
+  }
   G=6.67384e-11
   msol_to_kg=1.98892e30
   pc_to_m=3.08568e16
@@ -10,6 +14,10 @@ coshaloMvirToSigma=function(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-
 }
 
 coshaloSigmaToMvir=function(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref){
+  if(DeltaVir=='get'){
+    DeltaVir=cosgrowDeltaVir(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
+    Rho='crit'
+  }
   G=6.67384e-11
   msol_to_kg=1.98892e30
   pc_to_m=3.08568e16
@@ -21,6 +29,10 @@ coshaloSigmaToMvir=function(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-
 }
 
 coshaloMvirToRvir=function(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref){
+  if(DeltaVir=='get'){
+    DeltaVir=cosgrowDeltaVir(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
+    Rho='crit'
+  }
   G=6.67384e-11
   msol_to_kg=1.98892e30
   pc_to_m=3.08568e16
@@ -32,6 +44,10 @@ coshaloMvirToRvir=function(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-O
 }
 
 coshaloRvirToMvir=function(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref){
+  if(DeltaVir=='get'){
+    DeltaVir=cosgrowDeltaVir(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
+    Rho='crit'
+  }
   G=6.67384e-11
   msol_to_kg=1.98892e30
   pc_to_m=3.08568e16
@@ -43,6 +59,10 @@ coshaloRvirToMvir=function(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-Omega
 }
 
 coshaloSigmaToRvir=function(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref){
+  if(DeltaVir=='get'){
+    DeltaVir=cosgrowDeltaVir(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
+    Rho='crit'
+  }
   G=6.67384e-11
   msol_to_kg=1.98892e30
   pc_to_m=3.08568e16
@@ -56,6 +76,10 @@ coshaloSigmaToRvir=function(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-
 }
 
 coshaloRvirToSigma=function(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref){
+  if(DeltaVir=='get'){
+    DeltaVir=cosgrowDeltaVir(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
+    Rho='crit'
+  }
   G=6.67384e-11
   msol_to_kg=1.98892e30
   pc_to_m=3.08568e16
@@ -68,3 +92,11 @@ coshaloRvirToSigma=function(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-Omeg
   return((Rvir/scale)*((512*pi^3*g^3*DeltaVir^3*RhoVal^3)/27)^(1/6))
 }
 
+coshaloSigmaToTvir=function(Sigma=230, Vunit=1e3, Tunit='K', type='halo'){
+  if(type=='halo'){ft=1}
+  if(type=='gas'){ft=0.78}
+  if(Tunit=='K'){convert=kNIST2010BoltzmannConstant}
+  if(Tunit=='eV'){convert=kNIST2010electronVolt}
+  if(Tunit=='keV'){convert=kNIST2010electronVolt*1e3}
+  return(ft*0.59*kNIST2010protonMass*(Sigma*Vunit)^2/convert)
+}

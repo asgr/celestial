@@ -6,6 +6,7 @@
 \alias{coshaloRvirToMvir}
 \alias{coshaloSigmaToRvir}
 \alias{coshaloRvirToSigma}
+\alias{coshaloSigmaToTvir}
 
 \title{
 Virial halo conversion functions
@@ -26,6 +27,7 @@ coshaloSigmaToRvir(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
 OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
 coshaloRvirToSigma(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
 OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
+coshaloSigmaToTvir(Sigma=230, Vunit=1e3, Tunit='K', type='halo') 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -33,7 +35,7 @@ OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, re
     Mass within virial radius in units of 'Munit'.
   }
   \item{Sigma}{
-    Velocity dispersion (3D) within virial radius in units of 'Vunit'.
+    Velocity dispersion (3D) within virial radius in units of 'Vunit'. For coshaloSigmaToTvir the Sigma input should be the virial Sigma which can be found by setting DeltaVir='get' in the the other coshalo functions.
   }
   \item{Rvir}{
     Virial radius (3D) in units of 'Lunit'.
@@ -60,7 +62,7 @@ OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, re
     Determines the distance type, i.e. whether the Rho critical energy or mean mass densities are calculated with respect to angular / physical distances (Ang) or with respect to comoving distances (Co). In effect this means Rvir values are either angular / physical (Ang) or comoving (Co). It does not affect Mvir <-> Sigma conversions, but does affect Mvir <-> Rvir and Rvir <-> Sigma. 
   }
   \item{DeltaVir}{
-    Desired overdensity of the halo with respect to Rho.
+    Desired overdensity of the halo with respect to Rho. If set to 'get' it will estimate the required DeltaVir for a virial collapse using the \code{\link{cosgrowDeltaVir}} function.
   }
   \item{Munit}{
     Base mass unit in multiples of Msun.
@@ -70,6 +72,12 @@ OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, re
   }
   \item{Vunit}{
     Base velocity unit in multiples of m/s.
+  }
+  \item{type}{
+    Specify the 'halo' or 'gas' temperature to be computed.
+  }
+  \item{Tunit}{
+    Specify the output temperature to be Kelvin ('K'), 'eV' or 'keV'.
   }
   \item{ref}{
     The name of a reference cosmology to use, one of 137 / 737 / Planck / Planck13 / Planck15 / WMAP / WMAP9 / WMAP7 / WMAP5 / WMAP3 / WMAP1 / Millennium / GiggleZ. Planck=Planck15 and WMAP=WMAP9. The usage is case insensitive, so wmap9 is an allowed input. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL.
@@ -81,17 +89,25 @@ These functions allow for various analytic conversions between the 3 major prope
 }
 
 \value{
-coshaloMvirToSigma outputs velocity (in units of Vunit) dispersion given mass.
+\item{coshaloMvirToSigma}{Outputs velocity (in units of Vunit) dispersion given mass.}
 
-coshaloSigmaToMvir outputs mass (in units of Munit) given velocity dispersion.
+\item{coshaloSigmaToMvir}{Outputs mass (in units of Munit) given velocity dispersion.}
 
-coshaloMvirToRvir outputs radius (in units of Lunit) given mass.
+\item{coshaloMvirToRvir}{Outputs radius (in units of Lunit) given mass.}
 
-coshaloRvirToMvir outputs mass (in units of Munit) given radius.
+\item{coshaloRvirToMvir}{Outputs mass (in units of Munit) given radius.}
 
-coshaloSigmaToRvir outputs radius (in units of Lunit) given velocity dispersion.
+\item{coshaloSigmaToRvir}{Outputs radius (in units of Lunit) given velocity dispersion.}
 
-coshaloRvirToSigma outputs velocity (in units of Vunit) dispersion given radius.
+\item{coshaloRvirToSigma}{Outputs velocity (in units of Vunit) dispersion given radius.}
+
+\item{coshaloSigmaToRvir}{Output temperture (in units of Tunit) given velocity dispersion. Based on Eqns. 3/7/8/9 of Bryan & Norman (1998).}
+}
+
+\references{
+  coshaloSigmaToTvir based on the equations in:
+  
+  Bryan & Norman, 1998, ApJ, 495, 80
 }
 
 \author{

@@ -35,7 +35,7 @@ cosplanckSBLawRad_sr(Temp=2.725)
 cosplanckSBLawEn(Temp=2.725)
 cosplanckLawRadPhotEnAv(Temp=2.725)
 cosplanckLawRadPhotN(Temp=2.725)
-cosplanckCMBTemp(z)
+cosplanckCMBTemp(z,Temp=2.725)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

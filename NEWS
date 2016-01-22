@@ -39,3 +39,7 @@ FEATURE: Added cosdistCoDist12ang function (and related) for arbitrary comoving 
 FEATURE: Added Duffy 2008 mass to concentration relation.
 
 FEATURE: Added Driver & Robotham 2010 cosmic variance calculator.
+
+FEATURE: Added cosgrowDeltaVir to find over density compared to critical to Rho_crit from Bryan & Norman (1998).
+
+FEATURE: Added coshaloSigmaToTvir (virial temperature of halo/gas).

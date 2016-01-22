@@ -1,5 +1,5 @@
-cosplanckCMBTemp=function(z){
-  return(2.725*(1+z))
+cosplanckCMBTemp=function(z,Temp=2.725){
+  return(Temp*(1+z))
 }
 
 cosplanckLawRadFreq=function(nu,Temp=2.725){

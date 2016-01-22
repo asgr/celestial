@@ -314,3 +314,21 @@ cosgrowEoSwDE=function(z=1, w0=-1, wprime=0){w0+2*wprime*(1-1/(1+z))}
 cosgrowRhoDE=function(z=1, w0=-1, wprime=0, rhoDE=1){
   rhoDE*((1/(1+z))^(-(3+3*w0+6*wprime)))*exp(-6*wprime*(1-1/(1+z)))
 }
+
+cosgrowDeltaVir=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref){
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z> -1)){stop('All z must be > -1')}
+  if(!missing(ref)){
+    params=.getcos(ref)
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
+    if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
+  }
+  if(OmegaM+OmegaL+OmegaR!=1){
+    OmegaL=1-OmegaM
+    OmegaR=0
+    print(paste('Forcing Cosmology to OmegaM=',OmegaM,', OmegaL=',OmegaL,', OmegaR=0 for Bryan & Norman 1998 relation!',sep=''))
+  }
+  OmegaMatz=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR)
+  return(18*pi^2+82*(OmegaMatz-1)-39*(OmegaMatz-1)^2)
+}

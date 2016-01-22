@@ -136,46 +136,72 @@ legend('topright', legend=c('Rs=0.2','c=10'))
 #How do critical, mean 200 and 500 masses evolve with redshift? Let's see:
 
 zseq=10^seq(-2, 1, by=0.1)
-crit=seq(2, 20, by=0.01)
-critcol=rainbow(length(crit), start=0, end=5/6)
+con=seq(2, 20, by=0.01)
+concol=rainbow(length(con), start=0, end=5/6)
 rad_crit200=coshaloMvirToRvir(1, z=zseq, Rho='crit', DeltaVir=200, ref='Planck15')
 rad_crit500=coshaloMvirToRvir(1, z=zseq, Rho='crit', DeltaVir=500, ref='Planck15')
 rad_mean200=coshaloMvirToRvir(1, z=zseq, Rho='mean', DeltaVir=200, ref='Planck15')
 rad_mean500=coshaloMvirToRvir(1, z=zseq, Rho='mean', DeltaVir=500, ref='Planck15')
+rad_vir=coshaloMvirToRvir(1, z=zseq, Rho='crit', DeltaVir='get', ref='Planck15')
 
-plot(1, 1, type='n', xlim=c(0.01,10), ylim=c(1,1.55), xlab='Redshift',
-ylab='M200c/M500c', log='x')
-for(i in 1:length(crit)){
-lines(zseq, cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/crit[i], Rmax=rad_crit200)/
-cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/crit[i], Rmax=rad_crit500), col=critcol[i])
+plot(1, 1, type='n', xlim=c(0.01,10), ylim=c(0.8,1.55), xlab='Redshift',
+ylab='M200c / M500c', log='x')
+for(i in 1:length(con)){
+lines(zseq, cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/con[i], Rmax=rad_crit200)/
+cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/con[i], Rmax=rad_crit500), col=concol[i])
 }
 
-plot(1, 1, type='n', xlim=c(0.01,10), ylim=c(1,1.55), xlab='Redshift',
-ylab='M200m/M500m', log='x')
-for(i in 1:length(crit)){
-lines(zseq, cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/crit[i], Rmax=rad_mean200)/
-cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/crit[i], Rmax=rad_mean500), col=critcol[i])
+plot(1, 1, type='n', xlim=c(0.01,10), ylim=c(0.8,1.55), xlab='Redshift',
+ylab='M200m / M500m', log='x')
+for(i in 1:length(con)){
+lines(zseq, cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/con[i], Rmax=rad_mean200)/
+cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/con[i], Rmax=rad_mean500), col=concol[i])
 }
 
-plot(1, 1, type='n', xlim=c(0.01,10), ylim=c(1,1.55), xlab='Redshift',
-ylab='M200m/M200c',log='x')
-for(i in 1:length(crit)){
-lines(zseq, cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/crit[i], Rmax=rad_mean200)/
-cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/crit[i], Rmax=rad_crit200), col=critcol[i])
+plot(1, 1, type='n', xlim=c(0.01,10), ylim=c(0.8,1.55), xlab='Redshift',
+ylab='M200m / M200c',log='x')
+for(i in 1:length(con)){
+lines(zseq, cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/con[i], Rmax=rad_mean200)/
+cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/con[i], Rmax=rad_crit200), col=concol[i])
 }
 
-plot(1, 1, type='n', xlim=c(0.01,10), ylim=c(1,1.55), xlab='Redshift',
-ylab='M500m/M500c', log='x')
-for(i in 1:length(crit)){
-lines(zseq, cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/crit[i], Rmax=rad_mean500)/
-cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/crit[i], Rmax=rad_crit500), col=critcol[i])
+plot(1, 1, type='n', xlim=c(0.01,10), ylim=c(0.8,1.55), xlab='Redshift',
+ylab='M500m / M500c', log='x')
+for(i in 1:length(con)){
+lines(zseq, cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/con[i], Rmax=rad_mean500)/
+cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/con[i], Rmax=rad_crit500), col=concol[i])
 }
 
-plot(zseq, rad_crit200/rad_crit500, type='l', xlim=c(0.01,10), ylim=c(1,1.55),
-xlab='Redshift', ylab='R200/R500', log='x')
+plot(1, 1, type='n', xlim=c(0.01,10), ylim=c(0.8,1.55), xlab='Redshift',
+ylab='Mvir / M200c',log='x')
+for(i in 1:length(con)){
+lines(zseq, cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/con[i], Rmax=rad_vir)/
+cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/con[i], Rmax=rad_crit200), col=concol[i])
+}
 
-plot(zseq, rad_mean200/rad_crit200, type='l', xlim=c(0.01,10), ylim=c(1,1.55), 
-xlab='Redshift', ylab='Rmean/Rcrit', log='x')
+plot(1, 1, type='n', xlim=c(0.01,10), ylim=c(0.8,1.55), xlab='Redshift',
+ylab='Mvir / M200m',log='x')
+for(i in 1:length(con)){
+lines(zseq, cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/con[i], Rmax=rad_vir)/
+cosNFWmass_Rmax(Rho0=1, Rs=rad_crit200[1]/con[i], Rmax=rad_mean200), col=concol[i])
+}
+
+plot(zseq, rad_crit200/rad_crit500, type='l', xlim=c(0.01,10), ylim=c(0.8,1.55),
+xlab='Redshift', ylab='R200 / R500', log='x')
+
+plot(zseq, rad_mean200/rad_crit200, type='l', xlim=c(0.01,10), ylim=c(0.8,1.55), 
+xlab='Redshift', ylab='Rm / Rc', log='x')
+
+plot(zseq, rad_vir/rad_crit200, type='l', xlim=c(0.01,10), ylim=c(0.8,1.55), 
+xlab='Redshift', ylab='Rvir / R200c', log='x')
+
+plot(zseq, rad_vir/rad_mean200, type='l', xlim=c(0.01,10), ylim=c(0.8,1.55), 
+xlab='Redshift', ylab='Rvir / R200c', log='x')
+
+#R200m and R200c go either side of Rvir, so by cosmic conspiracy the mean is nearly flat:
+
+plot(zseq, 2*rad_vir/(rad_mean200+rad_crit200), type='l', xlim=c(0.01,10),
+ylim=c(0.8,1.55), xlab='Redshift', ylab='2Rvir / (R200c+R200m)', log='x')
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
