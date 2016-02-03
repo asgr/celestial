@@ -276,7 +276,7 @@ cosdistAngScale=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
-cosdistAngSize=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, Dim=1, Dist='Co', ref){
+cosdistAngSize=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, Dim=1, Dist='Co', outunit='deg', ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -287,6 +287,10 @@ cosdistAngSize=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
     OmegaL=as.numeric(params['OmegaL'])
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
+  if (outunit %in% c("deg", "amin", "asec", "rad") == 
+        FALSE) {
+        stop("outunit must be one of deg, amin, asec or rad")
+    }
   OmegaK=1-OmegaM-OmegaL-OmegaR
   temp = function(z, Size, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime, Dim, Dist) {
     
@@ -304,15 +308,18 @@ cosdistAngSize=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
     }
     Size=Size/2
     if(Dist=='Co'){Size=Size/(1+z)}
-    if(Dim %in% 1:2){Ang = atan(Size/(CoDistTran / (1 + z)))*180/pi}
-    if(Dim == 3){Ang = asin(Size/(CoDistTran / (1 + z)))*180/pi}
+    if(Dim %in% 1:2){Ang = atan(Size/(CoDistTran / (1 + z)))}
+    if(Dim == 3){Ang = asin(Size/(CoDistTran / (1 + z)))}
     Ang=Ang*2
+    if(outunit=='deg'){Ang=Ang*180/pi}
+    if(outunit=='amin'){Ang=60*Ang*180/pi}
+    if(outunit=='asec'){Ang=3600*Ang*180/pi}
     return=Ang
   }
   return(Vectorize(temp)(z = z, Size=Size, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, Dim=Dim, Dist=Dist))
 }
 
-cosdistAngArea=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, Dim=2, Dist='Co', ref){
+cosdistAngArea=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, Dim=2, Dist='Co', outunit='deg2', ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -323,6 +330,10 @@ cosdistAngArea=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
     OmegaL=as.numeric(params['OmegaL'])
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
+  if (outunit %in% c("deg2", "amin2", "asec2", "rad2", "sr") == 
+        FALSE) {
+        stop("outunit must be one of deg2, amin2, asec2, rad2 or sr")
+    }
   OmegaK=1-OmegaM-OmegaL-OmegaR
   temp = function(z, Size, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime, Dim, Dist) {
     
@@ -340,8 +351,11 @@ cosdistAngArea=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
     }
     Size=Size/2
     if(Dist=='Co'){Size=Size/(1+z)}
-    if(Dim %in% 1:2){Ang = atan(Size/(CoDistTran / (1 + z)))*180/pi}
-    if(Dim == 3){Ang = asin(Size/(CoDistTran / (1 + z)))*180/pi}
+    if(Dim %in% 1:2){Ang = atan(Size/(CoDistTran / (1 + z)))}
+    if(Dim == 3){Ang = asin(Size/(CoDistTran / (1 + z)))}
+    if(outunit=='deg2'){Ang=Ang*180/pi}
+    if(outunit=='amin2'){Ang=60*Ang*180/pi}
+    if(outunit=='asec2'){Ang=3600*Ang*180/pi}
     Area=pi*Ang^2
     return=Area
   }

@@ -63,9 +63,9 @@ wprime = 0, ref)
 cosdistAngScale(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
 wprime = 0, ref)
 cosdistAngSize(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1,
-wprime=0, Dim=1, Dist='Co', ref)
+wprime=0, Dim=1, Dist='Co',  outunit='deg', ref)
 cosdistAngArea(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1,
-wprime=0, Dim=2, Dist='Co', ref)
+wprime=0, Dim=2, Dist='Co',  outunit='deg2', ref)
 cosdistCoVol(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
 wprime = 0, ref)
 cosdistHubTime(H0=100)
@@ -144,6 +144,11 @@ w0 = -1, wprime = 0, ref)
   }
   \item{inunit}{
     The units of angular coordinate provided for \option{ang}. Allowed options are deg for degress, amin for arc minutes, asec for arc seconds, and rad for radians.
+  }
+  \item{outunit}{
+    For \code{cosdistAngSize} units of angular coordinate output. Allowed options are deg for degress, amin for arc minutes, asec for arc seconds, and rad for radians.
+    
+    For \code{cosdistAngArea} units of angular area output. Allowed options are deg2 for square degrees, amin2 for square arc minutes, asec2 for square arc seconds and rad2 or sr for steradians.
   }
 }
 \details{
