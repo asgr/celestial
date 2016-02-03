@@ -20,6 +20,10 @@ FEATURE: Added sky coordinate matching functionality (coordmatch)
 
 v1.4 (not on CRAN)
 
+CHANGE: cosdistAngSize is now more accurately named cosdistAngScale
+
+FEATURE: Added NEW cosdistAngSize and cosdistAngArea functions that conpute angular properties of extended sources (e.g. galaxies or halos).
+
 FEATURE: Added cosvararea function, which is a simpler interface to cosvarsph where the assumption is aside=bside.
 
 FEATURE: Added cosgrowRhoMean function, which is the mean matter density as a given redshift
@@ -43,3 +47,5 @@ FEATURE: Added Driver & Robotham 2010 cosmic variance calculator.
 FEATURE: Added cosgrowDeltaVir to find over density compared to critical to Rho_crit from Bryan & Norman (1998).
 
 FEATURE: Added coshaloSigmaToTvir (virial temperature of halo/gas).
+
+

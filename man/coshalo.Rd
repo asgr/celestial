@@ -16,18 +16,18 @@ All 6 Virial parameter conversion functions. Each can map precisely to the other
 }
 \usage{
 coshaloMvirToSigma(Mvir=1e+12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
+OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, Dim=3, ref)
 coshaloSigmaToMvir(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
+OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, Dim=3, ref)
 coshaloMvirToRvir(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
+OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, Dim=3, ref)
 coshaloRvirToMvir(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
+OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, Dim=3, ref)
 coshaloSigmaToRvir(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
+OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, Dim=3, ref)
 coshaloRvirToSigma(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
-OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref)
-coshaloSigmaToTvir(Sigma=230, Vunit=1e3, Tunit='K', type='halo') 
+OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, Dim=3, ref)
+coshaloSigmaToTvir(Sigma=230, Vunit=1e3, Tunit='K', Type='halo', Dim=3) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -73,11 +73,14 @@ coshaloSigmaToTvir(Sigma=230, Vunit=1e3, Tunit='K', type='halo')
   \item{Vunit}{
     Base velocity unit in multiples of m/s.
   }
-  \item{type}{
+  \item{Type}{
     Specify the 'halo' or 'gas' temperature to be computed.
   }
   \item{Tunit}{
     Specify the output temperature to be Kelvin ('K'), 'eV' or 'keV'.
+  }
+  \item{Dim}{
+    The dimensional type for the halo (either the 2 or 3). 3 (default) means quantities are intrinsic 3D values. 2 means quantities are for projected systems (i.e. radius and velocity dispersion are compressed). From comparisons to simulations (so NFW, c~5 halos) Rvir[proj]=Rvir[3D]/1.37 and Sigma[proj]=Sigma[3D]/sqrt(3). The former has dependence on the halo profile (so is approximate), whereas the latter is a dimensionality argument that should hold for any virialised system. Note that for projected systems Sigma is measured along one dimension: the line-of-site.
   }
   \item{ref}{
     The name of a reference cosmology to use, one of 137 / 737 / Planck / Planck13 / Planck15 / WMAP / WMAP9 / WMAP7 / WMAP5 / WMAP3 / WMAP1 / Millennium / GiggleZ. Planck=Planck15 and WMAP=WMAP9. The usage is case insensitive, so wmap9 is an allowed input. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL.
@@ -101,7 +104,7 @@ These functions allow for various analytic conversions between the 3 major prope
 
 \item{coshaloRvirToSigma}{Outputs velocity (in units of Vunit) dispersion given radius.}
 
-\item{coshaloSigmaToRvir}{Output temperture (in units of Tunit) given velocity dispersion. Based on Eqns. 3/7/8/9 of Bryan & Norman (1998).}
+\item{coshaloSigmaToTvir}{Output temperture (in units of Tunit) given velocity dispersion. Based on Eqns. 3/7/8/9 of Bryan & Norman (1998).}
 }
 
 \references{

@@ -58,7 +58,7 @@ cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-
     LumDist = (1+z)*CoDistTran
     AngDist = CoDistTran/(1+z)
     if(z>=0){DistMod = 5*log10(LumDist)+25}else{DistMod=NA}
-    AngSize = AngDist*(pi/(180*60*60))*1000
+    AngScale = AngDist*(pi/(180*60*60))*1000
       
     if (age) {
       HT = (3.08568025e+19/(H0*31556926))/1e9
@@ -67,17 +67,17 @@ cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-
     }
     if(error){
       if (age) {
-        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol, HubTime = HT, UniAgeNow = UniAge, UniAgeAtz = UniAge - zAge, TravelTime = zAge, RelError=RelError)
+        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngScale = AngScale, CoVol = CoVol, HubTime = HT, UniAgeNow = UniAge, UniAgeAtz = UniAge - zAge, TravelTime = zAge, RelError=RelError)
       }
       else {
-        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol, RelError=RelError)
+        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngScale = AngScale, CoVol = CoVol, RelError=RelError)
       }
     }else{
       if (age) {
-        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol, HubTime = HT, UniAgeNow = UniAge, UniAgeAtz = UniAge - zAge, TravelTime = zAge)
+        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngScale = AngScale, CoVol = CoVol, HubTime = HT, UniAgeNow = UniAge, UniAgeAtz = UniAge - zAge, TravelTime = zAge)
       }
       else {
-        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngSize = AngSize, CoVol = CoVol)
+        return = c(z = z, a = a, CoDist = CoDist, LumDist = LumDist, AngDist = AngDist, CoDistTran=CoDistTran, DistMod = DistMod, AngScale = AngScale, CoVol = CoVol)
       }
     }
   }
@@ -244,7 +244,7 @@ cosdistDistMod=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
-cosdistAngSize=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
+cosdistAngScale=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -270,10 +270,82 @@ cosdistAngSize=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
         CoDistTran = HubDist*(1/sqrt(abs(OmegaK)))*sin(sqrt(abs(OmegaK))*CoDist/HubDist)
       }
     }
-    AngSize = (CoDistTran / (1 + z)) * (pi/(180 * 60 * 60)) * 1000
-    return=AngSize
+    AngScale = (CoDistTran / (1 + z)) * (pi/(180 * 60 * 60)) * 1000
+    return=AngScale
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
+}
+
+cosdistAngSize=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, Dim=1, Dist='Co', ref){
+  z=as.numeric(z)
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z> -1)){stop('All z must be > -1')}
+  if(!missing(ref)){
+    params=.getcos(ref)
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
+    if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
+  }
+  OmegaK=1-OmegaM-OmegaL-OmegaR
+  temp = function(z, Size, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime, Dim, Dist) {
+    
+    HubDist = (299792.458/H0)
+    CoDist = HubDist * integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
+    if(OmegaK==0){
+      CoDistTran = CoDist
+    }else{
+      if(OmegaK>0){
+        CoDistTran = HubDist*(1/sqrt(OmegaK))*sinh(sqrt(OmegaK)*CoDist/HubDist)
+      }
+      if(OmegaK<0){
+        CoDistTran = HubDist*(1/sqrt(abs(OmegaK)))*sin(sqrt(abs(OmegaK))*CoDist/HubDist)
+      }
+    }
+    Size=Size/2
+    if(Dist=='Co'){Size=Size/(1+z)}
+    if(Dim %in% 1:2){Ang = atan(Size/(CoDistTran / (1 + z)))*180/pi}
+    if(Dim == 3){Ang = asin(Size/(CoDistTran / (1 + z)))*180/pi}
+    Ang=Ang*2
+    return=Ang
+  }
+  return(Vectorize(temp)(z = z, Size=Size, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, Dim=Dim, Dist=Dist))
+}
+
+cosdistAngArea=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, Dim=1, Dist='Co', ref){
+  z=as.numeric(z)
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z> -1)){stop('All z must be > -1')}
+  if(!missing(ref)){
+    params=.getcos(ref)
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
+    if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
+  }
+  OmegaK=1-OmegaM-OmegaL-OmegaR
+  temp = function(z, Size, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime, Dim, Dist) {
+    
+    HubDist = (299792.458/H0)
+    CoDist = HubDist * integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
+    if(OmegaK==0){
+      CoDistTran = CoDist
+    }else{
+      if(OmegaK>0){
+        CoDistTran = HubDist*(1/sqrt(OmegaK))*sinh(sqrt(OmegaK)*CoDist/HubDist)
+      }
+      if(OmegaK<0){
+        CoDistTran = HubDist*(1/sqrt(abs(OmegaK)))*sin(sqrt(abs(OmegaK))*CoDist/HubDist)
+      }
+    }
+    Size=Size/2
+    if(Dist=='Co'){Size=Size/(1+z)}
+    if(Dim %in% 1:2){Ang = atan(Size/(CoDistTran / (1 + z)))*180/pi}
+    if(Dim == 3){Ang = asin(Size/(CoDistTran / (1 + z)))*180/pi}
+    Area=pi*Ang^2
+    return=Area
+  }
+  return(Vectorize(temp)(z = z, Size=Size, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, Dim=Dim, Dist=Dist))
 }
 
 cosdistCoVol=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){

@@ -1,4 +1,5 @@
-coshaloMvirToSigma=function(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref){
+coshaloMvirToSigma=function(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, Dim=3, ref){
+  if(!Dim %in% 2:3){stop("Dim must be 2 or 3!")}
   if(DeltaVir=='get'){
     DeltaVir=cosgrowDeltaVir(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
     Rho='crit'
@@ -10,10 +11,14 @@ coshaloMvirToSigma=function(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-
   g = g*Munit/(Lunit*Vunit^2)
   if(Rho=='crit'){RhoVal=(cosgrowRhoCrit(z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Dist='Ang', ref=ref)/1e9)*((Lunit/1e3)^3)/Munit}
   if(Rho=='mean'){RhoVal=(cosgrowRhoMean(z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Dist='Ang', ref=ref)/1e9)*((Lunit/1e3)^3)/Munit}
-  return((Mvir*sqrt(32*pi*g^3*DeltaVir*RhoVal/3))^(1/3))
+  Sigma=(Mvir*sqrt(32*pi*g^3*DeltaVir*RhoVal/3))^(1/3)
+  if(Dim==2){Sigma=Sigma/1.76}
+  return(Sigma)
 }
 
-coshaloSigmaToMvir=function(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref){
+coshaloSigmaToMvir=function(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, Dim=3, ref){
+  if(!Dim %in% 2:3){stop("Dim must be 2 or 3!")}
+  if(Dim==2){Sigma=Sigma*1.76}
   if(DeltaVir=='get'){
     DeltaVir=cosgrowDeltaVir(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
     Rho='crit'
@@ -25,10 +30,12 @@ coshaloSigmaToMvir=function(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-
   g = g*Munit/(Lunit*Vunit^2)
   if(Rho=='crit'){RhoVal=(cosgrowRhoCrit(z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Dist='Ang', ref=ref)/1e9)*((Lunit/1e3)^3)/Munit}
   if(Rho=='mean'){RhoVal=(cosgrowRhoMean(z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Dist='Ang', ref=ref)/1e9)*((Lunit/1e3)^3)/Munit}
-  return(Sigma^3*sqrt(3/(32*pi*g^3*DeltaVir*RhoVal)))
+  Mvir=Sigma^3*sqrt(3/(32*pi*g^3*DeltaVir*RhoVal))
+  return(Mvir)
 }
 
-coshaloMvirToRvir=function(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref){
+coshaloMvirToRvir=function(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, Dim=3, ref){
+  if(!Dim %in% 2:3){stop("Dim must be 2 or 3!")}
   if(DeltaVir=='get'){
     DeltaVir=cosgrowDeltaVir(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
     Rho='crit'
@@ -40,10 +47,14 @@ coshaloMvirToRvir=function(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-O
   g = g*Munit/(Lunit*Vunit^2)
   if(Rho=='crit'){RhoVal=(cosgrowRhoCrit(z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Dist=Dist, ref=ref)/1e9)*((Lunit/1e3)^3)/Munit}
   if(Rho=='mean'){RhoVal=(cosgrowRhoMean(z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Dist=Dist, ref=ref)/1e9)*((Lunit/1e3)^3)/Munit}
-  return(((3*Mvir)/(4*pi*DeltaVir*RhoVal))^(1/3))
+  Rvir=((3*Mvir)/(4*pi*DeltaVir*RhoVal))^(1/3)
+  if(Dim==2){Rvir=Rvir/1.37}
+  return(Rvir)
 }
 
-coshaloRvirToMvir=function(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref){
+coshaloRvirToMvir=function(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, Dim=3, ref){
+  if(!Dim %in% 2:3){stop("Dim must be 2 or 3!")}
+  if(Dim==2){Rvir=Rvir/1.37}
   if(DeltaVir=='get'){
     DeltaVir=cosgrowDeltaVir(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
     Rho='crit'
@@ -58,7 +69,9 @@ coshaloRvirToMvir=function(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-Omega
   return((4*pi/3)*DeltaVir*RhoVal*Rvir^3)
 }
 
-coshaloSigmaToRvir=function(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref){
+coshaloSigmaToRvir=function(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, Dim=3, ref){
+  if(!Dim %in% 2:3){stop("Dim must be 2 or 3!")}
+  if(Dim==2){Sigma=Sigma*1.76}
   if(DeltaVir=='get'){
     DeltaVir=cosgrowDeltaVir(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
     Rho='crit'
@@ -72,10 +85,14 @@ coshaloSigmaToRvir=function(Sigma=230, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-
   if(Rho=='mean'){RhoVal=(cosgrowRhoMean(z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Dist='Ang', ref=ref)/1e9)*((Lunit/1e3)^3)/Munit}
   if(Dist=='Ang'){scale=1}
   if(Dist=='Co'){scale=1+z}
-  return(scale*Sigma*(27/(512*pi^3*g^3*DeltaVir^3*RhoVal^3))^(1/6))
+  Rvir=scale*Sigma*(27/(512*pi^3*g^3*DeltaVir^3*RhoVal^3))^(1/6)
+  if(Dim==2){Rvir=Rvir/1.37}
+  return(Rvir)
 }
 
-coshaloRvirToSigma=function(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, ref){
+coshaloRvirToSigma=function(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, Dim=3, ref){
+  if(!Dim %in% 2:3){stop("Dim must be 2 or 3!")}
+  if(Dim==2){Rvir=Rvir*1.37}
   if(DeltaVir=='get'){
     DeltaVir=cosgrowDeltaVir(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
     Rho='crit'
@@ -89,12 +106,16 @@ coshaloRvirToSigma=function(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-Omeg
   if(Rho=='mean'){RhoVal=(cosgrowRhoMean(z=z, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Dist='Ang', ref=ref)/1e9)*((Lunit/1e3)^3)/Munit}
   if(Dist=='Ang'){scale=1}
   if(Dist=='Co'){scale=1+z}
-  return((Rvir/scale)*((512*pi^3*g^3*DeltaVir^3*RhoVal^3)/27)^(1/6))
+  Sigma=(Rvir/scale)*((512*pi^3*g^3*DeltaVir^3*RhoVal^3)/27)^(1/6)
+  if(Dim==2){Sigma=Sigma/1.76}
+  return(Sigma)
 }
 
-coshaloSigmaToTvir=function(Sigma=230, Vunit=1e3, Tunit='K', type='halo'){
-  if(type=='halo'){ft=1}
-  if(type=='gas'){ft=0.78}
+coshaloSigmaToTvir=function(Sigma=230, Vunit=1e3, Tunit='K', Type='halo', Dim=3){
+  if(!Dim %in% 2:3){stop("Dim must be 2 or 3!")}
+  if(Dim==2){Sigma=Sigma*1.76}
+  if(Type=='halo'){ft=1}
+  if(Type=='gas'){ft=0.78}
   if(Tunit=='K'){convert=kNIST2010BoltzmannConstant}
   if(Tunit=='eV'){convert=kNIST2010electronVolt}
   if(Tunit=='keV'){convert=kNIST2010electronVolt*1e3}

@@ -9,7 +9,9 @@
 \alias{cosdistCoDistTran}
 \alias{cosdistCoDist12ang}
 \alias{cosdistDistMod}
+\alias{cosdistAngScale}
 \alias{cosdistAngSize}
+\alias{cosdistAngArea}
 \alias{cosdistCoVol}
 \alias{cosdistHubTime}
 \alias{cosdistUniAgeNow}
@@ -58,8 +60,12 @@ cosdistzeff12ang(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
 OmegaR=0, w0 = -1, wprime = 0, inunit='deg', ref)
 cosdistDistMod(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
 wprime = 0, ref)
-cosdistAngSize(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
+cosdistAngScale(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
 wprime = 0, ref)
+cosdistAngSize(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1,
+wprime=0, Dim=1, Dist='Co', ref)
+cosdistAngArea(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1,
+wprime=0, Dim=1, Dist='Co', ref)
 cosdistCoVol(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
 wprime = 0, ref)
 cosdistHubTime(H0=100)
@@ -127,6 +133,15 @@ w0 = -1, wprime = 0, ref)
   \item{ang}{
     The observed angular separation between object 1 and object 2 in degrees.
   }
+  \item{Size}{
+    The 1D size of the object (i.e. diameter or total length). Either comoving or angular, as specified by \option{Dist}. For cosdistAngArea this is always taken to be the diameter of either  projected or 3D object.
+  }
+  \item{Dim}{
+    Specifies whether the object being considered is 1D (a line) 2D (e.g. a face on galaxy) or 3D (e.g. dark matter halo). This makes a very small modification to the geometry used (tan of 1D/2D and sin for 3D), but is only noticeable for large structures at low redshifts.
+  }
+  \item{Dist}{
+    Determines the distance type, i.e. angular / physical distances (Ang) or with respect to comoving distances (Co).
+  }
   \item{inunit}{
     The units of angular coordinate provided for \option{ang}. Allowed options are deg for degress, amin for arc minutes, asec for arc seconds, and rad for radians.
   }
@@ -148,7 +163,7 @@ LumDist \tab Luminosity distance in units of Mpc\cr
 AngDist \tab Angular diameter distance in units of Mpc\cr
 CoDistTran  \tab Transverse comoving distance in units of Mpc\cr
 DistMod \tab The distance modulus used where AbsMag = ApMag - DistMod, and DistMod = 5log10(LumDist)+25 in units of mag\cr
-AngSize \tab Physical projected size of an object at z in units of kpc/arcsec\cr
+AngScale \tab Physical projected scale of an object at z in units of kpc/arcsec\cr
 CoVol \tab Comoving volume of Universe within z in units of Gpc^3\cr
 }
 If age=TRUE is set then additional age-related information is calculated for each z as extra columns:
@@ -193,7 +208,11 @@ The outputs of the standalone functions are:
 
 \item{cosdistDistMod}{Returns the distance modulus used where AbsMag = ApMag - DistMod, and DistMod = 5log10(LumDist)+25 in units of mag.}
 
-\item{cosdistAngSize}{Returns the physical projected size of an object at z in units of kpc/arcsec.}
+\item{cosdistAngScale}{Returns the physical projected scale of an object at z in units of kpc/arcsec.}
+
+\item{cosdistAngSize}{Returns the angular size (length or diameter) of an object in arc seconds.}
+
+\item{cosdistAngArea}{Returns the angular area of an object in (arc seconds)^2, taking teh specified Size to be the diameter.}
 
 \item{cosdistCoVol}{Returns the comoving volume of Universe within z in units of Gpc^3.}
 
