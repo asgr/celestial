@@ -312,7 +312,7 @@ cosdistAngSize=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
   return(Vectorize(temp)(z = z, Size=Size, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, Dim=Dim, Dist=Dist))
 }
 
-cosdistAngArea=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, Dim=1, Dist='Co', ref){
+cosdistAngArea=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, Dim=2, Dist='Co', ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}

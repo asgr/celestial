@@ -65,7 +65,7 @@ wprime = 0, ref)
 cosdistAngSize(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1,
 wprime=0, Dim=1, Dist='Co', ref)
 cosdistAngArea(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1,
-wprime=0, Dim=1, Dist='Co', ref)
+wprime=0, Dim=2, Dist='Co', ref)
 cosdistCoVol(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1,
 wprime = 0, ref)
 cosdistHubTime(H0=100)
