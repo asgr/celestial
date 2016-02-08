@@ -54,7 +54,7 @@ coshaloMvirToRvir=function(Mvir=1e12, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-O
 
 coshaloRvirToMvir=function(Rvir=162.635, z=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, Rho='crit', Dist='Co', DeltaVir=200, Munit=1, Lunit=1e6, Vunit=1e3, Dim=3, ref){
   if(!Dim %in% 2:3){stop("Dim must be 2 or 3!")}
-  if(Dim==2){Rvir=Rvir/1.37}
+  if(Dim==2){Rvir=Rvir*1.37}
   if(DeltaVir=='get'){
     DeltaVir=cosgrowDeltaVir(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, ref=ref)
     Rho='crit'
