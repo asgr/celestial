@@ -666,7 +666,7 @@ cosdistAngDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Ome
       2*sin(rDist1)*sin(rDist2)*cos(rDist1)*cos(rDist2)*cos(ang*pi/180)
     CoSep12=HubDist*asin(sqrt(Skr12squared))/sqrt(abs(OmegaK))
   }
-  CoDiff=rDist1*HubDist+CoSep12
+  CoDiff=CoSep12
   MaxCo=cosdistCoDist(1e5, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, w0=w0, wprime=wprime)
   if(CoDiff>MaxCo){
     print('Objects not in common light cone!')
@@ -742,7 +742,7 @@ cosdistLumDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Ome
       2*sin(rDist1)*sin(rDist2)*cos(rDist1)*cos(rDist2)*cos(ang*pi/180)
     CoSep12=HubDist*asin(sqrt(Skr12squared))/sqrt(abs(OmegaK))
   }
-  CoDiff=rDist1*HubDist+CoSep12
+  CoDiff=CoSep12
   MaxCo=cosdistCoDist(1e5, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, w0=w0, wprime=wprime)
   if(CoDiff>MaxCo){
     print('Objects not in common light cone!')
@@ -818,7 +818,7 @@ cosdistzem12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-
       2*sin(rDist1)*sin(rDist2)*cos(rDist1)*cos(rDist2)*cos(ang*pi/180)
     CoSep12=HubDist*asin(sqrt(Skr12squared))/sqrt(abs(OmegaK))
   }
-  CoDiff=rDist1*HubDist+CoSep12
+  CoDiff=CoSep12
   MaxCo=cosdistCoDist(1e5, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, w0=w0, wprime=wprime)
   if(CoDiff>MaxCo){
     print('Objects not in common light cone!')
