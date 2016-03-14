@@ -673,8 +673,7 @@ cosdistAngDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Ome
     out=NA
   }else{
     zem=cosmapval(CoDiff, 'CoDist', H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, w0=w0, wprime=wprime, zrange = c(0,1e5), out='z')
-    zeff=cosdistzeff(zref=z1,zem=zem)
-    out=CoSep12/(1+zeff)
+    out=CoSep12/(1+zem)
   }
   return(out)
 }
@@ -749,8 +748,7 @@ cosdistLumDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Ome
     out=NA
   }else{
     zem=cosmapval(CoDiff,'CoDist',H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, w0=w0, wprime=wprime, zrange = c(0,1e5), out='z')
-    zeff=cosdistzeff(zref=z1,zem=zem)
-    out=CoSep12*(1+zeff)
+    out=CoSep12*(1+zem)
   }
   return(out)
 }
