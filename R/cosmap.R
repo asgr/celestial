@@ -38,13 +38,13 @@ cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0=100, OmegaM=0.3, OmegaL
     zvals=1/avals-1
   }
   
-  if(cosparamx %in% c('CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','RhoCrit','CoVel')){
+  if(cosparamx %in% c('CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','RhoCrit')){
     combxparams=list(z=zvals, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR)
   }
   if(cosparamx %in% c('z', 'a')){
     combxparams=list(z=zvals)
   }
-  if(cosparamx %in% c('OmegaM', 'OmegaL', 'OmegaK', 'OmegaR','Factor')){
+  if(cosparamx %in% c('OmegaM', 'OmegaL', 'OmegaK', 'OmegaR','Factor','CoVel')){
     combxparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR)
   }
   if(cosparamx %in% c('Rate')){
@@ -54,13 +54,13 @@ cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0=100, OmegaM=0.3, OmegaL
     combxparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Sigma8=Sigma8)
   }
   
-  if(cosparamy %in% c('CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','RhoCrit','CoVel')){
+  if(cosparamy %in% c('CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','RhoCrit')){
     combyparams=list(z=zvals, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR=OmegaR)
   }
   if(cosparamy %in% c('z', 'a')){
     combyparams=list(z=zvals)
   }
-  if(cosparamy %in% c('OmegaM', 'OmegaL', 'OmegaR', 'OmegaK','Factor')){
+  if(cosparamy %in% c('OmegaM', 'OmegaL', 'OmegaR', 'OmegaK','Factor','CoVel')){
     combyparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR)
   }
   if(cosparamy %in% c('Rate')){

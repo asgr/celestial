@@ -18,7 +18,7 @@ cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-
     OmegaK=1-OmegaM-OmegaL-OmegaR
     OmegaSum=OmegaR*(1+z)^4 + OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1)
     Hz=H0*sqrt(OmegaSum)
-    CoVel=299792.458*sqrt(OmegaSum)*integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)/(1+z)
+    CoVel=299792.458*integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
     OmegaRatz=(OmegaR*(1+z)^4)/OmegaSum
     OmegaMatz=(OmegaM*(1+z)^3)/OmegaSum
     OmegaLatz=OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1)/OmegaSum
@@ -334,7 +334,7 @@ cosgrowDeltaVir=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
   return(18*pi^2+82*(OmegaMatz-1)-39*(OmegaMatz-1)^2)
 }
 
-cosgrowCoVel=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
+cosgrowCoVel=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
   z=as.numeric(z)
   if(!all(is.finite(z))){stop('All z must be finite and numeric')}
   if(!all(z> -1)){stop('All z must be > -1')}
@@ -347,11 +347,10 @@ cosgrowCoVel=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0,
   }
   OmegaK=1-OmegaM-OmegaL-OmegaR
   temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
-    HzH0=sqrt(OmegaR*(1+z)^4 + OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1))
-    CoVel = 299792.458*HzH0*integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)/(1+z)
+    CoVel = 299792.458*integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
     return=CoVel
   }
-  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
+  return(Vectorize(temp)(z = z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
 
 cosgrowPecVel=function(z=1, zob=1){
