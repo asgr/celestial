@@ -238,8 +238,9 @@ The outputs of the standalone functions are:
   /299792.458, type='l', log='x', xlab='x', ylab='Cosmological Recession Velocity / c')
   lines(10^seq(-1,4,by=0.01), cosgrowPecVel(0,10^seq(-1,4,by=0.01))/299792.458, col='red')
   lines(10^seq(-1,4,by=0.01), 10^seq(-1,4,by=0.01), col='blue')
-  legend('topleft', legend=c('GR', 'SR', 'Approx (cz)'), lty=1,
-  col=c('black','red','blue'))
+  abline(h=1,v=1,lty=2)
+  legend('topleft', legend=c('GR', 'SR', 'Approx (cz)', 'Superluminal'), lty=c(1,1,1,2),
+  col=c('black','red','blue','black'))
   
   # Comparison of the various energy densities that make up the Universe for Planck 2013:
   
