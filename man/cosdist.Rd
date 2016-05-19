@@ -236,6 +236,8 @@ The outputs of the standalone functions are:
 \references{
 Based on the equations in:
 
+Davis T.M. & Lineweaver, Charles H., 2004, PASA, 21, 97
+  
 Hogg D.W., 1999, arXiv, 9905116
 
 Liske J., 2000, MNRAS, 319, 557L

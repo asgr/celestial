@@ -6,7 +6,7 @@
 Cosmological Mapping Functions
 }
 \description{
-Functions for mapping from one arbitrary csomological parameter to another. This includes the provision of a generic interpolation function and another exact value lookup.
+Functions for mapping from one arbitrary cosmological parameter to another. This includes the provision of a generic interpolation function and another exact value lookup.
 }
 \usage{
 cosmapval(val=50, cosparam="CoVol", H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0,
@@ -22,13 +22,13 @@ degen='lo', ref)
 The value/s to be mapped from parameter cosparamx to parameter cosparamy (this can be a vector or a single number).
 }
   \item{cosparam}{
-Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistMod, CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these). Note that AngDist and AngSize are not an option for cosparam due to degenerate redshift solutions causing problems with the approxfun mapping.
+Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistMod, CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, CoVel, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these). Note that AngDist and AngSize are not an option for cosparam due to degenerate redshift solutions causing problems with the approxfun mapping.
 }
   \item{cosparamx}{
-Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistMod, CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these). Note that AngDist and AngSize are not an option for cosparamx due to degenerate redshift solutions causing problems with the approxfun mapping.
+Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistMod, CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, CoVel, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these). Note that AngDist and AngSize are not an option for cosparamx due to degenerate redshift solutions causing problems with the approxfun mapping.
 }
   \item{cosparamy}{
-Cosmological parameter, must be one of: z, a, CoDist, LumDist, AngDist, CoDistTran, DistMod, AngSize CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these).
+Cosmological parameter, must be one of: z, a, CoDist, LumDist, AngDist, CoDistTran, DistMod, AngSize CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, CoVel, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these).
 }
   \item{H0}{
     Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).

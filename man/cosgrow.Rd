@@ -189,6 +189,10 @@ The outputs of the standalone functions are:
   
   Bryan & Norman, 1998, ApJ, 495, 80
   
+  Davis T.M. & Lineweaver, Charles H., 2004, PASA, 21, 97
+  
+  Davis T.M. & Scrimgeour M.I., 2014, MNRAS, 442, 1117
+  
   Hamilton A.J.S., 2001, MNRAS 322 419
   
   Lahav O., et al., 1991, MNRAS, 251, 136

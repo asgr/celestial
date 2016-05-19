@@ -1,7 +1,7 @@
 cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, Sigma8=0.8, fSigma8=FALSE, zrange=c(0,20), step='z', res=100, degen='lo', ref){
   
-  paramlistx=c('z', 'a', 'CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz', 'TravelTime', 'H', 'OmegaM', 'OmegaL', 'OmegaR', 'OmegaK', 'Factor', 'Rate', 'Sigma8', 'RhoCrit', 'RhoMean')
-  paramlisty=c('z', 'a', 'CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz', 'TravelTime', 'H', 'OmegaM', 'OmegaL', 'OmegaR', 'OmegaK', 'Factor', 'Rate', 'Sigma8', 'RhoCrit', 'RhoMean')
+  paramlistx=c('z', 'a', 'CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz', 'TravelTime', 'H', 'OmegaM', 'OmegaL', 'OmegaR', 'OmegaK', 'Factor', 'Rate', 'Sigma8', 'RhoCrit', 'RhoMean', "CoVel")
+  paramlisty=c('z', 'a', 'CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz', 'TravelTime', 'H', 'OmegaM', 'OmegaL', 'OmegaR', 'OmegaK', 'Factor', 'Rate', 'Sigma8', 'RhoCrit', 'RhoMean', "CoVel")
   if(! cosparamx %in% paramlistx){stop('cosparamx is not an allowed cosmological parameter, see help options.')}
   if(! cosparamy %in% paramlisty){stop('cosparamy is not an allowed cosmological parameter, see help options.')}
   if(! degen %in% c('lo','hi')){stop('degen option must either be set to lo or hi.')}
@@ -38,7 +38,7 @@ cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0=100, OmegaM=0.3, OmegaL
     zvals=1/avals-1
   }
   
-  if(cosparamx %in% c('CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','RhoCrit')){
+  if(cosparamx %in% c('CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','RhoCrit','CoVel')){
     combxparams=list(z=zvals, H0=H0, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR)
   }
   if(cosparamx %in% c('z', 'a')){
@@ -54,7 +54,7 @@ cosmapfunc=function(cosparamx='CoVol', cosparamy='z', H0=100, OmegaM=0.3, OmegaL
     combxparams=list(z=zvals, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR, Sigma8=Sigma8)
   }
   
-  if(cosparamy %in% c('CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','RhoCrit')){
+  if(cosparamy %in% c('CoDist', 'LumDist', 'AngDist', 'CoDistTran', 'DistMod', 'AngSize', 'CoVol', 'UniAgeAtz','TravelTime','H','RhoCrit','CoVel')){
     combyparams=list(z=zvals, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR=OmegaR)
   }
   if(cosparamy %in% c('z', 'a')){
