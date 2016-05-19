@@ -8,6 +8,8 @@
 \alias{cosgrowOmegaK}
 \alias{cosgrowDecelq}
 \alias{cosgrowH}
+\alias{cosgrowCoVel}
+\alias{cosgrowPecVel}
 \alias{cosgrowFactor}
 \alias{cosgrowRate}
 \alias{cosgrowSigma8}
@@ -24,7 +26,7 @@
   Cosmological growth and evolution calculations
 }
 \description{
-  These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaR+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified and OmegaR=0 (so no radiation pressure at any epoch).
+  These functions allowallow various properties of the expansion of the Universe to be calculated: e.g. OmegaM/OmegaL/OmegaR/OmegaK for ay redshift, growth rate and growth factor, sigma8, and RhoCrit and RhoMean. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaR+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified and OmegaR=0 (so no radiation pressure at any epoch).
 }
 \usage{
   cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1, wprime = 0,
@@ -34,6 +36,9 @@
   cosgrowa(z = 1)
   cosgrowH(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0,
   ref)
+  cosgrowCoVel(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1,
+  wprime=0, ref)
+  cosgrowPecVel(z=1, zob=1)
   cosgrowOmegaM(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref)
   cosgrowOmegaL(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref)
   cosgrowOmegaR(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref)
@@ -61,7 +66,10 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{z}{
-    Redshift, where z must be > -1 (can be a vector).
+    Cosmological redshift, where z must be > -1 (can be a vector).
+  }
+  \item{zob}{
+    Observed redshift, where z must be > -1 (can be a vector). Essentially a combination of the cosmological redshift \option{z} and the peculiar velocity of the objects with respect to this.
   }
   \item{H0}{
     Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
@@ -112,7 +120,8 @@
 \tabular{ll}{
 z       \tab Requested redshift\cr
 a       \tab Universe expansion factor, as given by a=1/(1+z)\cr
-H       \tab Hubble value in units of (km/s)/Mpc\cr
+H       \tab Hubble expansion rate in units of (km/s)/Mpc\cr
+CoVel   \tab Cosmological recession velocity in units of km/s\cr
 OmegaM  \tab Omega Matter\cr
 OmegaL  \tab Omega Lambda\cr
 OmegaR  \tab Omega Radiation\cr
@@ -131,7 +140,11 @@ The outputs of the standalone functions are:
   
   \item{cosgrowa}{Returns the Universe expansion factor, as given by a=1/(1+z).}
   
-  \item{cosgrowH}{Returns the value of the Hubble constant at z, in units of km/s/Mpc.}
+  \item{cosgrowH}{Returns the value of the Hubble expansion rate at z, in units of km/s/Mpc.}
+  
+  \item{cosgrowCoVel}{Returns the value of the cosmological recession velocity of the object in units of km/s.}
+  
+  \item{cosgrowPecVel}{Returns the value of the peculiar velocity of the object in units of km/s.}
   
   \item{cosgrowOmegaM}{Returns the value of Omega Matter at z.}
   
@@ -198,6 +211,8 @@ The outputs of the standalone functions are:
   cosgrowz(0.3)
   cosgrowa(0.3)
   cosgrowH(0.3)
+  cosgrowCoVel(0.3)
+  cosgrowPecVel(0.3,0.31)
   cosgrowOmegaM(0.3)
   cosgrowOmegaL(0.3)
   cosgrowOmegaK(0.3)

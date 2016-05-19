@@ -48,4 +48,9 @@ FEATURE: Added cosgrowDeltaVir to find over density compared to critical to Rho_
 
 FEATURE: Added coshaloSigmaToTvir (virial temperature of halo/gas).
 
+FEATURE: Added cosgrowCoVel (cosmological recession velocity).
+
+FEATURE: Added cosgrowPecVel (peculiar velocity).
+
+DOCS: New cosdist examples by John Peacock (discussed when visiting ASGR at ICRAR in 2016).
 

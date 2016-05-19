@@ -41,7 +41,7 @@ coshaloSigmaToTvir(Sigma=230, Vunit=1e3, Tunit='K', Type='halo', Dim=3)
     Virial radius (3D) in units of 'Lunit'.
   }
   \item{z}{
-    Redshift, where z must be > -1 (can be a vector).
+    Cosmological redshift, where z must be > -1 (can be a vector).
   }
   \item{H0}{
     Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).

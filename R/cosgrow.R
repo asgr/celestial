@@ -18,6 +18,7 @@ cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-
     OmegaK=1-OmegaM-OmegaL-OmegaR
     OmegaSum=OmegaR*(1+z)^4 + OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1)
     Hz=H0*sqrt(OmegaSum)
+    CoVel=299792.458*sqrt(OmegaSum)*integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)/(1+z)
     OmegaRatz=(OmegaR*(1+z)^4)/OmegaSum
     OmegaMatz=(OmegaM*(1+z)^3)/OmegaSum
     OmegaLatz=OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1)/OmegaSum
@@ -40,7 +41,7 @@ cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-
     if(Dist=='Co'){RhoCrit=RhoCrit*Mpc2m^3/(1+z)^3}
     RhoMean=RhoCrit*OmegaMatz
     Decelq=OmegaMatz/2+OmegaRatz-OmegaLatz
-  return=c(z=z, a=1/(1+z), H=Hz, OmegaM=OmegaMatz, OmegaL=OmegaLatz, OmegaR=OmegaRatz, OmegaK=OmegaKatz, Decelq=Decelq, Factor=Factor, Rate=Rate, Sigma8=Sigma8atz, RhoCrit=RhoCrit, RhoMean=RhoMean)
+  return=c(z=z, a=1/(1+z), H=Hz, CoVel=CoVel, OmegaM=OmegaMatz, OmegaL=OmegaLatz, OmegaR=OmegaRatz, OmegaK=OmegaKatz, Decelq=Decelq, Factor=Factor, Rate=Rate, Sigma8=Sigma8atz, RhoCrit=RhoCrit, RhoMean=RhoMean)
   }
   return(as.data.frame(t(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, w0=w0, wprime=wprime))))
 }
@@ -332,3 +333,35 @@ cosgrowDeltaVir=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, ref)
   OmegaMatz=cosgrowOmegaM(z=z, OmegaM=OmegaM, OmegaL=OmegaL, OmegaR=OmegaR)
   return(18*pi^2+82*(OmegaMatz-1)-39*(OmegaMatz-1)^2)
 }
+
+cosgrowCoVel=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
+  z=as.numeric(z)
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z> -1)){stop('All z must be > -1')}
+  if(!missing(ref)){
+    params=.getcos(ref)
+    H0=as.numeric(params['H0'])
+    OmegaM=as.numeric(params['OmegaM'])
+    OmegaL=as.numeric(params['OmegaL'])
+    if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
+  }
+  OmegaK=1-OmegaM-OmegaL-OmegaR
+  temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
+    HzH0=sqrt(OmegaR*(1+z)^4 + OmegaM*(1+z)^3 + OmegaK*(1+z)^2 + OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1))
+    CoVel = 299792.458*HzH0*integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)/(1+z)
+    return=CoVel
+  }
+  return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
+}
+
+cosgrowPecVel=function(z=1, zob=1){
+  z=as.numeric(z)
+  if(!all(is.finite(z))){stop('All z must be finite and numeric')}
+  if(!all(z> -1)){stop('All z must be > -1')}
+  if(!all(is.finite(zob))){stop('All zob must be finite and numeric')}
+  if(!all(zob> -1)){stop('All zob must be > -1')}
+  zpec=(1+zob)/(1+z)-1
+  PecVel=299792.458*((1+zpec)^2-1)/((1+zpec)^2+1)
+  return(PecVel)
+}
+

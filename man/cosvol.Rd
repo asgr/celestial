@@ -17,10 +17,10 @@ w0=-1, wprime=0, inunit = "deg2", ref)
     Sky area in units of innunit (default is square degrees)
   }
   \item{zmax}{
-    Maximum redshift of comoving cone.
+    Maximum cosmological redshift of comoving cone.
   }
   \item{zmin}{
-    Minimum redshift of comoving cone.
+    Minimum cosmological redshift of comoving cone.
   }
   \item{H0}{
     Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc)

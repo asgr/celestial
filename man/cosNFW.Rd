@@ -49,7 +49,7 @@ OmegaR=0, Rho = "crit", A=6.71, B=-0.091, C=-0.44, ref)
     The halo mass required for computing the Duffy (2008) mass to concentration conversion. Here the halo mass required for input is the 200 times overdense with respect to critical variation.
   }
   \item{z}{
-    Redshift, where z must be > -1 (can be a vector).
+    Cosmological redshift, where z must be > -1 (can be a vector).
   }
   \item{H0}{
     Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).

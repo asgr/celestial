@@ -30,7 +30,7 @@
 Cosmological distance calculations
 }
 \description{
-These functions allows comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified.
+These functions allow comoving, angular size and luminosity distances to be calculated for a given redshift, it can also return look back time. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaR+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified and OmegaR=0 (so no radiation pressure at any epoch).
 }
 \usage{
 cosdist(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1, wprime = 0,
@@ -83,7 +83,7 @@ w0 = -1, wprime = 0, ref)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{z}{
-    Redshift, where z must be > -1 (can be a vector).
+    Cosmological redshift, where z must be > -1 (can be a vector).
   }
   \item{H0}{
     Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
@@ -290,6 +290,26 @@ cosdistCoDist12ang(2,2,ang=180,OmegaM=0.3,OmegaL=1)
 #The second number should be be the same as:
 
 cosdistCoDist(2,OmegaM=0.3,OmegaL=1)*2
+
+#Example 1 by John Peacock for EDS Universe (answer should be nearly 3):
+
+cosdistzem12ang(3,4,56.4,H0=100,OmegaM=1,OmegaL=0)
+
+#Example 2 by John Peacock for EDS Universe (answer should be nearly 2995 Mpc/h):
+
+cosdistCoDist12ang(3,4,56.4,H0=100,OmegaM=1,OmegaL=0)
+
+#Example 3 by John Peacock for Milne Universe (answer should be nearly 5294 Mpc/h):
+
+cosdistCoDist12ang(3,4,56,H0=100,OmegaM=0,OmegaL=0)
+
+#Example 4 by John Peacock for Milne Universe (answer should be nearly 4.846):
+
+cosdistzeff12ang(3,4,56,H0=100,OmegaM=0,OmegaL=0)
+
+#Example 5 by John Peacock for Milne Universe (answer should be nearly 364 Mpc/h):
+
+cosdistAngDist12ang(3,4,56,H0=100,OmegaM=0,OmegaL=0)
 
 #Nice plot of distance estimates:
 
