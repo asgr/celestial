@@ -235,10 +235,10 @@ The outputs of the standalone functions are:
   # Various recessional velocities (see Figure 2 of Davis & Lineweaver 2004):
   
   plot(10^seq(-1,4,by=0.01), cosgrowCoVel(10^seq(-1,4,by=0.01), ref='planck')
-  /299792.458, type='l', log='x', xlab='x', ylab='Cosmological Recession Velocity / c')
+  /299792.458, type='l', log='x', xlab='z', ylab='Cosmological Recession Velocity / c')
   lines(10^seq(-1,4,by=0.01), cosgrowPecVel(0,10^seq(-1,4,by=0.01))/299792.458, col='red')
   lines(10^seq(-1,4,by=0.01), 10^seq(-1,4,by=0.01), col='blue')
-  abline(h=1,v=1,lty=2)
+  abline(h=1,v=1.5,lty=2)
   legend('topleft', legend=c('GR', 'SR', 'Approx (cz)', 'Superluminal'), lty=c(1,1,1,2),
   col=c('black','red','blue','black'))
   
