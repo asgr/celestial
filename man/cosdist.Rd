@@ -316,16 +316,38 @@ cosdistAngDist12ang(3,4,56,H0=100,OmegaM=0,OmegaL=0)
 #Nice plot of distance estimates:
 
 redshifts=seq(0,3,by=0.01)
-plot(redshifts, cosdist(redshifts, 70)[,'CoDist'], type='l', col='darkgreen', xlab='Redshift / z',
-ylab='Distance / Mpc')
-lines(redshifts, cosdist(redshifts, 70)[,'LumDist'], col='red')
-lines(redshifts, cosdist(redshifts, 70)[,'AngDist'], col='blue')
+plot(redshifts, cosdistCoDist(redshifts, ref='planck'), type='l', col='darkgreen',
+xlab='Redshift / z', ylab='Distance / Mpc')
+lines(redshifts, cosdistLumDist(redshifts, ref='planck'), col='red')
+lines(redshifts, cosdistAngDist(redshifts, ref='planck'), col='blue')
 legend('topleft', legend=c('Comoving Distance', 'Luminosity Distance', 'Angular Diameter Distance'),
 col=c('darkgreen', 'red', 'blue'),lty=1)
 
-plot(redshifts, cosdist(redshifts, 70, age=TRUE)[,'TravelTime'], type='l', xlab='Redshift / z',
-ylab='Light travel time / Yrs')
+plot(redshifts, cosdistTravelTime(redshifts, ref='planck'), type='l',
+xlab='Redshift / z', ylab='Light travel time / Yrs')
+
+#Actual time example (Figure 1 of Davis & Lineweaver 2004)
+zseq=10^seq(-2,6,len=1e3)-1
+dists=cosdistCoDist(zseq, ref='737')*0.00326
+times=cosdistTravelTime(zseq, ref='737')
+plot(dists, times, type='l', xlab='Comoving Distance / Glyr',
+ylab='Time / Gyr')
+abline(v=0, h=0, lty=1)
+abline(h=c(min(times), max(times)), lty=2)
+abline(v=c(min(dists), max(dists)), lty=2)
+
+#Conformal time example (Figure 1 of Davis & Lineweaver 2004):
+#Mpc to Glyr conversion is 0.00326
+
+zseq=10^seq(-2,6,len=1e3)-1
+dists=cosdistCoDist(zseq, ref='737')*0.00326
+plot(dists, dists, type='l',
+xlab='Comoving Distance / Glyr', ylab='Conformal Time / Gyr')
+abline(v=0, h=0, lty=1)
+abline(h=c(min(dists), max(dists)), lty=2)
+abline(v=c(min(dists), max(dists)), lty=2)
 }
+
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{cosmo}
