@@ -173,11 +173,11 @@ The wavelength location of the radiation peak for a black body as found in \code
 Stefan-Boltzmann Law:
 
 \item{cosplanckSBLawRad}{
-Total energy radiated per metre squared per second across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}.sr\eqn{^{-1}}{^-1}). This is the power version of the Stefan-Boltzmann Law.
+Total energy radiated per metre squared per second across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}). This is the emissive power version of the Stefan-Boltzmann Law.
 }
 
 \item{cosplanckSBLawRad_sr}{
-Total energy radiated per metre squared per second per steradian across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}). This is the radiance version of the Stefan-Boltzmann Law.
+Total energy radiated per metre squared per second per steradian across all wavelengths for a black body (W.m\eqn{^{-2}}{^-2}.sr\eqn{^{-1}}{^-1}). This is the radiance version of the Stefan-Boltzmann Law.
 }
 
 \item{cosplanckSBLawEn}{
