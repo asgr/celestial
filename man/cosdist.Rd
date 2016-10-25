@@ -134,7 +134,7 @@ w0 = -1, wprime = 0, ref)
     The observed angular separation between object 1 and object 2 in degrees.
   }
   \item{Size}{
-    The 1D size of the object (i.e. diameter or total length). Either comoving or angular, as specified by \option{Dist}. For cosdistAngArea this is always taken to be the diameter of either  projected or 3D object.
+    The 1D size of the object (i.e. diameter or total length) in Mpc. Either comoving or angular, as specified by \option{Dist}. For cosdistAngArea this is always taken to be the diameter of either projected or 3D object.
   }
   \item{Dim}{
     Specifies whether the object being considered is 1D (a line) 2D (e.g. a face on galaxy) or 3D (e.g. dark matter halo). This makes a very small modification to the geometry used (tan of 1D/2D and sin for 3D), but is only noticeable for large structures at low redshifts.
@@ -143,7 +143,7 @@ w0 = -1, wprime = 0, ref)
     Determines the distance type, i.e. angular / physical distances (Ang) or with respect to comoving distances (Co).
   }
   \item{inunit}{
-    The units of angular coordinate provided for \option{ang}. Allowed options are deg for degress, amin for arc minutes, asec for arc seconds, and rad for radians.
+    The units of angular coordinate provided for \option{ang}. Allowed options are deg for degrees, amin for arc minutes, asec for arc seconds, and rad for radians.
   }
   \item{outunit}{
     For \code{cosdistAngSize} units of angular coordinate output. Allowed options are deg for degress, amin for arc minutes, asec for arc seconds, and rad for radians.
