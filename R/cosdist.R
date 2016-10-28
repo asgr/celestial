@@ -9,11 +9,11 @@
 }
 
 .Einv=function(z, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime){
-  return(1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1)))
+  1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1))
 }
 
 .Einvz=function(z, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime){
-  return(1/(sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1)) * (1 + z)))
+  1/(sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1)) * (1 + z))
 }
 
 cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, age=FALSE, ref, error=FALSE){

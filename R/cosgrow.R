@@ -1,4 +1,6 @@
-.Einva3=function(a, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime){1/(a^3*(sqrt(OmegaR*a^(-4) + OmegaM*a^(-3) + OmegaK*a^(-2) + OmegaL*cosgrowRhoDE(z=1/a-1, w0=w0, wprime=wprime, rhoDE=1)))^3)}
+.Einva3=function(a, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime){
+  1/(a^3*(sqrt(OmegaR*a^(-4) + OmegaM*a^(-3) + OmegaK*a^(-2) + OmegaL*cosgrowRhoDE(z=1/a-1, w0=w0, wprime=wprime, rhoDE=1)))^3)
+}
 
 cosgrow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, Sigma8=0.8, fSigma8=FALSE, Dist='Co', Mass='Msun', ref){
   z=as.numeric(z)
