@@ -1,3 +1,7 @@
+.Einv=function(z, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime){
+  1/sqrt(OmegaR*(1+z)^4 + OmegaM * (1 + z)^3 + OmegaK * (1 + z)^2 + OmegaL*cosgrowRhoDE(z=z, w0=w0, wprime=wprime, rhoDE=1))
+}
+
 .Einva3=function(a, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime){
   1/(a^3*(sqrt(OmegaR*a^(-4) + OmegaM*a^(-3) + OmegaK*a^(-2) + OmegaL*cosgrowRhoDE(z=1/a-1, w0=w0, wprime=wprime, rhoDE=1)))^3)
 }
