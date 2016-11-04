@@ -183,6 +183,9 @@ The outputs of the standalone functions are:
   The growth rate and growth factor does not make use of OmegaR in the cosgrow function, hence OmegaR cannot be provided in the individual functions. This is because correctly accounting for the effect of radiation pressure before the surface of last scattering (z~1100) on teh growth rate of structure is highly complex, and beyodn the scope of this calculator. In the case of cosgrow, even if OmegaR is specified it is, in effect, set to zero when making growth factor and rate calculations.
   
   The evolution of the dark matter equation of state (w) is parameterised as described in Wright (2006).
+  
+  It is important to remember that H is in physical units for both the numerator and denominator (i.e. 'proper' at a given redshift, so the units are km/s / pMpc). To ask the question "is the Universe accelerating?" is to really ask "is the expansion factor accelerating?". This requires the denominator to be in comoving units (so rescaling for proper distances today) and measuring the differential with time or redshift. You will only find an accelerating Universe when dividing H(z)/(1+z)! See the examples to see how we can find this location, and that it is consistent with the start of acceleration calculated from the decleration parameter (q) directly.
+
 }
 \references{
   Based on the equations in:
@@ -262,6 +265,16 @@ The outputs of the standalone functions are:
   
   legend('topright', legend=c('Radiation Energy Density', 'Matter Energy Density',
   'Vacuum Energy Density'), lty=1, col=c('black','red','blue'))
+  
+  # Where's the acceleration?
+  plot(seq(0,2,len=1e3),cosgrowH(seq(0,2,len=1e3)),type='l',xlab='z',
+  ylab='H(z) / km/s / pMpc')
+  # There it is!
+  plot(seq(0,2,len=1e3),cosgrowH(seq(0,2,len=1e3))/(1+seq(0,2,len=1e3)),
+  type='l',xlab='z',ylab='H(z) / km/s / cMpc')
+  #When does it start accelerating?
+  accel.loc=which.min(abs(cosgrowDecelq(seq(0,2,len=1e3))))
+  abline(v=seq(0,2,len=1e3)[accel.loc],lty=2)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
