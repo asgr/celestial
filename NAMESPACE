@@ -2,3 +2,6 @@ exportPattern("^[[:alpha:]]+")
 import("RANN")
 import("NISTunits")
 import("pracma")
+
+importFrom("stats", "approxfun")
+importFrom("utils", "data")
