@@ -92,7 +92,7 @@ These functions allow for various analytic conversions between the 3 major prope
 }
 
 \value{
-\item{coshaloMvirToSigma}{Outputs velocity (in units of Vunit) dispersion given mass.}
+\item{coshaloMvirToSigma}{Outputs approximate velocity dispersion (in units of Vunit) given mass (this is exactly the escape velocity at Rvir).}
 
 \item{coshaloSigmaToMvir}{Outputs mass (in units of Munit) given velocity dispersion.}
 
@@ -102,7 +102,7 @@ These functions allow for various analytic conversions between the 3 major prope
 
 \item{coshaloSigmaToRvir}{Outputs radius (in units of Lunit) given velocity dispersion.}
 
-\item{coshaloRvirToSigma}{Outputs velocity (in units of Vunit) dispersion given radius.}
+\item{coshaloRvirToSigma}{Outputs approximate velocity dispersion (in units of Vunit) given radius (this is exactly the escape velocity at Rvir).}
 
 \item{coshaloSigmaToTvir}{Output temperture (in units of Tunit) given velocity dispersion. Based on Eqns. 3/7/8/9 of Bryan & Norman (1998).}
 }

@@ -2,6 +2,8 @@
 \alias{cosNFW}
 \alias{cosNFWmass_c}
 \alias{cosNFWmass_Rmax}
+\alias{cosNFWvcirc}
+\alias{cosNFWvesc}
 \alias{cosNFWsigma}
 \alias{cosNFWsigma_mean}
 \alias{cosNFWgamma}
@@ -14,39 +16,54 @@ Density and total mass values for Navaro Frenk and White (NFW) profiles
 }
 \usage{
 cosNFW(Rad=0, Rho0=2.412e15, Rs=0.03253)
-cosNFWmass_c(Rho0=2.412e15, Rs=0.03253, c=5)
-cosNFWmass_Rmax(Rho0=2.412e15, Rs=0.03253, Rmax=0.16265)
+cosNFWmass_c(Rho0=2.412e15, Rs=0.03253, c=5, Munit = 1, Lunit = 1e+06)
+cosNFWmass_Rmax(Rho0=2.412e15, Rs=0.03253, Rmax=0.16265, Munit = 1, Lunit = 1e+06)
+cosNFWvcirc(Rad = 0.16264, Mvir = 1e+12, c = 5, f = Inf, z = 0, H0 = 100, OmegaM = 0.3,
+OmegaL = 1 - OmegaM - OmegaR, OmegaR = 0, Rho = "crit", Dist = "Co", DeltaVir = 200,
+Munit = 1, Lunit = 1e+06, Vunit = 1000, ref)
+cosNFWvesc(Rad = 0.16264, Mvir = 1e+12, c = 5, f = Inf, z = 0, H0 = 100, OmegaM = 0.3,
+OmegaL = 1 - OmegaM - OmegaR, OmegaR = 0, Rho = "crit", Dist = "Co", DeltaVir = 200,
+Munit = 1, Lunit = 1e+06, Vunit = 1000, ref)
 cosNFWsigma(Rad=0.03253, Rs=0.03253, c=5, z = 0, H0 = 100, OmegaM = 0.3,
-OmegaL = 1-OmegaM-OmegaR, OmegaR=0, Rho = "crit", DeltaVir = 200, ref)
+OmegaL = 1-OmegaM-OmegaR, OmegaR=0, Rho = "crit", DeltaVir = 200, Munit = 1,
+Lunit = 1e+06, Vunit = 1000, ref)
 cosNFWsigma_mean(Rad=0.03253, Rs=0.03253, c=5, z = 0, H0 = 100, OmegaM = 0.3,
-OmegaL = 1-OmegaM-OmegaR, OmegaR=0, Rho = "crit", DeltaVir = 200, ref)
+OmegaL = 1-OmegaM-OmegaR, OmegaR=0, Rho = "crit", DeltaVir = 200, Munit = 1,
+Lunit = 1e+06, Vunit = 1000, ref)
 cosNFWgamma(Rad=0.03253, Rs=0.03253, c=5, SigmaC=1, z = 0, H0 = 100,
-OmegaM = 0.3, OmegaL = 1-OmegaM-OmegaR, OmegaR=0, Rho = "crit", DeltaVir = 200, ref)
+OmegaM = 0.3, OmegaL = 1-OmegaM-OmegaR, OmegaR=0, Rho = "crit", DeltaVir = 200,
+Munit = 1, Lunit = 1e+06, Vunit = 1000, ref)
 cosNFWduffym2c(M=2e12, z = 0, H0 = 100, OmegaM = 0.3, OmegaL = 1-OmegaM-OmegaR,
-OmegaR=0, Rho = "crit", A=6.71, B=-0.091, C=-0.44, ref) 
+OmegaR=0, Rho = "crit", A=6.71, B=-0.091, C=-0.44, Munit = 1, ref)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+  \item{Mvir}{
+    Mass within virial radius in units of 'Munit'.
+  }
   \item{Rad}{
-    Radius at which to calculate output. Either this is a 3D radius (cosNFW) or a projected 2D radius (cosNFWsigma/cosNFWsigma_mean).
+    Radius at which to calculate output in units of 'Lunit'. Either this is a 3D radius (cosNFW) or a projected 2D radius (cosNFWsigma/cosNFWsigma_mean).
   }
   \item{Rho0}{
     The normalising factor.
   }
   \item{Rs}{
-    The NFW profile scale radius, where Rs=Rmax/c.
+    The NFW profile scale radius, where Rs=Rmax/c, in units of 'Munit'.
   }
   \item{c}{
     The NFW profile concentration parameter, where c=Rmax/Rs.
   }
+  \item{f}{
+    The NFW profile truncation radius in units of \option{Rmax}.
+  }
   \item{Rmax}{
-    The NFW profile Rmax parameter, where Rmax=Rs*c.
+    The NFW profile Rmax parameter, where Rmax=Rs*c, in units of 'Lunit'.
   }
   \item{SigmaC}{
     The critical surface mass density (when SigmaC=1 we compute the excess surface density / ESD). See \code{\link{cosdistCrit}} for general computation given source and lens redshifts.
   }
   \item{M}{
-    The halo mass required for computing the Duffy (2008) mass to concentration conversion. Here the halo mass required for input is the 200 times overdense with respect to critical variation.
+    The halo mass required for computing the Duffy (2008) mass to concentration conversion in units of 'Munit'. Here the halo mass required for input is the 200 times overdense with respect to critical variation.
   }
   \item{z}{
     Cosmological redshift, where z must be > -1 (can be a vector).
@@ -66,8 +83,20 @@ OmegaR=0, Rho = "crit", A=6.71, B=-0.091, C=-0.44, ref)
   \item{Rho}{
     Set whether the critical energy density is used (crit) or the mean mass density (mean).
   }
+  \item{Dist}{
+    Determines the distance type, i.e. whether the Rho critical energy or mean mass densities are calculated with respect to angular / physical distances (Ang) or with respect to comoving distances (Co). In effect this means Rvir values are either angular / physical (Ang) or comoving (Co). It does not affect Mvir <-> Sigma conversions, but does affect Mvir <-> Rvir and Rvir <-> Sigma.
+  }
   \item{DeltaVir}{
     Desired overdensity of the halo with respect to Rho.
+  }
+  \item{Munit}{
+    Base mass unit in multiples of Msun.
+  }
+  \item{Lunit}{
+    Base length unit in multiples of parsecs.
+  }
+  \item{Vunit}{
+    Base velocity unit in multiples of m/s.
   }
   \item{A}{
     Parameter used for Duffy mass to concentration relation.
@@ -94,13 +123,17 @@ These functions calculate various aspects of the NFW profile.
 
 \item{cosNFWmass_Rmax}{Returns the total mass given Rs and Rmax in Msun/h.}
 
-\item{cosNFWsigma}{Returns the line-of-sight surface mass density at Rad (Eqn. 11 of Wright \& Brainerd, 2000).}
+\item{cosNFWvcirc}{Returns the circular Keplarian orbit velocity for a given radius assuming an NFW halo potential.}
 
-\item{cosNFWsigma_mean}{Returns the means surface mass density within Rad (Eqn. 13 of Wright \& Brainerd, 2000).}
+\item{cosNFWvesc}{Returns the minimum escape (or unbinding) velocity for a given radius assuming an NFW halo potential.}
 
-\item{cosNFWgamma}{Returns the radial dependence of the weak lensing shear (Eqn. 12 of Wright \& Brainerd, 2000).}
+\item{cosNFWsigma}{Returns the line-of-sight surface mass density at Rad (Eqn. 11 of Wright & Brainerd, 2000).}
 
-\item{cosNFWduffym2c}{Returns the Duffy (2008) predicted concentration for a given halo mass.}
+\item{cosNFWsigma_mean}{Returns the means surface mass density within Rad (Eqn. 13 of Wright & Brainerd, 2000).}
+
+\item{cosNFWgamma}{Returns the radial dependence of the weak lensing shear (Eqn. 12 of Wright & Brainerd, 2000).}
+
+\item{cosNFWduffym2c}{Returns the Duffy et al (2008) predicted concentration for a given halo mass.}
 }
 
 \references{
@@ -108,7 +141,7 @@ Duffy A.R., et al., 2008, MNRAS, 390L
 
 Navarro J.F., Frenk C.S., White Simon D.M., 1996, ApJ, 462
 
-Wright C.O., Brainerd T.G., 2000, ApJ, 534
+Wright C.O. & Brainerd T.G., 2000, ApJ, 534
 }
 
 \author{
@@ -202,6 +235,14 @@ xlab='Redshift', ylab='Rvir / R200c', log='x')
 
 plot(zseq, 2*rad_vir/(rad_mean200+rad_crit200), type='l', xlim=c(0.01,10),
 ylim=c(0.8,1.55), xlab='Redshift', ylab='2Rvir / (R200c+R200m)', log='x')
+
+#To check Vcirc and Vesc for a 10^12 Msun halo:
+
+plot(0:400,cosNFWvcirc(0:400,f=1,Lunit=1e3),type='l',lty=1,xlab='R / kpc',ylab='V / km/s',ylim=c(0,500))
+lines(0:400,cosNFWvesc(0:400,f=1,Lunit=1e3),lty=2)
+legend('topright',legend=c('Vel-Circ','Vel-Escape'),lty=c(1,2))
+abline(v=coshaloMvirToRvir(Lunit=1e3),lty=3)
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

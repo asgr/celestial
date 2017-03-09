@@ -12,9 +12,9 @@ Translations adapted from: http://mathworld.wolfram.com/GnomonicProjection.html
 }
 \usage{
 radec2xy(RA, Dec, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
-CD2_1 = 0, CD2_2 = 1)
+CD2_1 = 0, CD2_2 = 1, header)
 xy2radec(x, y, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
-CD2_1 = 0, CD2_2 = 1)
+CD2_1 = 0, CD2_2 = 1, header)
 }
 
 \arguments{
@@ -53,6 +53,9 @@ FITS header CD2_1 for the Tan Gnomonic projection system. Change in Dec-Tan alon
 }
   \item{CD2_2}{
 FITS header CD2_2 for the Tan Gnomonic projection system. Change in Dec-Tan along y-Axis.
+}
+  \item{header}{
+Full FITS header in table format (as provided by \code{read.fitshdr} in the \code{astro} package). If a header is provided then key words will be taken from here as a priority. Missing header keywords are printed out and, other header arguments are used in these cases.
 }
 }
 \details{

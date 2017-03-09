@@ -1,10 +1,22 @@
 radec2xy <-
-function(RA,Dec,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,CD2_2=1){
+function(RA,Dec,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,CD2_2=1,header){
 # Converts RA/Dec (degrees) to x/y (pixels) position using the Tan Gnomonic projection system
 # Translations adapted from: http://mathworld.wolfram.com/GnomonicProjection.html
   if(length(dim(RA))==2){
     Dec=RA[,2]
     RA=RA[,1]
+  }
+  if(!missing(header)){
+    locs=match(c('CRVAL1','CRVAL2','CRPIX1','CRPIX2','CD1_1','CD1_2','CD2_1','CD2_2'),header[,1])
+    headerWCS=data.frame(header[locs,1],as.numeric(header[locs,2]))
+    if('CRVAL1' %in% headerWCS[,1]){CRVAL1=headerWCS[headerWCS[,1]=='CRVAL1',2]}else{print('Missing CRVAL1')}
+    if('CRVAL2' %in% headerWCS[,1]){CRVAL2=headerWCS[headerWCS[,1]=='CRVAL2',2]}else{print('Missing CRVAL1')}
+    if('CRPIX1' %in% headerWCS[,1]){CRPIX1=headerWCS[headerWCS[,1]=='CRPIX1',2]}else{print('Missing CRPIX1')}
+    if('CRPIX2' %in% headerWCS[,1]){CRPIX2=headerWCS[headerWCS[,1]=='CRPIX2',2]}else{print('Missing CRPIX2')}
+    if('CD1_1' %in% headerWCS[,1]){CD1_1=headerWCS[headerWCS[,1]=='CD1_1',2]}else{print('Missing CD1_1')}
+    if('CD1_2' %in% headerWCS[,1]){CD1_2=headerWCS[headerWCS[,1]=='CD1_2',2]}else{print('Missing CD1_2')}
+    if('CD2_1' %in% headerWCS[,1]){CD2_1=headerWCS[headerWCS[,1]=='CD2_1',2]}else{print('Missing CD2_1')}
+    if('CD2_2' %in% headerWCS[,1]){CD2_2=headerWCS[headerWCS[,1]=='CD2_2',2]}else{print('Missing CD2_2')}
   }
   RA0=CRVAL1
   Dec0=CRVAL2
@@ -37,12 +49,24 @@ function(RA,Dec,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,CD2_
 }
 
 xy2radec <-
-function(x,y,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,CD2_2=1) {
+function(x,y,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,CD2_2=1,header) {
   # Converts x/y (pixels) to RA/DEC (degrees) position using the Tan Gnomonic projection system
   # Translations adapted from: http://mathworld.wolfram.com/GnomonicProjection.html
   if(length(dim(x))==2){
     y=x[,2]
     x=x[,1]
+  }
+  if(!missing(header)){
+    locs=match(c('CRVAL1','CRVAL2','CRPIX1','CRPIX2','CD1_1','CD1_2','CD2_1','CD2_2'),header[,1])
+    headerWCS=data.frame(header[locs,1],as.numeric(header[locs,2]))
+    if('CRVAL1' %in% headerWCS[,1]){CRVAL1=headerWCS[headerWCS[,1]=='CRVAL1',2]}else{print('Missing CRVAL1')}
+    if('CRVAL2' %in% headerWCS[,1]){CRVAL2=headerWCS[headerWCS[,1]=='CRVAL2',2]}else{print('Missing CRVAL1')}
+    if('CRPIX1' %in% headerWCS[,1]){CRPIX1=headerWCS[headerWCS[,1]=='CRPIX1',2]}else{print('Missing CRPIX1')}
+    if('CRPIX2' %in% headerWCS[,1]){CRPIX2=headerWCS[headerWCS[,1]=='CRPIX2',2]}else{print('Missing CRPIX2')}
+    if('CD1_1' %in% headerWCS[,1]){CD1_1=headerWCS[headerWCS[,1]=='CD1_1',2]}else{print('Missing CD1_1')}
+    if('CD1_2' %in% headerWCS[,1]){CD1_2=headerWCS[headerWCS[,1]=='CD1_2',2]}else{print('Missing CD1_2')}
+    if('CD2_1' %in% headerWCS[,1]){CD2_1=headerWCS[headerWCS[,1]=='CD2_1',2]}else{print('Missing CD2_1')}
+    if('CD2_2' %in% headerWCS[,1]){CD2_2=headerWCS[headerWCS[,1]=='CD2_2',2]}else{print('Missing CD2_2')}
   }
   RA0=CRVAL1
   Dec0=CRVAL2
