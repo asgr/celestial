@@ -68,6 +68,7 @@ cosNFWvesc=function(Rad=0.16264, Mvir=1e12, c=5, f=Inf, z = 0, H0 = 100, OmegaM 
 	g=log(1+c)-c/(1+c)
 	vesc=rep(0,length(x))
 	vesc[x<=f]=sqrt((vcircR200^2/g) * (log(1+c*x[x<=f])/x[x<=f]-c/(1+f*c)))
+	vesc[x==0]=sqrt((vcircR200^2/g)*(c-c/(1+f*c)))
 	vesc[x>f]=vcircR200/sqrt(x[x>f])
 	return(vesc*sqrt(2))
 }
