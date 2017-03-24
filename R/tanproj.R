@@ -6,6 +6,8 @@ function(RA,Dec,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,CD2_
     Dec=RA[,2]
     RA=RA[,1]
   }
+  RA=as.numeric(RA)
+  Dec=as.numeric(Dec)
   if(!missing(header)){
     locs=match(c('CRVAL1','CRVAL2','CRPIX1','CRPIX2','CD1_1','CD1_2','CD2_1','CD2_2'),header[,1])
     headerWCS=data.frame(header[locs,1],as.numeric(header[locs,2]))
@@ -56,6 +58,8 @@ function(x,y,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,CD2_2=1
     y=x[,2]
     x=x[,1]
   }
+  x=as.numeric(x)
+  y=as.numeric(y)
   if(!missing(header)){
     locs=match(c('CRVAL1','CRVAL2','CRPIX1','CRPIX2','CD1_1','CD1_2','CD2_1','CD2_2'),header[,1])
     headerWCS=data.frame(header[locs,1],as.numeric(header[locs,2]))
