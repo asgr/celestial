@@ -12,10 +12,10 @@ Converts RA/Dec (degrees) to x/y (pixels) position using the Tan Gnomonic projec
 Translations adapted from: http://mathworld.wolfram.com/GnomonicProjection.html
 }
 \usage{
-radec2xy(RA, Dec, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
-CD2_1 = 0, CD2_2 = 1)
-xy2radec(x, y, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1, CD1_2 = 0,
-CD2_1 = 0, CD2_2 = 1)
+radec2xy(RA, Dec, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
+CD1_2 = 0, CD2_1 = 0, CD2_2 = 1)
+xy2radec(x, y, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
+CD1_2 = 0, CD2_1 = 0, CD2_2 = 1)
 }
 
 \arguments{

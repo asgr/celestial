@@ -238,10 +238,11 @@ ylim=c(0.8,1.55), xlab='Redshift', ylab='2Rvir / (R200c+R200m)', log='x')
 
 #To check Vcirc and Vesc for a 10^12 Msun halo:
 
-plot(0:400,cosNFWvcirc(0:400,f=1,Lunit=1e3),type='l',lty=1,xlab='R / kpc',ylab='V / km/s',ylim=c(0,500))
-lines(0:400,cosNFWvesc(0:400,f=1,Lunit=1e3),lty=2)
-legend('topright',legend=c('Vel-Circ','Vel-Escape'),lty=c(1,2))
-abline(v=coshaloMvirToRvir(Lunit=1e3),lty=3)
+plot(0:400, cosNFWvcirc(0:400,f=1,Lunit=1e3), type='l', lty=1, xlab='R / kpc',
+ylab='V / km/s', ylim=c(0,500))
+lines(0:400, cosNFWvesc(0:400,f=1,Lunit=1e3), lty=2)
+legend('topright', legend=c('Vel-Circ','Vel-Escape'), lty=c(1,2))
+abline(v=coshaloMvirToRvir(Lunit=1e3), lty=3)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
