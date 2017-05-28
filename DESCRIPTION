@@ -1,7 +1,7 @@
 Package: celestial
 Type: Package
 Title: Collection of Common Astronomical Conversion Routines and Functions
-Version: 1.4
+Version: 1.4.1
 Date: 2017-03-03
 Author: Aaron Robotham
 Maintainer: Aaron Robotham <aaron.robotham@uwa.edu.au>
