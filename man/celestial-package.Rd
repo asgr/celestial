@@ -15,6 +15,7 @@ Type: \tab Package\cr
 Version: \tab 1.4\cr
 Date: \tab 2017-03-03\cr
 License: \tab GPL-3\cr
+Depends: \tab R (>= 3.00), RANN, NISTunits, pracma\cr
 }
 There are a number of functions included, but the most useful for astronomy conversions are the decimal degrees to DMS/HMS formats used at many telescopes: deg2dms, deg2hms, dms2deg, hms2deg. It also contains functions for various cosmological calculations (i.e. distance, volume and age for different cosmologies and redshifts).
 }

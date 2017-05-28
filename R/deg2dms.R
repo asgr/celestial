@@ -24,5 +24,11 @@ if(any(deg< -90 | deg>90)){stop('All deg values should be -90<=deg<=90')}
     if(type=='cat' & sep!='DMS' & sep!='dms'){output=apply(cbind(DEG, MIN, SEC),1,paste,collapse=sep)}
     if(type=='cat' & sep=='DMS'){output=paste(DEG,'D',MIN,'M',SEC,'S',sep='')}
     if(type=='cat' & sep=='dms'){output=paste(DEG,'d',MIN,'m',SEC,'s',sep='')}
+    if(type=='cat' & sep=='symbol'){
+      output={}
+      for(i in 1:length(DEG)){
+        output=c(output, parse(text=paste(DEG[i],'*degree*',MIN[i],'*m*',SEC[i],'*s', sep='')))
+      }
+    }
 return(output)
 }
