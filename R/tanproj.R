@@ -13,53 +13,53 @@ function(RA,Dec,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1
     locs=match(c('CRVAL1','CRVAL2','CRPIX1','CRPIX2','CD1_1','CD1_2','CD2_1','CD2_2','CDELT1','CDELT2'),header[,1])
     locs=locs[is.na(locs)==FALSE]
     headerWCS=data.frame(header[locs,1],as.numeric(header[locs,2]))
-      if('CRVAL1' %in% headerWCS[,1]){CRVAL1=headerWCS[headerWCS[,1]=='CRVAL1',2]}else{print('Missing CRVAL1')}
-      if('CRVAL2' %in% headerWCS[,1]){CRVAL2=headerWCS[headerWCS[,1]=='CRVAL2',2]}else{print('Missing CRVAL1')}
-      if('CRPIX1' %in% headerWCS[,1]){CRPIX1=headerWCS[headerWCS[,1]=='CRPIX1',2]}else{print('Missing CRPIX1')}
-      if('CRPIX2' %in% headerWCS[,1]){CRPIX2=headerWCS[headerWCS[,1]=='CRPIX2',2]}else{print('Missing CRPIX2')}
+      if('CRVAL1' %in% headerWCS[,1]){CRVAL1=headerWCS[headerWCS[,1]=='CRVAL1',2]}else{message('Missing CRVAL1')}
+      if('CRVAL2' %in% headerWCS[,1]){CRVAL2=headerWCS[headerWCS[,1]=='CRVAL2',2]}else{message('Missing CRVAL1')}
+      if('CRPIX1' %in% headerWCS[,1]){CRPIX1=headerWCS[headerWCS[,1]=='CRPIX1',2]}else{message('Missing CRPIX1')}
+      if('CRPIX2' %in% headerWCS[,1]){CRPIX2=headerWCS[headerWCS[,1]=='CRPIX2',2]}else{message('Missing CRPIX2')}
       if('CD1_1' %in% headerWCS[,1]){
         CD1_1=headerWCS[headerWCS[,1]=='CD1_1',2]
-        if('CD1_2' %in% headerWCS[,1]){CD1_2=headerWCS[headerWCS[,1]=='CD1_2',2]}else{print('Missing CD1_2')}
+        if('CD1_2' %in% headerWCS[,1]){CD1_2=headerWCS[headerWCS[,1]=='CD1_2',2]}else{message('Missing CD1_2')}
       }else{
         if('CDELT1' %in% headerWCS[,1]){
           CD1_1=headerWCS[headerWCS[,1]=='CDELT1',2]
         }else{
-          print("Missing CD1_1 and CDELT1")
+          message("Missing CD1_1 and CDELT1")
         }
       }
       if('CD2_2' %in% headerWCS[,1]){
         CD2_2=headerWCS[headerWCS[,1]=='CD2_2',2]
-        if('CD2_1' %in% headerWCS[,1]){CD2_1=headerWCS[headerWCS[,1]=='CD2_1',2]}else{print('Missing CD2_1')}
+        if('CD2_1' %in% headerWCS[,1]){CD2_1=headerWCS[headerWCS[,1]=='CD2_1',2]}else{message('Missing CD2_1')}
       }else{
         if('CDELT2' %in% headerWCS[,1]){
           CD2_2=headerWCS[headerWCS[,1]=='CDELT2',2]
         }else{
-          print("Missing CD2_2 and CDELT2")
+          message("Missing CD2_2 and CDELT2")
         }
       }
     }else{
-      if('CRVAL1' %in% header){CRVAL1=as.numeric(header[which(header=='CRVAL1')+1])}else{print('Missing CRVAL1')}
-      if('CRVAL2' %in% header){CRVAL2=as.numeric(header[which(header=='CRVAL2')+1])}else{print('Missing CRVAL1')}
-      if('CRPIX1' %in% header){CRPIX1=as.numeric(header[which(header=='CRPIX1')+1])}else{print('Missing CRPIX1')}
-      if('CRPIX2' %in% header){CRPIX2=as.numeric(header[which(header=='CRPIX2')+1])}else{print('Missing CRPIX2')}
+      if('CRVAL1' %in% header){CRVAL1=as.numeric(header[which(header=='CRVAL1')+1])}else{message('Missing CRVAL1')}
+      if('CRVAL2' %in% header){CRVAL2=as.numeric(header[which(header=='CRVAL2')+1])}else{message('Missing CRVAL1')}
+      if('CRPIX1' %in% header){CRPIX1=as.numeric(header[which(header=='CRPIX1')+1])}else{message('Missing CRPIX1')}
+      if('CRPIX2' %in% header){CRPIX2=as.numeric(header[which(header=='CRPIX2')+1])}else{message('Missing CRPIX2')}
       if('CD1_1' %in% header){
         CD1_1=as.numeric(header[which(header=='CD1_1')+1])
-        if('CD1_2' %in% header){CD1_2=as.numeric(header[which(header=='CD1_2')+1])}else{print('Missing CD1_2')}
+        if('CD1_2' %in% header){CD1_2=as.numeric(header[which(header=='CD1_2')+1])}else{message('Missing CD1_2')}
       }else{
         if('CDELT1' %in% header){
           CD1_1=header[which(header=='CDELT1')+1,2]
         }else{
-          print("Missing CD1_1 and CDELT1")
+          message("Missing CD1_1 and CDELT1")
         }
       }
       if('CD2_2' %in% header){
         CD2_2=as.numeric(header[which(header=='CD2_2')+1])
-        if('CD2_1' %in% header){CD2_1=as.numeric(header[which(header=='CD2_1')+1])}else{print('Missing CD2_1')}
+        if('CD2_1' %in% header){CD2_1=as.numeric(header[which(header=='CD2_1')+1])}else{message('Missing CD2_1')}
       }else{
         if('CDELT1' %in% header){
           CD2_2=header[which(header=='CDELT2')+1,2]
         }else{
-          print("Missing CD2_2 and CDELT2")
+          message("Missing CD2_2 and CDELT2")
         }
       }
     }
@@ -109,53 +109,53 @@ function(x,y,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,
     locs=match(c('CRVAL1','CRVAL2','CRPIX1','CRPIX2','CD1_1','CD1_2','CD2_1','CD2_2','CDELT1','CDELT2'),header[,1])
     locs=locs[is.na(locs)==FALSE]
     headerWCS=data.frame(header[locs,1],as.numeric(header[locs,2]))
-      if('CRVAL1' %in% headerWCS[,1]){CRVAL1=headerWCS[headerWCS[,1]=='CRVAL1',2]}else{print('Missing CRVAL1')}
-      if('CRVAL2' %in% headerWCS[,1]){CRVAL2=headerWCS[headerWCS[,1]=='CRVAL2',2]}else{print('Missing CRVAL1')}
-      if('CRPIX1' %in% headerWCS[,1]){CRPIX1=headerWCS[headerWCS[,1]=='CRPIX1',2]}else{print('Missing CRPIX1')}
-      if('CRPIX2' %in% headerWCS[,1]){CRPIX2=headerWCS[headerWCS[,1]=='CRPIX2',2]}else{print('Missing CRPIX2')}
+      if('CRVAL1' %in% headerWCS[,1]){CRVAL1=headerWCS[headerWCS[,1]=='CRVAL1',2]}else{message('Missing CRVAL1')}
+      if('CRVAL2' %in% headerWCS[,1]){CRVAL2=headerWCS[headerWCS[,1]=='CRVAL2',2]}else{message('Missing CRVAL1')}
+      if('CRPIX1' %in% headerWCS[,1]){CRPIX1=headerWCS[headerWCS[,1]=='CRPIX1',2]}else{message('Missing CRPIX1')}
+      if('CRPIX2' %in% headerWCS[,1]){CRPIX2=headerWCS[headerWCS[,1]=='CRPIX2',2]}else{message('Missing CRPIX2')}
       if('CD1_1' %in% headerWCS[,1]){
         CD1_1=headerWCS[headerWCS[,1]=='CD1_1',2]
-        if('CD1_2' %in% headerWCS[,1]){CD1_2=headerWCS[headerWCS[,1]=='CD1_2',2]}else{print('Missing CD1_2')}
+        if('CD1_2' %in% headerWCS[,1]){CD1_2=headerWCS[headerWCS[,1]=='CD1_2',2]}else{message('Missing CD1_2')}
       }else{
         if('CDELT1' %in% headerWCS[,1]){
           CD1_1=headerWCS[headerWCS[,1]=='CDELT1',2]
         }else{
-          print("Missing CD1_1 and CDELT1")
+          message("Missing CD1_1 and CDELT1")
         }
       }
       if('CD2_2' %in% headerWCS[,1]){
         CD2_2=headerWCS[headerWCS[,1]=='CD2_2',2]
-        if('CD2_1' %in% headerWCS[,1]){CD2_1=headerWCS[headerWCS[,1]=='CD2_1',2]}else{print('Missing CD2_1')}
+        if('CD2_1' %in% headerWCS[,1]){CD2_1=headerWCS[headerWCS[,1]=='CD2_1',2]}else{message('Missing CD2_1')}
       }else{
         if('CDELT2' %in% headerWCS[,1]){
           CD2_2=headerWCS[headerWCS[,1]=='CDELT2',2]
         }else{
-          print("Missing CD2_2 and CDELT2")
+          message("Missing CD2_2 and CDELT2")
         }
       }
     }else{
-      if('CRVAL1' %in% header){CRVAL1=as.numeric(header[which(header=='CRVAL1')+1])}else{print('Missing CRVAL1')}
-      if('CRVAL2' %in% header){CRVAL2=as.numeric(header[which(header=='CRVAL2')+1])}else{print('Missing CRVAL1')}
-      if('CRPIX1' %in% header){CRPIX1=as.numeric(header[which(header=='CRPIX1')+1])}else{print('Missing CRPIX1')}
-      if('CRPIX2' %in% header){CRPIX2=as.numeric(header[which(header=='CRPIX2')+1])}else{print('Missing CRPIX2')}
+      if('CRVAL1' %in% header){CRVAL1=as.numeric(header[which(header=='CRVAL1')+1])}else{message('Missing CRVAL1')}
+      if('CRVAL2' %in% header){CRVAL2=as.numeric(header[which(header=='CRVAL2')+1])}else{message('Missing CRVAL1')}
+      if('CRPIX1' %in% header){CRPIX1=as.numeric(header[which(header=='CRPIX1')+1])}else{message('Missing CRPIX1')}
+      if('CRPIX2' %in% header){CRPIX2=as.numeric(header[which(header=='CRPIX2')+1])}else{message('Missing CRPIX2')}
       if('CD1_1' %in% header){
         CD1_1=as.numeric(header[which(header=='CD1_1')+1])
-        if('CD1_2' %in% header){CD1_2=as.numeric(header[which(header=='CD1_2')+1])}else{print('Missing CD1_2')}
+        if('CD1_2' %in% header){CD1_2=as.numeric(header[which(header=='CD1_2')+1])}else{message('Missing CD1_2')}
       }else{
         if('CDELT1' %in% header){
           CD1_1=header[which(header=='CDELT1')+1,2]
         }else{
-          print("Missing CD1_1 and CDELT1")
+          message("Missing CD1_1 and CDELT1")
         }
       }
       if('CD2_2' %in% header){
         CD2_2=as.numeric(header[which(header=='CD2_2')+1])
-        if('CD2_1' %in% header){CD2_1=as.numeric(header[which(header=='CD2_1')+1])}else{print('Missing CD2_1')}
+        if('CD2_1' %in% header){CD2_1=as.numeric(header[which(header=='CD2_1')+1])}else{message('Missing CD2_1')}
       }else{
         if('CDELT1' %in% header){
           CD2_2=header[which(header=='CDELT2')+1,2]
         }else{
-          print("Missing CD2_2 and CDELT2")
+          message("Missing CD2_2 and CDELT2")
         }
       }
     }
