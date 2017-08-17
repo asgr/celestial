@@ -19,14 +19,14 @@ inunitcompare="deg", radunit='asec', sep = ":", ignoreexact=FALSE)
   \item{coordref}{
 For coordmatch this is the reference dataset, i.e. you want to find matches for each object in this catalogue. A two column matrix or data.frame, where column one is the RA and column two the Dec.
 }
+  \item{coordcompare}{
+The comparison dataset, i.e. you want to find objects in this catalogue that match locations in coordref. A two column matrix or data.frame, where column one is the RA and column two the Dec.
+}
   \item{RAref}{
 For coordmatch sing this is the reference RA for the sinlge object of interest.
 }
   \item{Decref}{
 For coordmatch sing this is the reference Dec for the sinlge object of interest.
-}
-  \item{coordcompare}{
-The comparison dataset, i.e. you want to find objects in this catalogue that match locations in coordref. A two column matrix or data.frame, where column one is the RA and column two the Dec.
 }
   \item{rad}{
 The matching radius to use. If this is length one then the same radius is used for all objects, otherwise it must be the same length as the number of rows in coordref.
@@ -56,17 +56,17 @@ For coordmatch the main matching is done using nn2 that comes as part of the RAN
 \value{
 The output of coordmatch is a list containing:
 
-\item{ID}{The full matrix of matching IDs. The rows are ordered identically to coordmatch, and the ID value is the row position in coordcompare for the match.}
-\item{sep}{The full matrix of matching separations in the same units as radunit. The rows are ordered identically to coordmatch, and the sep value is the separation for each matrix location in the ID list object.}
-\item{Nmatch}{Nmatch is a vector giving the total number of matches for each coordmatch row.}
-\item{bestmatch}{A three column data.frame giving the best matching IDs. Only objects with at least one match are listed. Column 1 (refID) gives the row position from coordref and column 2 (compareID) gives the corresponding best matching position in coordcompare. Column 3 (sep) gives the separation between the matched ref and compare positions in the same units as radunit.}
+\item{ID}{The full matrix of matching IDs. The rows are ordered identically to \option{coordref}, and the ID value is the row position in \option{coordcompare} for the match.}
+\item{sep}{The full matrix of matching separations in the same units as \option{radunit}. The rows are ordered identically to \option{coordref}, and the sep value is the separation for each matrix location in the ID list object.}
+\item{Nmatch}{Nmatch is a vector giving the total number of matches for each \option{coordref} row.}
+\item{bestmatch}{A three column data.frame giving the best matching IDs. Only objects with at least one match are listed. Column 1 (refID) gives the row position from \option{coordref} and column 2 (compareID) gives the corresponding best matching row position in \option{coordcompare}. Column 3 (sep) gives the separation between the matched ref and compare positions in the same units as radunit.}
 
 The output of coordmatchsing is a list containing:
 
-\item{ID}{The full vector of matching IDs. The ID values are the row positions in coordcompare for the match.}
-\item{sep}{The full vector of matching separations in the same units as radunit. The sep value is the separation for each vector location in the ID list object.}
+\item{ID}{The full vector of matching IDs. The ID values are the row positions in \option{coordcompare} for the match.}
+\item{sep}{The full vector of matching separations in the same units as \option{radunit}. The sep value is the separation for each vector location in the ID list object.}
 \item{Nmatch}{Total number of matches within the specified radius.}
-\item{bestmatch}{The best matching ID, where the ID value is the row position in coordcompare for the match.}
+\item{bestmatch}{The best matching ID, where the ID value is the row position in \option{coordcompare} for the match.}
 
 }
 \author{
