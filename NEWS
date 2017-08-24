@@ -54,7 +54,7 @@ FEATURE: Added cosgrowPecVel (peculiar velocity).
 
 DOCS: New cosdist examples by John Peacock (discussed when visiting ASGR at ICRAR in 2016).
 
-FEATURE:  Added radec2xy and xy2radec Tan-Gnomonic WCS projection solvers.
+FEATURE:  Added radec2xy, xy2radec and getpixscale Tan-Gnomonic WCS projection solvers.
 
 FEATURE:  Added cosNFWvcirc and cosNFWvesc functions to compute NFW halo unbinding.
 

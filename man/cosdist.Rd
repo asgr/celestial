@@ -315,6 +315,7 @@ cosdistAngDist12ang(3,4,56,H0=100,OmegaM=0,OmegaL=0)
 
 #Nice plot of distance estimates:
 
+\dontrun{
 redshifts=seq(0,3,by=0.01)
 plot(redshifts, cosdistCoDist(redshifts, ref='planck'), type='l', col='darkgreen',
 xlab='Redshift / z', ylab='Distance / Mpc')
@@ -346,6 +347,7 @@ xlab='Comoving Distance / Glyr', ylab='Conformal Time / Gyr')
 abline(v=0, h=0, lty=1)
 abline(h=c(min(dists), max(dists)), lty=2)
 abline(v=c(min(dists), max(dists)), lty=2)
+}
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
