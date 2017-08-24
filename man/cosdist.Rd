@@ -255,6 +255,7 @@ Aaron Robotham
 }
 
 \examples{
+\dontrun{
 cosdist(0.3,70,age=TRUE)
 cosdist(0.3,70,age=TRUE,ref='Planck')
 cosdistz(0.3)
@@ -315,7 +316,6 @@ cosdistAngDist12ang(3,4,56,H0=100,OmegaM=0,OmegaL=0)
 
 #Nice plot of distance estimates:
 
-\dontrun{
 redshifts=seq(0,3,by=0.01)
 plot(redshifts, cosdistCoDist(redshifts, ref='planck'), type='l', col='darkgreen',
 xlab='Redshift / z', ylab='Distance / Mpc')

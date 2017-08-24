@@ -105,6 +105,7 @@ Aaron Robotham
 }
 
 \examples{
+\dontrun{
 tempfunc=cosmapfunc('CoVol', 'UniAgeAtz')
 tempfunc(50)
 
@@ -113,6 +114,7 @@ cosmapval(50:60, 'CoVol')
 #A future prediction:
 
 cosmapval(59, 'H', H0=70)
+}
 }
 
 \keyword{ cosmo }
