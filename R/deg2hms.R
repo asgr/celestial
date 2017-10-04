@@ -6,7 +6,7 @@ if(any(deg< 0 | deg>360)){stop('All deg values should be 0<=d<=360')}
     MIN = floor((deg/15 - HRS) * 60)
     SEC = (deg/15 - HRS - MIN/60) * 3600
     SEC[SEC<0]=0; SEC[SEC>60]=60
-    SEC=round(SEC,digits+2)
+    SEC=round(SEC,digits)
     MIN[SEC == 60] = MIN[SEC == 60] + 1
     SEC[SEC == 60] = 0
     HRS[MIN == 60] = HRS[MIN == 60] + 1
