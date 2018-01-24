@@ -26,7 +26,7 @@
   Cosmological growth and evolution calculations
 }
 \description{
-  These functions allowallow various properties of the expansion of the Universe to be calculated: e.g. OmegaM/OmegaL/OmegaR/OmegaK for ay redshift, growth rate and growth factor, sigma8, and RhoCrit and RhoMean. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaR+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified and OmegaR=0 (so no radiation pressure at any epoch).
+  These functions allow various properties of the expansion of the Universe to be calculated: e.g. OmegaM/OmegaL/OmegaR/OmegaK for ay redshift, growth rate and growth factor, sigma8, and RhoCrit and RhoMean. They use curvature correctly, calculated internally using the relation OmegaM+OmegaL+OmegaR+OmegaK=1, but by default they assume a flat Universe where only OmegaM needs to be specified and OmegaR=0 (so no radiation pressure at any epoch).
 }
 \usage{
   cosgrow(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0 = -1, wprime = 0,
@@ -99,7 +99,7 @@
     Logical to express whether the growth rate of structure calculated by cosgrow, cosgrowRate or cosgrowRateApprox is given as f*Sigma8 (TRUE) or simply f (FALSE). This is useful for redshift space distortion comparisons (RSD), since RSD strictly measures f*Sigma8.
   }
   \item{Dist}{
-    Determines the distance type, i.e. whether the Rho critical energy or mean mass densities are calculated with respect to angular / physical distances (Ang), with respect to comoving distances (Co) or with respect to phyiscal metres (m).
+    Determines the distance type, i.e. whether the Rho critical energy or mean mass densities are calculated with respect to angular / physical distances (Ang), with respect to comoving distances (Co) or with respect to physical metres (m).
   }
   \item{Mass}{
     Determines the mass type, i.e. whether Rho critical energy or mean mass densities are calculated with respect to solar masses (Msun) or with respect to kilograms (kg).
@@ -113,7 +113,7 @@
   
   Negative value of z> -1 are allowed, which produces future predictions based on present day cosmology.
   
-  The approximation routines are generally accurate to sub 1 percent, and since they do not involve numericla integration they are substantially faster when computing large grids of numbers, i.e. they are recommended for plots, since the accuracy is sub the line width.
+  The approximation routines are generally accurate to sub 1 percent, and since they do not involve numerical integration they are substantially faster when computing large grids of numbers, i.e. they are recommended for plots, since the accuracy is sub the line width.
 }
 \value{
 \item{cosgrow}{Returns a data.frame (even if only 1 redshift if requested) with the following parameters evaluated at the respective redshift/s:}
@@ -150,7 +150,7 @@ The outputs of the standalone functions are:
   
   \item{cosgrowOmegaL}{Returns the value of Omega Lambda at z.}
   
-  \item{cosgrowOmegaR}{Returns the value of Omega Radiaion at z.}
+  \item{cosgrowOmegaR}{Returns the value of Omega Radiation at z.}
   
   \item{cosgrowOmegaK}{Returns the value of Omega K(c)urvature at z.}
   
@@ -160,15 +160,15 @@ The outputs of the standalone functions are:
   
   \item{cosgrowRhoDE}{Returns the energy density for dark energy, given by \eqn{\rho_{DE}.e^{-6.w'.(1-1/(1 + z))}/(1 + z)^{-(3 + 3.w_0 + 6.w')}}{RhoDE.e^{-6.w'.(1-1/(1 + z))}/(1 + z)^{-(3 + 3.w_0 + 6.w')}}, as described in Wright (2006)..}
   
-  \item{cosgrowFactor}{Returns the exact value of the growth factor (typically referred to as 'g' in the astronomy literature), at z.}
+  \item{cosgrowFactor}{Returns the exact value of the growth factor (typically referred to as 'g' in the astronomy literature), at z. This is defined such that it equals 1 at z=Inf and is less than 1 at lower z.}
   
-  \item{cosgrowRate}{Returns either the true (typically referred to as 'f' in the astronomy literature) or RSD type (f*Sigma8) value of the growth rate of structure, at z.}
+  \item{cosgrowRate}{Returns either the true (typically referred to as 'f' in the astronomy literature) or RSD type (f*Sigma8) value of the growth rate of structure, at z. This is defined such that it equals 1 at z=Inf and is less than 1 at lower z.}
   
   \item{cosgrowSigma8}{Returns the power spectrum fluctuation amplitude on the scale 8 Mpc/z at z, and is unitless.}
   
-  \item{cosgrowFactorApprox}{Returns the approximate value of the growth factor (typically referred to as 'g' in the astronomy literature), at z.}
+  \item{cosgrowFactorApprox}{Returns the approximate value of the growth factor (typically referred to as 'g' in the astronomy literature), at z. This is defined such that it equals 1 at z=Inf and is less than 1 at lower z.}
   
-  \item{cosgrowRateApprox}{Returns either the approximate true (typically referred to as 'f' in the astronomy literature) or approximate RSD type (f*Sigma8) value of the growth rate of structure, at z.}
+  \item{cosgrowRateApprox}{Returns either the approximate true (typically referred to as 'f' in the astronomy literature) or approximate RSD type (f*Sigma8) value of the growth rate of structure, at z. This is defined such that it equals 1 at z=Inf and is less than 1 at lower z.}
   
   \item{cosgrowSigma8Approx}{Returns the approximate power spectrum fluctuation amplitude on the scale 8 Mpc/z at z, and is unitless.}
   
@@ -178,9 +178,9 @@ The outputs of the standalone functions are:
   \item{cosgrowDeltaVir}{Returns the delta-critical virial radius overdensity criterion for a range of flat Universes with varying OmegaM. Taken from Eqn. 6 of Bryan & Norman (1998).}
 }
 \note{
-  The difference between RhoCrit and RhoMean at z=0 is simply RhoMean=RhoCrit*OmegaM. Corrected for 1/(1+z)^3 RhoMean stays constant with redshift (as it should- to first order we do not gain or lose mass within a comovoing volume).
+  The difference between RhoCrit and RhoMean at z=0 is simply RhoMean=RhoCrit*OmegaM. Corrected for 1/(1+z)^3 RhoMean stays constant with redshift (as it should- to first order we do not gain or lose mass within a comoving volume).
   
-  The growth rate and growth factor does not make use of OmegaR in the cosgrow function, hence OmegaR cannot be provided in the individual functions. This is because correctly accounting for the effect of radiation pressure before the surface of last scattering (z~1100) on teh growth rate of structure is highly complex, and beyodn the scope of this calculator. In the case of cosgrow, even if OmegaR is specified it is, in effect, set to zero when making growth factor and rate calculations.
+  The growth rate and growth factor does not make use of OmegaR in the cosgrow function, hence OmegaR cannot be provided in the individual functions. This is because correctly accounting for the effect of radiation pressure before the surface of last scattering (z~1100) on the growth rate of structure is highly complex, and beyond the scope of this package. In the case of cosgrow, even if OmegaR is specified it is, in effect, set to zero when making growth factor and rate calculations.
   
   The evolution of the dark matter equation of state (w) is parameterised as described in Wright (2006).
   
