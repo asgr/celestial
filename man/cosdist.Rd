@@ -146,9 +146,9 @@ w0 = -1, wprime = 0, ref)
     The units of angular coordinate provided for \option{ang}. Allowed options are deg for degrees, amin for arc minutes, asec for arc seconds, and rad for radians.
   }
   \item{outunit}{
-    For \code{cosdistAngSize} units of angular coordinate output. Allowed options are deg for degress, amin for arc minutes, asec for arc seconds, and rad for radians.
+    For \code{cosdistAngSize} units of angular coordinate output. Allowed options are deg for degress (default), amin for arc minutes, asec for arc seconds, and rad for radians.
     
-    For \code{cosdistAngArea} units of angular area output. Allowed options are deg2 for square degrees, amin2 for square arc minutes, asec2 for square arc seconds and rad2 or sr for steradians.
+    For \code{cosdistAngArea} units of angular area output. Allowed options are deg2 for square degrees (default), amin2 for square arc minutes, asec2 for square arc seconds and rad2 or sr for steradians.
   }
 }
 \details{
@@ -215,9 +215,9 @@ The outputs of the standalone functions are:
 
 \item{cosdistAngScale}{Returns the physical projected scale of an object at z in units of kpc/arcsec.}
 
-\item{cosdistAngSize}{Returns the angular size (length or diameter) of an object in arc seconds.}
+\item{cosdistAngSize}{Returns the angular size (length or diameter) of an object (by default in degrees).}
 
-\item{cosdistAngArea}{Returns the angular area of an object in (arc seconds)^2, taking teh specified Size to be the diameter.}
+\item{cosdistAngArea}{Returns the angular area of an object (by default degrees^2), taking the specified Size to be the diameter.}
 
 \item{cosdistCoVol}{Returns the comoving volume of Universe within z in units of Gpc^3.}
 
