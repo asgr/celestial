@@ -44,10 +44,10 @@ Aaron Robotham
 
 #Using FITSio and ProFit packages
 image = readFITS(system.file("extdata", 'KiDS/G266035fitim.fits', package="ProFit"))
-profitGetPixScale(image$hdr)
+getpixscale(image$hdr)
 #Using astro package
 image = read.fits(system.file("extdata", 'KiDS/G266035fitim.fits', package="ProFit"))
-profitGetPixScale(image$hdr[[1]])
+getpixscale(image$hdr[[1]])
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
