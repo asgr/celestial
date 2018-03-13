@@ -15,9 +15,9 @@ Translations adapted from: http://mathworld.wolfram.com/GnomonicProjection.html 
 }
 \usage{
 radec2xy(RA, Dec, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
-CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, proj='tan')
+CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN')
 xy2radec(x, y, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
-CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, proj='tan')
+CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN')
 }
 
 \arguments{
