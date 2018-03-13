@@ -7,10 +7,10 @@
 \alias{orthographic}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Tan Gnomonic and Sin Orthographic Projection System WCS Polver Functions
+Tan Gnomonic and Sine Orthographic Projection System WCS Solver Functions
 }
 \description{
-Converts RA/Dec (degrees) to x/y (pixels) position using the Tan Gnomonic or Sin Orthographic projection systems, and vice-versa.
+Converts RA/Dec (degrees) to x/y (pixels) position using the Tan Gnomonic or Sine Orthographic projection systems, and vice-versa.
 Translations adapted from: http://mathworld.wolfram.com/GnomonicProjection.html and http://mathworld.wolfram.com/OrthographicProjection.html.
 }
 \usage{
@@ -57,15 +57,18 @@ FITS header CD2_1 for the Tan Gnomonic projection system. Change in Dec-Tan in d
   \item{CD2_2}{
 FITS header CD2_2 for the Tan Gnomonic projection system. Change in Dec-Tan in degrees along y-Axis.
 }
-  \item{proj}{
-The projection system type. Either 'tan' or 'gnomonic' for Tan Gnomonic, or 'sin' or 'orthographic' for Sin Orthographic. Over-ridden by the FITS header   
+  \item{CTYPE1}{
+The RA projection system type. Either 'RA--TAN' for Tan Gnomonic, or 'RA--SIN' for Sine Orthographic. 'RA--NCP' is approximated by Sine Orthographic with a warning. Over-ridden by the FITS header.  
+}
+  \item{CTYPE2}{
+The DEC projection system type. Either 'DEC--TAN' for Tan Gnomonic, or 'DEC--SIN' for Sine Orthographic. 'DEC--NCP' is approximated by Sine Orthographic with a warning. Over-ridden by the FITS header.  
 }
   \item{header}{
 Full FITS header in table or vector format. Legal table format headers are provided by the \code{read.fitshdr} function or the \option{hdr} list output of \code{read.fits} in the \code{astro} package). Also the \option{hdr} output of \code{readFITS} in the \code{FITSio} package provides legal vector format inputs. If a header is provided then key words will be taken from here as a priority. Missing header keywords are printed out and other header option arguments are used in these cases.
 }
 }
 \details{
-These functions encode the standard FITS Tan Gnomonic projection system for solving an image WCS. They do not deal with higher order polynomial distortion terms.
+These functions encode the standard FITS Tan Gnomonic and Sine Orthographic projection systems for solving an image WCS (covering most moden imaging and radio data). They do not deal with higher order polynomial distortion terms.
 }
 \value{
   \item{radec2xy}{
@@ -77,6 +80,7 @@ Returns a two column matrix with columns RA and Dec (in degrees).
 }
 \references{
 http://mathworld.wolfram.com/GnomonicProjection.html
+http://mathworld.wolfram.com/OrthographicProjection.html
 }
 
 \author{

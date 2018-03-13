@@ -84,14 +84,18 @@ function(RA,Dec,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1
   if(grepl('TAN', CTYPE1)){
     cosc1=sin(Dec0)*sin(Dec)+(cos(Dec0)*cos(Dec)*cos(RA-RA0))
   }else if(grepl('SIN', CTYPE1) | grepl('NCP', CTYPE1)){
-    if(grepl('NCP', CTYPE1)){message('Approximating deprecated NCP with SIN!')}
+    if(grepl('NCP', CTYPE1)){message('Approximating deprecated CTYPE1 NCP with SIN!')}
     cosc1=1
+  }else{
+    stop('Projection system is not recognised. Must be either TAN, SIN or NCP!')
   }
   if(grepl('TAN', CTYPE2)){
     cosc2=sin(Dec0)*sin(Dec)+(cos(Dec0)*cos(Dec)*cos(RA-RA0))
   }else if(grepl('SIN', CTYPE2) | grepl('NCP', CTYPE2)){
-    if(grepl('NCP', CTYPE1)){message('Approximating deprecated NCP with SIN!')}
+    if(grepl('NCP', CTYPE2)){message('Approximating deprecated CTYPE2 NCP with SIN!')}
     cosc2=1
+  }else{
+    stop('Projection system is not recognised. Must be either TAN, SIN or NCP!')
   }
   xxfunc = function(RA0,Dec0,RA,Dec){
           (cos(Dec)*sin(RA-RA0))/cosc1
@@ -197,14 +201,18 @@ function(x,y,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,
   if(grepl('TAN', CTYPE1)){
     radproj1=atan(rad)
   }else if(grepl('SIN', CTYPE1) | grepl('NCP', CTYPE1)){
-    if(grepl('NCP', CTYPE1)){message('Approximating deprecated NCP with SIN!')}
+    if(grepl('NCP', CTYPE1)){message('Approximating deprecated NCP CTYPE1 with SIN!')}
     radproj1=asin(rad)
+  }else{
+    stop('Projection system is not recognised. Must be either TAN, SIN or NCP!')
   }
   if(grepl('TAN', CTYPE2)){
     radproj2=atan(rad)
   }else if(grepl('SIN', CTYPE2) | grepl('NCP', CTYPE2)){
-    if(grepl('NCP', CTYPE1)){message('Approximating deprecated NCP with SIN!')}
+    if(grepl('NCP', CTYPE2)){message('Approximating deprecated NCP CTYPE2 with SIN!')}
     radproj2=asin(rad)
+  }else{
+    stop('Projection system is not recognised. Must be either TAN, SIN or NCP!')
   }
   rafunc = function(RA0,Dec0,x,y){
       RA0 + atan2(x*sin(radproj1),rad*cos(Dec0)*cos(radproj1) - y*sin(Dec0)*sin(radproj1))
