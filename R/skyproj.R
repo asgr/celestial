@@ -201,7 +201,7 @@ function(x,y,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,
   if(grepl('TAN', CTYPE1)){
     radproj1=atan(rad)
   }else if(grepl('SIN', CTYPE1) | grepl('NCP', CTYPE1)){
-    if(grepl('NCP', CTYPE1)){message('Approximating deprecated NCP CTYPE1 with SIN!')}
+    if(grepl('NCP', CTYPE1)){message('Approximating deprecated CTYPE1 NCP with SIN!')}
     radproj1=asin(rad)
   }else{
     stop('Projection system is not recognised. Must be either TAN, SIN or NCP!')
