@@ -1,21 +1,23 @@
-\name{tanproj}
+\name{skyproj}
 \alias{tanproj}
+\alias{sinproj}
 \alias{radec2xy}
 \alias{xy2radec}
 \alias{gnomonic}
+\alias{orthographic}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Tan Gnomonic Projection Pystem WCS Polver Punctions
+Tan Gnomonic and Sin Orthographic Projection System WCS Polver Functions
 }
 \description{
-Converts RA/Dec (degrees) to x/y (pixels) position using the Tan Gnomonic projection system, and vice-versa.
-Translations adapted from: http://mathworld.wolfram.com/GnomonicProjection.html
+Converts RA/Dec (degrees) to x/y (pixels) position using the Tan Gnomonic or Sin Orthographic projection systems, and vice-versa.
+Translations adapted from: http://mathworld.wolfram.com/GnomonicProjection.html and http://mathworld.wolfram.com/OrthographicProjection.html.
 }
 \usage{
 radec2xy(RA, Dec, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
-CD1_2 = 0, CD2_1 = 0, CD2_2 = 1)
+CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, proj='tan')
 xy2radec(x, y, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
-CD1_2 = 0, CD2_1 = 0, CD2_2 = 1)
+CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, proj='tan')
 }
 
 \arguments{
@@ -54,6 +56,9 @@ FITS header CD2_1 for the Tan Gnomonic projection system. Change in Dec-Tan in d
 }
   \item{CD2_2}{
 FITS header CD2_2 for the Tan Gnomonic projection system. Change in Dec-Tan in degrees along y-Axis.
+}
+  \item{proj}{
+The projection system type. Either 'tan' or 'gnomonic' for Tan Gnomonic, or 'sin' or 'orthographic' for Sin Orthographic. Over-ridden by the FITS header   
 }
   \item{header}{
 Full FITS header in table or vector format. Legal table format headers are provided by the \code{read.fitshdr} function or the \option{hdr} list output of \code{read.fits} in the \code{astro} package). Also the \option{hdr} output of \code{readFITS} in the \code{FITSio} package provides legal vector format inputs. If a header is provided then key words will be taken from here as a priority. Missing header keywords are printed out and other header option arguments are used in these cases.

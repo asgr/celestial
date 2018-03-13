@@ -1,7 +1,7 @@
 radec2xy <-
-function(RA,Dec,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,CD2_2=1){
-# Converts RA/Dec (degrees) to x/y (pixels) position using the Tan Gnomonic projection system
-# Translations adapted from: http://mathworld.wolfram.com/GnomonicProjection.html
+function(RA,Dec,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,CD2_2=1,CTYPE1='RA--TAN',CTYPE2='DEC--TAN'){
+# Converts RA/Dec (degrees) to x/y (pixels) position using the Tan Gnomonic projection or Sin Orthographic projection systems
+# Translations adapted from: http://mathworld.wolfram.com/GnomonicProjection.html and http://mathworld.wolfram.com/OrthographicProjection.html
   if(length(dim(RA))==2){
     Dec=RA[,2]
     RA=RA[,1]
@@ -10,34 +10,38 @@ function(RA,Dec,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1
   Dec=as.numeric(Dec)
   if(!missing(header)){
     if(is.data.frame(header) | is.matrix(header)){
-    locs=match(c('CRVAL1','CRVAL2','CRPIX1','CRPIX2','CD1_1','CD1_2','CD2_1','CD2_2','CDELT1','CDELT2'),header[,1])
+    locs=match(c('CTYPE1','CTYPE2','CRVAL1','CRVAL2','CRPIX1','CRPIX2','CD1_1','CD1_2','CD2_1','CD2_2','CDELT1','CDELT2'),header[,1])
     locs=locs[is.na(locs)==FALSE]
-    headerWCS=data.frame(header[locs,1],as.numeric(header[locs,2]))
-      if('CRVAL1' %in% headerWCS[,1]){CRVAL1=headerWCS[headerWCS[,1]=='CRVAL1',2]}else{message('Missing CRVAL1')}
-      if('CRVAL2' %in% headerWCS[,1]){CRVAL2=headerWCS[headerWCS[,1]=='CRVAL2',2]}else{message('Missing CRVAL1')}
-      if('CRPIX1' %in% headerWCS[,1]){CRPIX1=headerWCS[headerWCS[,1]=='CRPIX1',2]}else{message('Missing CRPIX1')}
-      if('CRPIX2' %in% headerWCS[,1]){CRPIX2=headerWCS[headerWCS[,1]=='CRPIX2',2]}else{message('Missing CRPIX2')}
+    headerWCS=data.frame(header[locs,1],as.character(header[locs,2]))
+      if('CTYPE1' %in% headerWCS[,1]){CTYPE1=headerWCS[headerWCS[,1]=='CTYPE1',2]}else{message('Missing CTYPE1')}
+      if('CTYPE2' %in% headerWCS[,1]){CTYPE2=headerWCS[headerWCS[,1]=='CTYPE2',2]}else{message('Missing CTYPE2')}
+      if('CRVAL1' %in% headerWCS[,1]){CRVAL1=as.numeric(headerWCS[headerWCS[,1]=='CRVAL1',2])}else{message('Missing CRVAL1')}
+      if('CRVAL2' %in% headerWCS[,1]){CRVAL2=as.numeric(headerWCS[headerWCS[,1]=='CRVAL2',2])}else{message('Missing CRVAL1')}
+      if('CRPIX1' %in% headerWCS[,1]){CRPIX1=as.numeric(headerWCS[headerWCS[,1]=='CRPIX1',2])}else{message('Missing CRPIX1')}
+      if('CRPIX2' %in% headerWCS[,1]){CRPIX2=as.numeric(headerWCS[headerWCS[,1]=='CRPIX2',2])}else{message('Missing CRPIX2')}
       if('CD1_1' %in% headerWCS[,1]){
-        CD1_1=headerWCS[headerWCS[,1]=='CD1_1',2]
-        if('CD1_2' %in% headerWCS[,1]){CD1_2=headerWCS[headerWCS[,1]=='CD1_2',2]}else{message('Missing CD1_2')}
+        CD1_1=as.numeric(headerWCS[headerWCS[,1]=='CD1_1',2])
+        if('CD1_2' %in% headerWCS[,1]){CD1_2=as.numeric(headerWCS[headerWCS[,1]=='CD1_2',2])}else{message('Missing CD1_2')}
       }else{
         if('CDELT1' %in% headerWCS[,1]){
-          CD1_1=headerWCS[headerWCS[,1]=='CDELT1',2]
+          CD1_1=as.numeric(headerWCS[headerWCS[,1]=='CDELT1',2])
         }else{
           message("Missing CD1_1 and CDELT1")
         }
       }
       if('CD2_2' %in% headerWCS[,1]){
-        CD2_2=headerWCS[headerWCS[,1]=='CD2_2',2]
-        if('CD2_1' %in% headerWCS[,1]){CD2_1=headerWCS[headerWCS[,1]=='CD2_1',2]}else{message('Missing CD2_1')}
+        CD2_2=as.numeric(headerWCS[headerWCS[,1]=='CD2_2',2])
+        if('CD2_1' %in% headerWCS[,1]){CD2_1=as.numeric(headerWCS[headerWCS[,1]=='CD2_1',2])}else{message('Missing CD2_1')}
       }else{
         if('CDELT2' %in% headerWCS[,1]){
-          CD2_2=headerWCS[headerWCS[,1]=='CDELT2',2]
+          CD2_2=as.numeric(headerWCS[headerWCS[,1]=='CDELT2',2])
         }else{
           message("Missing CD2_2 and CDELT2")
         }
       }
     }else{
+      if('CTYPE1' %in% header){CTYPE1=as.character(header[which(header=='CTYPE1')+1])}else{message('Missing CTYPE1')}
+      if('CTYPE2' %in% header){CTYPE2=as.character(header[which(header=='CTYPE2')+1])}else{message('Missing CTYPE2')}
       if('CRVAL1' %in% header){CRVAL1=as.numeric(header[which(header=='CRVAL1')+1])}else{message('Missing CRVAL1')}
       if('CRVAL2' %in% header){CRVAL2=as.numeric(header[which(header=='CRVAL2')+1])}else{message('Missing CRVAL1')}
       if('CRPIX1' %in% header){CRPIX1=as.numeric(header[which(header=='CRPIX1')+1])}else{message('Missing CRPIX1')}
@@ -76,13 +80,22 @@ function(RA,Dec,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1
   Dec0=Dec0*(pi/180)
   RA=RA*(pi/180)
   Dec=Dec*(pi/180)
-  scalemat=tan(matrix(c(x1,x2,y1,y2),2)*(pi/180))
-  cosc=sin(Dec0)*sin(Dec)+(cos(Dec0)*cos(Dec)*cos(RA-RA0))
+  scalemat=matrix(c(x1,x2,y1,y2),2)*(pi/180)
+  if(grepl('TAN', CTYPE1)){
+    cosc1=sin(Dec0)*sin(Dec)+(cos(Dec0)*cos(Dec)*cos(RA-RA0))
+  }else if(grepl('SIN', CTYPE1) | grepl('NCP', CTYPE1)){
+    cosc1=1
+  }
+  if(grepl('TAN', CTYPE2)){
+    cosc2=sin(Dec0)*sin(Dec)+(cos(Dec0)*cos(Dec)*cos(RA-RA0))
+  }else if(grepl('SIN', CTYPE2) | grepl('NCP', CTYPE2)){
+    cosc2=1
+  }
   xxfunc = function(RA0,Dec0,RA,Dec){
-          (cos(Dec)*sin(RA-RA0))/cosc
+          (cos(Dec)*sin(RA-RA0))/cosc1
   }
   yyfunc = function(RA0,Dec0,RA,Dec){
-          ((cos(Dec0)*sin(Dec))-(sin(Dec0)*cos(Dec)*cos(RA-RA0)))/cosc
+          ((cos(Dec0)*sin(Dec))-(sin(Dec0)*cos(Dec)*cos(RA-RA0)))/cosc2
   }
   XX=xxfunc(RA0,Dec0,RA,Dec)
   YY=yyfunc(RA0,Dec0,RA,Dec)
@@ -95,9 +108,9 @@ function(RA,Dec,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1
 }
 
 xy2radec <-
-function(x,y,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,CD2_2=1) {
-  # Converts x/y (pixels) to RA/DEC (degrees) position using the Tan Gnomonic projection system
-  # Translations adapted from: http://mathworld.wolfram.com/GnomonicProjection.html
+function(x,y,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,CD2_2=1,CTYPE1='RA--TAN',CTYPE2='DEC--TAN') {
+  # Converts x/y (pixels) to RA/DEC (degrees) position using the Tan Gnomonic or Sin Orthographic projection systems
+  # Translations adapted from: http://mathworld.wolfram.com/GnomonicProjection.html and http://mathworld.wolfram.com/OrthographicProjection.html
   if(length(dim(x))==2){
     y=x[,2]
     x=x[,1]
@@ -106,34 +119,38 @@ function(x,y,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,
   y=as.numeric(y)
   if(!missing(header)){
     if(is.data.frame(header) | is.matrix(header)){
-    locs=match(c('CRVAL1','CRVAL2','CRPIX1','CRPIX2','CD1_1','CD1_2','CD2_1','CD2_2','CDELT1','CDELT2'),header[,1])
+    locs=match(c('CTYPE1','CTYPE2','CRVAL1','CRVAL2','CRPIX1','CRPIX2','CD1_1','CD1_2','CD2_1','CD2_2','CDELT1','CDELT2'),header[,1])
     locs=locs[is.na(locs)==FALSE]
-    headerWCS=data.frame(header[locs,1],as.numeric(header[locs,2]))
-      if('CRVAL1' %in% headerWCS[,1]){CRVAL1=headerWCS[headerWCS[,1]=='CRVAL1',2]}else{message('Missing CRVAL1')}
-      if('CRVAL2' %in% headerWCS[,1]){CRVAL2=headerWCS[headerWCS[,1]=='CRVAL2',2]}else{message('Missing CRVAL1')}
-      if('CRPIX1' %in% headerWCS[,1]){CRPIX1=headerWCS[headerWCS[,1]=='CRPIX1',2]}else{message('Missing CRPIX1')}
-      if('CRPIX2' %in% headerWCS[,1]){CRPIX2=headerWCS[headerWCS[,1]=='CRPIX2',2]}else{message('Missing CRPIX2')}
+    headerWCS=data.frame(header[locs,1],as.character(header[locs,2]))
+      if('CTYPE1' %in% headerWCS[,1]){CTYPE1=headerWCS[headerWCS[,1]=='CTYPE1',2]}else{message('Missing CTYPE1')}
+      if('CTYPE2' %in% headerWCS[,1]){CTYPE2=headerWCS[headerWCS[,1]=='CTYPE2',2]}else{message('Missing CTYPE2')}
+      if('CRVAL1' %in% headerWCS[,1]){CRVAL1=as.numeric(headerWCS[headerWCS[,1]=='CRVAL1',2])}else{message('Missing CRVAL1')}
+      if('CRVAL2' %in% headerWCS[,1]){CRVAL2=as.numeric(headerWCS[headerWCS[,1]=='CRVAL2',2])}else{message('Missing CRVAL1')}
+      if('CRPIX1' %in% headerWCS[,1]){CRPIX1=as.numeric(headerWCS[headerWCS[,1]=='CRPIX1',2])}else{message('Missing CRPIX1')}
+      if('CRPIX2' %in% headerWCS[,1]){CRPIX2=as.numeric(headerWCS[headerWCS[,1]=='CRPIX2',2])}else{message('Missing CRPIX2')}
       if('CD1_1' %in% headerWCS[,1]){
-        CD1_1=headerWCS[headerWCS[,1]=='CD1_1',2]
-        if('CD1_2' %in% headerWCS[,1]){CD1_2=headerWCS[headerWCS[,1]=='CD1_2',2]}else{message('Missing CD1_2')}
+        CD1_1=as.numeric(headerWCS[headerWCS[,1]=='CD1_1',2])
+        if('CD1_2' %in% headerWCS[,1]){CD1_2=as.numeric(headerWCS[headerWCS[,1]=='CD1_2',2])}else{message('Missing CD1_2')}
       }else{
         if('CDELT1' %in% headerWCS[,1]){
-          CD1_1=headerWCS[headerWCS[,1]=='CDELT1',2]
+          CD1_1=as.numeric(headerWCS[headerWCS[,1]=='CDELT1',2])
         }else{
           message("Missing CD1_1 and CDELT1")
         }
       }
       if('CD2_2' %in% headerWCS[,1]){
-        CD2_2=headerWCS[headerWCS[,1]=='CD2_2',2]
-        if('CD2_1' %in% headerWCS[,1]){CD2_1=headerWCS[headerWCS[,1]=='CD2_1',2]}else{message('Missing CD2_1')}
+        CD2_2=as.numeric(headerWCS[headerWCS[,1]=='CD2_2',2])
+        if('CD2_1' %in% headerWCS[,1]){CD2_1=as.numeric(headerWCS[headerWCS[,1]=='CD2_1',2])}else{message('Missing CD2_1')}
       }else{
         if('CDELT2' %in% headerWCS[,1]){
-          CD2_2=headerWCS[headerWCS[,1]=='CDELT2',2]
+          CD2_2=as.numeric(headerWCS[headerWCS[,1]=='CDELT2',2])
         }else{
           message("Missing CD2_2 and CDELT2")
         }
       }
     }else{
+      if('CTYPE1' %in% header){CTYPE1=as.character(header[which(header=='CTYPE1')+1])}else{message('Missing CTYPE1')}
+      if('CTYPE2' %in% header){CTYPE2=as.character(header[which(header=='CTYPE2')+1])}else{message('Missing CTYPE2')}
       if('CRVAL1' %in% header){CRVAL1=as.numeric(header[which(header=='CRVAL1')+1])}else{message('Missing CRVAL1')}
       if('CRVAL2' %in% header){CRVAL2=as.numeric(header[which(header=='CRVAL2')+1])}else{message('Missing CRVAL1')}
       if('CRPIX1' %in% header){CRPIX1=as.numeric(header[which(header=='CRPIX1')+1])}else{message('Missing CRPIX1')}
@@ -170,18 +187,29 @@ function(x,y,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,
   y2=CD2_2
   RA0=RA0*(pi/180)
   Dec0=Dec0*(pi/180)
-  scalemat=tan(matrix(c(x1,x2,y1,y2),2)*(pi/180))
+  scalemat=matrix(c(x1,x2,y1,y2),2)*(pi/180)
   xytran=cbind(x-x0,y-y0) %*% scalemat
   x = xytran[,1]
   y = xytran[,2]
+  rad = sqrt(x^2+y^2)
+  if(grepl('TAN', CTYPE1)){
+    radproj1=atan(rad)
+  }else if(grepl('SIN', CTYPE1) | grepl('NCP', CTYPE1)){
+    radproj1=asin(rad)
+  }
+  if(grepl('TAN', CTYPE2)){
+    radproj2=atan(rad)
+  }else if(grepl('SIN', CTYPE2) | grepl('NCP', CTYPE2)){
+    radproj2=asin(rad)
+  }
   rafunc = function(RA0,Dec0,x,y){
-      RA0 + atan2(x*sin(atan(sqrt(x^2+y^2))),sqrt(x^2+y^2)*cos(Dec0)*cos(atan(sqrt(x^2+y^2))) - y*sin(Dec0)*sin(atan(sqrt(x^2+y^2))))
+      RA0 + atan2(x*sin(radproj1),rad*cos(Dec0)*cos(radproj1) - y*sin(Dec0)*sin(radproj1))
   }
   decfunc = function(Dec0,x,y){
-      asin(cos(atan(sqrt(x^2+y^2)))*sin(Dec0) + (y*sin(atan(sqrt(x^2+y^2)))*cos(Dec0) / sqrt(x^2+y^2))) 
+      asin(cos(radproj2)*sin(Dec0) + (y*sin(radproj2)*cos(Dec0) / rad)) 
   }
-  RA = rafunc(RA0,Dec0,x,y)*180/pi
-  Dec = decfunc(Dec0,x,y)*180/pi
+  RA = rafunc(RA0,Dec0,x,y)*180/pi %% 360
+  Dec = decfunc(Dec0,x,y)*180/pi %% 90
   Dec[which(is.nan(Dec))] = Dec0*180/pi
   output=cbind(as.numeric(RA),as.numeric(Dec))
   colnames(output)=c('RA','Dec')
