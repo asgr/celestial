@@ -84,11 +84,13 @@ function(RA,Dec,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1
   if(grepl('TAN', CTYPE1)){
     cosc1=sin(Dec0)*sin(Dec)+(cos(Dec0)*cos(Dec)*cos(RA-RA0))
   }else if(grepl('SIN', CTYPE1) | grepl('NCP', CTYPE1)){
+    if(grepl('NCP', CTYPE1)){message('Approximating deprecated NCP with SIN!')}
     cosc1=1
   }
   if(grepl('TAN', CTYPE2)){
     cosc2=sin(Dec0)*sin(Dec)+(cos(Dec0)*cos(Dec)*cos(RA-RA0))
   }else if(grepl('SIN', CTYPE2) | grepl('NCP', CTYPE2)){
+    if(grepl('NCP', CTYPE1)){message('Approximating deprecated NCP with SIN!')}
     cosc2=1
   }
   xxfunc = function(RA0,Dec0,RA,Dec){
@@ -195,11 +197,13 @@ function(x,y,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,
   if(grepl('TAN', CTYPE1)){
     radproj1=atan(rad)
   }else if(grepl('SIN', CTYPE1) | grepl('NCP', CTYPE1)){
+    if(grepl('NCP', CTYPE1)){message('Approximating deprecated NCP with SIN!')}
     radproj1=asin(rad)
   }
   if(grepl('TAN', CTYPE2)){
     radproj2=atan(rad)
   }else if(grepl('SIN', CTYPE2) | grepl('NCP', CTYPE2)){
+    if(grepl('NCP', CTYPE1)){message('Approximating deprecated NCP with SIN!')}
     radproj2=asin(rad)
   }
   rafunc = function(RA0,Dec0,x,y){
