@@ -16,7 +16,7 @@ function(RA,Dec,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1
       if('CTYPE1' %in% headerWCS[,1]){CTYPE1=headerWCS[headerWCS[,1]=='CTYPE1',2]}else{message('Missing CTYPE1')}
       if('CTYPE2' %in% headerWCS[,1]){CTYPE2=headerWCS[headerWCS[,1]=='CTYPE2',2]}else{message('Missing CTYPE2')}
       if('CRVAL1' %in% headerWCS[,1]){CRVAL1=as.numeric(headerWCS[headerWCS[,1]=='CRVAL1',2])}else{message('Missing CRVAL1')}
-      if('CRVAL2' %in% headerWCS[,1]){CRVAL2=as.numeric(headerWCS[headerWCS[,1]=='CRVAL2',2])}else{message('Missing CRVAL1')}
+      if('CRVAL2' %in% headerWCS[,1]){CRVAL2=as.numeric(headerWCS[headerWCS[,1]=='CRVAL2',2])}else{message('Missing CRVAL2')}
       if('CRPIX1' %in% headerWCS[,1]){CRPIX1=as.numeric(headerWCS[headerWCS[,1]=='CRPIX1',2])}else{message('Missing CRPIX1')}
       if('CRPIX2' %in% headerWCS[,1]){CRPIX2=as.numeric(headerWCS[headerWCS[,1]=='CRPIX2',2])}else{message('Missing CRPIX2')}
       if('CD1_1' %in% headerWCS[,1]){
@@ -43,7 +43,7 @@ function(RA,Dec,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1
       if('CTYPE1' %in% header){CTYPE1=as.character(header[which(header=='CTYPE1')+1])}else{message('Missing CTYPE1')}
       if('CTYPE2' %in% header){CTYPE2=as.character(header[which(header=='CTYPE2')+1])}else{message('Missing CTYPE2')}
       if('CRVAL1' %in% header){CRVAL1=as.numeric(header[which(header=='CRVAL1')+1])}else{message('Missing CRVAL1')}
-      if('CRVAL2' %in% header){CRVAL2=as.numeric(header[which(header=='CRVAL2')+1])}else{message('Missing CRVAL1')}
+      if('CRVAL2' %in% header){CRVAL2=as.numeric(header[which(header=='CRVAL2')+1])}else{message('Missing CRVAL2')}
       if('CRPIX1' %in% header){CRPIX1=as.numeric(header[which(header=='CRPIX1')+1])}else{message('Missing CRPIX1')}
       if('CRPIX2' %in% header){CRPIX2=as.numeric(header[which(header=='CRPIX2')+1])}else{message('Missing CRPIX2')}
       if('CD1_1' %in% header){
@@ -131,7 +131,7 @@ function(x,y,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,
       if('CTYPE1' %in% headerWCS[,1]){CTYPE1=headerWCS[headerWCS[,1]=='CTYPE1',2]}else{message('Missing CTYPE1')}
       if('CTYPE2' %in% headerWCS[,1]){CTYPE2=headerWCS[headerWCS[,1]=='CTYPE2',2]}else{message('Missing CTYPE2')}
       if('CRVAL1' %in% headerWCS[,1]){CRVAL1=as.numeric(headerWCS[headerWCS[,1]=='CRVAL1',2])}else{message('Missing CRVAL1')}
-      if('CRVAL2' %in% headerWCS[,1]){CRVAL2=as.numeric(headerWCS[headerWCS[,1]=='CRVAL2',2])}else{message('Missing CRVAL1')}
+      if('CRVAL2' %in% headerWCS[,1]){CRVAL2=as.numeric(headerWCS[headerWCS[,1]=='CRVAL2',2])}else{message('Missing CRVAL2')}
       if('CRPIX1' %in% headerWCS[,1]){CRPIX1=as.numeric(headerWCS[headerWCS[,1]=='CRPIX1',2])}else{message('Missing CRPIX1')}
       if('CRPIX2' %in% headerWCS[,1]){CRPIX2=as.numeric(headerWCS[headerWCS[,1]=='CRPIX2',2])}else{message('Missing CRPIX2')}
       if('CD1_1' %in% headerWCS[,1]){
@@ -158,7 +158,7 @@ function(x,y,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,
       if('CTYPE1' %in% header){CTYPE1=as.character(header[which(header=='CTYPE1')+1])}else{message('Missing CTYPE1')}
       if('CTYPE2' %in% header){CTYPE2=as.character(header[which(header=='CTYPE2')+1])}else{message('Missing CTYPE2')}
       if('CRVAL1' %in% header){CRVAL1=as.numeric(header[which(header=='CRVAL1')+1])}else{message('Missing CRVAL1')}
-      if('CRVAL2' %in% header){CRVAL2=as.numeric(header[which(header=='CRVAL2')+1])}else{message('Missing CRVAL1')}
+      if('CRVAL2' %in% header){CRVAL2=as.numeric(header[which(header=='CRVAL2')+1])}else{message('Missing CRVAL2')}
       if('CRPIX1' %in% header){CRPIX1=as.numeric(header[which(header=='CRPIX1')+1])}else{message('Missing CRPIX1')}
       if('CRPIX2' %in% header){CRPIX2=as.numeric(header[which(header=='CRPIX2')+1])}else{message('Missing CRPIX2')}
       if('CD1_1' %in% header){
