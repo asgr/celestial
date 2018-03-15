@@ -54,9 +54,13 @@ FEATURE: Added cosgrowPecVel (peculiar velocity).
 
 DOCS: New cosdist examples by John Peacock (discussed when visiting ASGR at ICRAR in 2016).
 
+v1.4.1 (on CRAN)
+
 FEATURE:  Added radec2xy, xy2radec and getpixscale Tan-Gnomonic WCS projection solvers.
 
 FEATURE:  Added cosNFWvcirc and cosNFWvesc functions to compute NFW halo unbinding.
+
+v1.4.2
 
 FEATURE:  Now also support Sine-Orthographic projections and can detect the header CTYPE.
 
