@@ -12,7 +12,7 @@ function(RA,Dec,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1
     if(is.data.frame(header) | is.matrix(header)){
     locs=match(c('CTYPE1','CTYPE2','CRVAL1','CRVAL2','CRPIX1','CRPIX2','CD1_1','CD1_2','CD2_1','CD2_2','CDELT1','CDELT2'),header[,1])
     locs=locs[is.na(locs)==FALSE]
-    headerWCS=data.frame(header[locs,1],as.character(header[locs,2]))
+    headerWCS=data.frame(header[locs,1],as.character(header[locs,2]),stringsAsFactors=FALSE)
       if('CTYPE1' %in% headerWCS[,1]){CTYPE1=headerWCS[headerWCS[,1]=='CTYPE1',2]}else{message('Missing CTYPE1')}
       if('CTYPE2' %in% headerWCS[,1]){CTYPE2=headerWCS[headerWCS[,1]=='CTYPE2',2]}else{message('Missing CTYPE2')}
       if('CRVAL1' %in% headerWCS[,1]){CRVAL1=as.numeric(headerWCS[headerWCS[,1]=='CRVAL1',2])}else{message('Missing CRVAL1')}
