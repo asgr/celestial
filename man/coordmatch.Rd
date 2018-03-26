@@ -10,7 +10,7 @@ These functions allows the user to match a reference set of sky coordinates agai
 }
 \usage{
 coordmatch(coordref, coordcompare, rad = 2, inunitref = "deg", inunitcompare = "deg",
-radunit = "asec", sep = ":", kstart = 10, ignoreexact = FALSE)
+radunit = "asec", sep = ":", kstart = 10, ignoreexact = FALSE, ignoreinternal=FALSE)
 coordmatchsing(RAref,Decref, coordcompare, rad=2, inunitref = "deg",
 inunitcompare="deg", radunit='asec', sep = ":", ignoreexact=FALSE)
 }
@@ -20,13 +20,13 @@ inunitcompare="deg", radunit='asec', sep = ":", ignoreexact=FALSE)
 For coordmatch this is the reference dataset, i.e. you want to find matches for each object in this catalogue. A two column matrix or data.frame, where column one is the RA and column two the Dec.
 }
   \item{coordcompare}{
-The comparison dataset, i.e. you want to find objects in this catalogue that match locations in coordref. A two column matrix or data.frame, where column one is the RA and column two the Dec.
+The comparison dataset, i.e. you want to find objects in this catalogue that match locations in coordref. A two column matrix or data.frame, where column one is the RA and column two the Dec. If \option{coordcompare} is not provided then it is set to \option{coordref} automatically. Since this means the user is doing a single table internal match \option{ignoreinternal} is automatically set to TRUE (but this can be overridden).
 }
   \item{RAref}{
-For coordmatch sing this is the reference RA for the sinlge object of interest.
+For coordmatch sing this is the reference RA for the single object of interest.
 }
   \item{Decref}{
-For coordmatch sing this is the reference Dec for the sinlge object of interest.
+For coordmatch sing this is the reference Dec for the single object of interest.
 }
   \item{rad}{
 The matching radius to use. If this is length one then the same radius is used for all objects, otherwise it must be the same length as the number of rows in coordref.
@@ -47,11 +47,16 @@ If inunitref or inunitcompare is set to 'sex' then sep defines the separation ty
 The number of matching nodes to attempt initial. The code iterates until all matches within the specified radius (rad) have been found, but it works faster if the kstart is close to the maximum number of matches for any coordref object.
 }
   \item{ignoreexact}{
-Shoudl exact matches be ignored in the output? This might be helpful when matching the same table against itself, where you have no interest in finding object matches with respect to themselves.
+Should exact matches be ignored in the output? If TRUE then 0 separation ID matches are set to 0 and the separation is NA. This might be helpful when matching the same table against itself, where you have no interest in finding object matches with respect to themselves.
+}
+  \item{ignoreinternal}{
+Should identical row matches be ignored in the output? If TRUE then exact row ID matches are set to 0 and the separation is NA. The bestmatch output will ignore these trivial matchesw also. This only makes sense if \option{coordref} and \option{coordcompare} are the same table and you are trying to do an internal table match where you do not want the trivial result of rows matching to themselves. Automatically switches to TRUE if \option{coordcompare} is not provided. 
 }
 }
 \details{
 For coordmatch the main matching is done using nn2 that comes as part of the RANN package. coordmatch adds a large amount of sky coordinate oriented functionality beyond the simple implementation of nn2. For single object matches coordmatchsing should be used since it is substantially faster in this regime (making use of direct dot products).
+
+\option{ignoreexact} is more strict in a sense since all objects exactly matching are ignored, whereas with \option{ignoreinternal} only identical row IDs are interpretted as being the same object.
 }
 \value{
 The output of coordmatch is a list containing:

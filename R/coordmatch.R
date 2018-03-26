@@ -1,4 +1,4 @@
-coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcompare="deg", radunit='asec', sep = ":", kstart=10, ignoreexact=FALSE){
+coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcompare="deg", radunit='asec', sep = ":", kstart=10, ignoreexact=FALSE, ignoreinternal=FALSE){
   if (inunitref %in% c("deg", "rad", "sex") == FALSE) {
     stop("inunitref must be one of deg, rad or sex")
   }
@@ -10,6 +10,12 @@ coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcomp
   }
   origrad=rad
   coordref=rbind(coordref)
+  if(missing(coordcompare)){
+    coordcompare=coordref
+    if(missing(ignoreinternal)){
+      ignoreinternal=TRUE
+    }
+  }
   coordcompare=rbind(coordcompare)
   N=length(coordref[,1])
   kmax=length(coordcompare[,1])
@@ -53,9 +59,20 @@ coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcomp
     ignore=tempmatch[[1]]==0
     tempmatch[[2]][ignore]=NA
     tempmatch[[2]]=2*asin(tempmatch[[2]]/2)
-    if(ignoreexact){remove=which(!(tempmatch[[2]]<=rad & tempmatch[[2]]>0))}else{remove=which(!tempmatch[[2]]<=rad)}
-    tempmatch[[1]][remove]=0
-    tempmatch[[2]][remove]=NA
+    if(ignoreinternal){
+      remove=which(tempmatch[[1]]-1:length(coordcomparexyz[,1])==0)
+      tempmatch[[1]][remove]=0
+      tempmatch[[2]][remove]=NA
+    }
+    if(ignoreexact){
+      remove=which(!(tempmatch[[2]]<=rad & tempmatch[[2]]>0))
+      tempmatch[[1]][remove]=0
+      tempmatch[[2]][remove]=NA
+    }else{
+      remove=which(!tempmatch[[2]]<=rad)
+      tempmatch[[1]][remove]=0
+      tempmatch[[2]][remove]=NA
+    }
     if (all(is.na(tempmatch[[2]][,ksuggest]))){
       kendmin=NA
     }else{
