@@ -10,17 +10,18 @@ These functions allows the user to match a reference set of sky coordinates agai
 }
 \usage{
 coordmatch(coordref, coordcompare, rad = 2, inunitref = "deg", inunitcompare = "deg",
-radunit = "asec", sep = ":", kstart = 10, ignoreexact = FALSE, ignoreinternal=FALSE)
+radunit = "asec", sep = ":", kstart = 10, ignoreexact = FALSE, ignoreinternal=FALSE,
+matchextra = FALSE)
 coordmatchsing(RAref,Decref, coordcompare, rad=2, inunitref = "deg",
 inunitcompare="deg", radunit='asec', sep = ":", ignoreexact=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{coordref}{
-For coordmatch this is the reference dataset, i.e. you want to find matches for each object in this catalogue. A two column matrix or data.frame, where column one is the RA and column two the Dec.
+For coordmatch this is the reference dataset, i.e. you want to find matches for each object in this catalogue. A minimum two column matrix or data.frame, where column one is the RA and column two the Dec. See \option{matchextra}.
 }
   \item{coordcompare}{
-The comparison dataset, i.e. you want to find objects in this catalogue that match locations in coordref. A two column matrix or data.frame, where column one is the RA and column two the Dec. If \option{coordcompare} is not provided then it is set to \option{coordref} automatically. Since this means the user is doing a single table internal match \option{ignoreinternal} is automatically set to TRUE (but this can be overridden).
+The comparison dataset, i.e. you want to find objects in this catalogue that match locations in coordref. A minimum two column matrix or data.frame, where column one is the RA and column two the Dec. If \option{coordcompare} is not provided then it is set to \option{coordref} automatically. Since this means the user is doing a single table internal match \option{ignoreinternal} is automatically set to TRUE (but this can be overridden). See \option{matchextra}.
 }
   \item{RAref}{
 For coordmatch sing this is the reference RA for the single object of interest.
@@ -51,6 +52,9 @@ Should exact matches be ignored in the output? If TRUE then 0 separation ID matc
 }
   \item{ignoreinternal}{
 Should identical row matches be ignored in the output? If TRUE then exact row ID matches are set to 0 and the separation is NA. The bestmatch output will ignore these trivial matchesw also. This only makes sense if \option{coordref} and \option{coordcompare} are the same table and you are trying to do an internal table match where you do not want the trivial result of rows matching to themselves. Automatically switches to TRUE if \option{coordcompare} is not provided. 
+}
+  \item{matchextra}{
+Should extra columns in \option{coordref} and \option{coordcompare} be used as part of the N-D match? Extra columns beyond the requried RA and Dec can be provided and these will be used as part of the N-D match. The meaning of \option{rad} in this case is not trivial of course since the match is done within a hyper-sphere. When the extra columns have the same value \option{rad} can still be interpretted as an angular coordinate match. These extra columns should be appropriately scaled, e.g. you might want to make a 2 arcsec match with an extra magnitude column. In this case even if two objects sit on top of each other on sky, they cannot differ by more than 2 mag in flux to be a match.
 }
 }
 \details{
@@ -95,8 +99,17 @@ mockmatches=coordmatch(mocksky, mocksky, ignoreexact=TRUE, rad=1, radunit='amin'
 
 #Now we match to find all objects with varying match radii, ignoring self matches
 
-mockmatchesvary=coordmatch(mocksky, mocksky,ignoreexact=TRUE, rad=seq(0,1,length=1e3),
+mockmatchesvary=coordmatch(mocksky, mocksky, ignoreexact=TRUE, rad=seq(0,1,length=1e3),
 radunit='amin')
+
+#We can do this also by using the internal table match mode:
+
+mockmatchesvary2=coordmatch(mocksky, rad=seq(0,1,length=1e3), radunit='amin')
+
+#Check that this looks the same (should be identical with all zeroes):
+
+summary(mockmatchesvary$bestmatch-mockmatchesvary2$bestmatch)
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

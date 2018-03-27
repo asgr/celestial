@@ -1,4 +1,4 @@
-coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcompare="deg", radunit='asec', sep = ":", kstart=10, ignoreexact=FALSE, ignoreinternal=FALSE){
+coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcompare="deg", radunit='asec', sep = ":", kstart=10, ignoreexact=FALSE, ignoreinternal=FALSE, matchextra=FALSE){
   if (inunitref %in% c("deg", "rad", "sex") == FALSE) {
     stop("inunitref must be one of deg, rad or sex")
   }
@@ -40,18 +40,26 @@ coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcomp
     coordcompare[,2] = coordcompare[,2] * 180/pi
   }
   if (radunit == "asec"){
-    rad=rad*(pi/180)/3600
+    radmult=(pi/180)/3600
   }
   if (radunit == "amin"){
-    rad=rad*(pi/180)/60
+    radmult=(pi/180)/60
   }
   if (radunit == "deg"){
-    rad=rad*(pi/180)
+    radmult=(pi/180)
   }
+  rad=rad*radmult
   userad=max(rad,na.rm = TRUE)
   
-  coordrefxyz=sph2car(coordref,deg=TRUE)
-  coordcomparexyz=sph2car(coordcompare,deg=TRUE)
+  coordrefxyz=sph2car(coordref[,1:2],deg=TRUE)
+  coordcomparexyz=sph2car(coordcompare[,1:2],deg=TRUE)
+  
+  if(matchextra & dim(coordref)[2]>2 & dim(coordcompare)[2]>2){
+    if(dim(coordref)[2] == dim(coordcompare)[2]){
+      coordrefxyz=cbind(coordrefxyz,coordref[,3:dim(coordref)[2]]*radmult)
+      coordcomparexyz=cbind(coordcomparexyz,coordcompare[,3:dim(coordcompare)[2]]*radmult)
+    }
+  }
   
   ksuggest=kstart
   while(is.na(ksuggest)==FALSE){
@@ -164,7 +172,8 @@ coordmatchsing=function(RAref,Decref, coordcompare, rad=2, inunitref = "deg", in
   coordcomparexyz=sph2car(coordcompare,deg=TRUE)
   
   dotprod=coordcomparexyz[,1]*coordrefxyz[1]+coordcomparexyz[,2]*coordrefxyz[2]+coordcomparexyz[,3]*coordrefxyz[3]
-  dotprod[dotprod< -1]=-1;dotprod[dotprod>1]=1
+  dotprod[dotprod< -1]=-1
+  dotprod[dotprod>1]=1
   ang=acos(dotprod)
   if (radunit == "asec"){
     ang=ang/((pi/180)/3600)
