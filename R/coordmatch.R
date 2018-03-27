@@ -198,3 +198,37 @@ coordmatchsing=function(RAref,Decref, coordcompare, rad=2, inunitref = "deg", in
   }
   return(output)
 }
+
+internalclean=function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, inunit="deg", radunit='asec', sep = ":"){
+  
+  if (length(dim(RA)) == 2){
+    RA=as.matrix(RA)
+    if(dim(RA)[2]>=2){
+      Dec = RA[, 2]
+    }
+    if(dim(RA)[2]>=3){
+      tiebreak = RA[, 3]
+    }
+    RA = RA[, 1]
+  }
+  
+  RA = as.numeric(RA)
+  Dec = as.numeric(Dec)
+  
+  if(missing(tiebreak)){
+    tiebreak=1:length(RA)
+  }
+  
+  bestfunc=function(x){
+    if(all(x==0)){
+      return(0)
+    }else{
+      return(min(x[x>0],na.rm = TRUE))
+    }
+  }
+  
+  matchorder=order(tiebreak, decreasing=decreasing)
+  match=coordmatch(cbind(RA[matchorder],Dec[matchorder]), rad=rad, inunitref = inunit, inunitcompare = inunit, radunit = radunit, sep = sep)
+  nearcen=apply(cbind(match$bestmatch[,1],match$ID[match$bestmatch[,1],]),1,bestfunc)
+  return=matchorder[c(which(match$Nmatch==0),nearcen)]
+}

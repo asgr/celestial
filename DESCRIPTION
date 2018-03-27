@@ -2,7 +2,7 @@ Package: celestial
 Type: Package
 Title: Collection of Common Astronomical Conversion Routines and Functions
 Version: 1.4.2
-Date: 2017-08-24
+Date: 2018-03-27
 Author: Aaron Robotham
 Maintainer: Aaron Robotham <aaron.robotham@uwa.edu.au>
 Description: Contains a number of common astronomy conversion routines, particularly the HMS and degrees schemes, which can be fiddly to convert between on mass due to the textural nature of the former. It allows users to coordinate match datasets quickly. It also contains functions for various cosmological calculations.

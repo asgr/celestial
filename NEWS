@@ -64,3 +64,5 @@ v1.4.2
 
 FEATURE:  Now also support Sine-Orthographic projections and can detect the header CTYPE.
 
+FEATURE:  Added internalclean function that cleans up a single table that has duplicate (N>1 within some sky position tolerance) sources.
+
