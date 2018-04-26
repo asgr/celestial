@@ -1,6 +1,6 @@
 .getcos=function(ref){
   cosref = NULL
-  utils::data('cosref',envir = environment())
+  utils::data('cosref', package='celestial', envir = environment())
   allownames=tolower(as.character(cosref[,'Ref']))
   if(tolower(ref) %in% allownames==FALSE){stop(paste('Provided ref name is not allowed, must be one of',paste(as.character(cosref[,'Ref']),sep='',collapse=', '),' (case insensitive). See ?cosref for details.'))}
   out=as.numeric(cosref[allownames==tolower(ref),])
