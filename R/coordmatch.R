@@ -51,13 +51,13 @@ coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcomp
   rad=rad*radmult
   userad=max(rad,na.rm = TRUE)
   
-  coordrefxyz=sph2car(coordref[,1:2],deg=TRUE)
-  coordcomparexyz=sph2car(coordcompare[,1:2],deg=TRUE)
+  coordrefxyz=sph2car(coordref[,1:2,drop=FALSE],deg=TRUE)
+  coordcomparexyz=sph2car(coordcompare[,1:2,drop=FALSE],deg=TRUE)
   
   if(matchextra & dim(coordref)[2]>2 & dim(coordcompare)[2]>2){
     if(dim(coordref)[2] == dim(coordcompare)[2]){
-      coordrefxyz=cbind(coordrefxyz,coordref[,3:dim(coordref)[2]]*radmult)
-      coordcomparexyz=cbind(coordcomparexyz,coordcompare[,3:dim(coordcompare)[2]]*radmult)
+      coordrefxyz=cbind(coordrefxyz,coordref[,3:dim(coordref)[2],drop=FALSE]*radmult)
+      coordcomparexyz=cbind(coordcomparexyz,coordcompare[,3:dim(coordcompare)[2],drop=FALSE]*radmult)
     }
   }
   
