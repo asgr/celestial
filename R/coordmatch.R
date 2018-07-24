@@ -1,4 +1,4 @@
-coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcompare="deg", radunit='asec', sep = ":", kstart=10, ignoreexact=FALSE, ignoreinternal=FALSE, matchextra=FALSE){
+coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcompare="deg", radunit='asec', sep = ":", kstart=10, ignoreexact=FALSE, ignoreinternal=FALSE, matchextra=FALSE, smallapprox=FALSE){
   if (inunitref %in% c("deg", "rad", "sex") == FALSE) {
     stop("inunitref must be one of deg, rad or sex")
   }
@@ -61,12 +61,14 @@ coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcomp
     }
   }
   
-  ksuggest=kstart
+  ksuggest=min(kstart, dim(coordcomparexyz)[1])
   while(is.na(ksuggest)==FALSE){
     tempmatch=nn2(coordcomparexyz,coordrefxyz,searchtype='radius',radius=userad,k=ksuggest)
     ignore=tempmatch[[1]]==0
     tempmatch[[2]][ignore]=NA
-    tempmatch[[2]]=2*asin(tempmatch[[2]]/2)
+    if(smallapprox==FALSE){
+      tempmatch[[2]]=2*asin(tempmatch[[2]]/2)
+    }
     if(ignoreinternal){
       remove=which(tempmatch[[1]]-1:length(coordcomparexyz[,1])==0)
       tempmatch[[1]][remove]=0
@@ -87,7 +89,8 @@ coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcomp
       kendmin=min(tempmatch[[2]][,ksuggest],na.rm = TRUE)
     }
     if(is.na(kendmin)==FALSE & ksuggest<kmax){
-      ksuggest=ceiling(ksuggest*max(rad/tempmatch[[2]][,ksuggest],na.rm=TRUE))
+      comp=tempmatch[[2]][,ksuggest]
+      ksuggest=ceiling(ksuggest*max(rad[comp>0]/comp[comp>0],na.rm=TRUE))
       ksuggest=min(ksuggest,kmax)
     }else{
       ksuggest=NA
@@ -137,7 +140,7 @@ coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcomp
   return(output)
 }
 
-coordmatchsing=function(RAref,Decref, coordcompare, rad=2, inunitref = "deg", inunitcompare="deg", radunit='asec', sep = ":", ignoreexact=FALSE){
+coordmatchsing=function(RAref,Decref, coordcompare, rad=2, inunitref = "deg", inunitcompare="deg", radunit='asec', sep = ":", ignoreexact=FALSE, smallapprox=FALSE){
   if (inunitref %in% c("deg", "rad", "sex") == FALSE) {
     stop("inunitref must be one of deg, rad or sex")
   }
@@ -174,7 +177,11 @@ coordmatchsing=function(RAref,Decref, coordcompare, rad=2, inunitref = "deg", in
   dotprod=coordcomparexyz[,1]*coordrefxyz[1]+coordcomparexyz[,2]*coordrefxyz[2]+coordcomparexyz[,3]*coordrefxyz[3]
   dotprod[dotprod< -1]=-1
   dotprod[dotprod>1]=1
-  ang=acos(dotprod)
+  if(smallapprox==FALSE){
+    ang=acos(dotprod)
+  }else{
+    ang=pi/2-dotprod
+  }
   if (radunit == "asec"){
     ang=ang/((pi/180)/3600)
   }

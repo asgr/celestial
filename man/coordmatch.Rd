@@ -12,9 +12,9 @@ These functions allows the user to match a reference set of sky coordinates agai
 \usage{
 coordmatch(coordref, coordcompare, rad = 2, inunitref = "deg", inunitcompare = "deg",
 radunit = "asec", sep = ":", kstart = 10, ignoreexact = FALSE, ignoreinternal=FALSE,
-matchextra = FALSE)
+matchextra = FALSE, smallapprox=FALSE)
 coordmatchsing(RAref,Decref, coordcompare, rad=2, inunitref = "deg",
-inunitcompare="deg", radunit='asec', sep = ":", ignoreexact=FALSE)
+inunitcompare="deg", radunit='asec', sep = ":", ignoreexact=FALSE, smallapprox=FALSE)
 internalclean(RA, Dec, rad=2, tiebreak, decreasing = FALSE, inunit="deg", radunit='asec',
 sep = ":")
 }
@@ -73,6 +73,9 @@ Should identical row matches be ignored in the output? If TRUE then exact row ID
 }
   \item{matchextra}{
 Should extra columns in \option{coordref} and \option{coordcompare} be used as part of the N-D match? Extra columns beyond the requried RA and Dec can be provided and these will be used as part of the N-D match. The meaning of \option{rad} in this case is not trivial of course since the match is done within a hyper-sphere. When the extra columns have the same value \option{rad} can still be interpretted as an angular coordinate match. These extra columns should be appropriately scaled, e.g. you might want to make a 2 arcsec match with an extra magnitude column. In this case even if two objects sit on top of each other on sky, they cannot differ by more than 2 mag in flux to be a match.
+}
+  \item{smallapprox}{
+Should the small angle approximation of asin(a/b) = a/b be used? If TRUE then some computations may be much faster, since asin is an expensive computation to make for lots of near matches.
 }
 }
 \details{
