@@ -97,7 +97,7 @@ coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcomp
     }
   }
 
-  keepcols=which(apply(is.na(tempmatch[[2]]),2,sum)<N)
+  keepcols=which(colSums(is.na(tempmatch[[2]]))<N)
   tempmatch[[1]]=matrix(tempmatch[[1]][,keepcols],nrow=N,byrow=FALSE)
   tempmatch[[2]]=matrix(tempmatch[[2]][,keepcols],nrow=N,byrow=FALSE)
   
