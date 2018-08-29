@@ -13,13 +13,13 @@ sph2car(long, lat, radius = 1, deg = TRUE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{long}{
-longitude values, can also contain a matrix of long, lat and radius (in that order).
+Longitude values, can also contain a matrix of long, lat and radius (in that order).
 }
   \item{lat}{
-latitude values.
+Latitude values.
 }
   \item{radius}{
-radius values.
+Radius values.
 }
   \item{deg}{
 Specifies if input is in degrees (default) or radians.

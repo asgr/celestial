@@ -12,8 +12,8 @@ Various functions for converting between commonly used coordinate systems in ast
 \tabular{ll}{
 Package: \tab celestial\cr
 Type: \tab Package\cr
-Version: \tab 1.4.3\cr
-Date: \tab 2018-07-20\cr
+Version: \tab 1.4.4\cr
+Date: \tab 2018-08-29\cr
 License: \tab GPL-3\cr
 Depends: \tab R (>= 3.00), RANN, NISTunits, pracma\cr
 }
