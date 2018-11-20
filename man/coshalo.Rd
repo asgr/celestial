@@ -83,7 +83,7 @@ coshaloSigmaToTvir(Sigma=230, Vunit=1e3, Tunit='K', Type='halo', Dim=3)
     The dimensional type for the halo (either the 2 or 3). 3 (default) means quantities are intrinsic 3D values. 2 means quantities are for projected systems (i.e. radius and velocity dispersion are compressed). From comparisons to simulations (so NFW, c~5 halos) Rvir[proj]=Rvir[3D]/1.37 and Sigma[proj]=Sigma[3D]/sqrt(3). The former has dependence on the halo profile (so is approximate), whereas the latter is a dimensionality argument that should hold for any virialised system. Note that for projected systems Sigma is measured along one dimension: the line-of-site.
   }
   \item{ref}{
-    The name of a reference cosmology to use, one of 137 / 737 / Planck / Planck13 / Planck15 / WMAP / WMAP9 / WMAP7 / WMAP5 / WMAP3 / WMAP1 / Millennium / GiggleZ. Planck=Planck15 and WMAP=WMAP9. The usage is case insensitive, so wmap9 is an allowed input. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL.
+    The name of a reference cosmology to use, one of 137 / 737 / Planck / Planck13 / Planck15 / Planck18 / WMAP / WMAP9 / WMAP7 / WMAP5 / WMAP3 / WMAP1 / Millennium / GiggleZ. Planck = Planck18 and WMAP = WMAP9. The usage is case insensitive, so wmap9 is an allowed input. See \code{\link{cosref}} for details. This overrides any other settings for H0/ OmegaM and OmegaL.
   }
 }
 
