@@ -22,34 +22,34 @@ degen='lo', ref)
 The value/s to be mapped from parameter cosparamx to parameter cosparamy (this can be a vector or a single number).
 }
   \item{cosparam}{
-Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistMod, CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, CoVel, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these). Note that AngDist and AngSize are not an option for cosparam due to degenerate redshift solutions causing problems with the approxfun mapping.
+Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistMod, AngScale, CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, CoVel, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these). Note that AngDist and AngSize are not an option for cosparam due to degenerate redshift solutions causing problems with the approxfun mapping.
 }
   \item{cosparamx}{
-Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistMod, CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, CoVel, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these). Note that AngDist and AngSize are not an option for cosparamx due to degenerate redshift solutions causing problems with the approxfun mapping.
+Cosmological parameter, must be one of: z, a, CoDist, LumDist, CoDistTran, DistMod, AngScale, CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, CoVel, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these). Note that AngDist and AngSize are not an option for cosparamx due to degenerate redshift solutions causing problems with the approxfun mapping.
 }
   \item{cosparamy}{
-Cosmological parameter, must be one of: z, a, CoDist, LumDist, AngDist, CoDistTran, DistMod, AngSize CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, CoVel, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these).
+Cosmological parameter, must be one of: z, a, CoDist, LumDist, AngDist, CoDistTran, DistMod, AngScale, CoVol, UniAgeAtz, TravelTime (see \code{\link{cosdist}} help for further description of these) H, CoVel, OmegaM, OmegaL, OmegaK, Factor, Rate, RhoCrit (see \code{\link{cosgrow}} help for further description of these).
 }
   \item{H0}{
     Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
   }
   \item{OmegaM}{
-    Omega matter (default is 0.3).
+    Omega Matter as defined at z=0 (default is 0.3).
   }
   \item{OmegaL}{
-    Omega Lambda (default is for a flat Universe with OmegaL = 1-OmegaM = 0.7).
+    Omega Lambda as defined at z=0 (default is for a flat Universe with OmegaL = 1-OmegaM = 0.7).
   }
   \item{OmegaR}{
-    Omega Radiation (default is 0, but OmegaM/3400 is typical).
+    Omega Radiation as defined at z=0 (default is 0, but OmegaM/3400 is typical).
   }
   \item{w0}{
-    The value of dark energy equation of state at z=0. See \code{\link{cosgrow}} for more details.
+    The value of dark energy equation of state as defined at z=0. See \code{\link{cosgrow}} for more details.
   }
   \item{wprime}{
     The evolution term that governs how the dark energy equation of state evolves with redshift. See \code{\link{cosgrow}} for more details.
   }
   \item{Sigma8}{
-    The value of Sigma8 to use if fsigma8=TRUE (by default this is a reasonable 0.8 for simplicity).
+    The value of Sigma8 as defined at z=0 to use if fsigma8=TRUE (by default this is a reasonable 0.8 for simplicity).
   }
   \item{fSigma8}{
     Logical to express whether the growth rate of structure calculated by cosgrow, cosgrowRate or cosgrowRateApprox is given as f*Sigma8 (TRUE) or simply f (FALSE). This is useful for redshift space distortion comparisons (RSD), since RSD strictly measures f*Sigma8.

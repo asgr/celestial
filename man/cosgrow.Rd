@@ -75,16 +75,16 @@
     Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
   }
   \item{OmegaM}{
-    Omega matter (default is 0.3).
+    Omega Matter as defined at z=0 (default is 0.3).
   }
   \item{OmegaL}{
-    Omega Lambda (default is for a flat Universe with OmegaL = 1-OmegaM-OmegaR = 0.7).
+    Omega Lambda as defined at z=0 (default is for a flat Universe with OmegaL = 1-OmegaM-OmegaR = 0.7).
   }
   \item{OmegaR}{
-    Omega Radiation (default is 0, but ~OmegaM/3400 is typical).
+    Omega Radiation as defined at z=0 (default is 0, but ~OmegaM/3400 is typical).
   }
   \item{w0}{
-    The value of dark energy equation of state at z=0.
+    The value of dark energy equation of state  as defined at z=0.
   }
   \item{wprime}{
     The evolution term that governs how the dark energy equation of state evolves with redshift.

@@ -47,13 +47,13 @@ coshaloSigmaToTvir(Sigma=230, Vunit=1e3, Tunit='K', Type='halo', Dim=3)
     Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
   }
   \item{OmegaM}{
-    Omega Matter (default is 0.3).
+    Omega Matter as defined at z=0 (default is 0.3).
   }
   \item{OmegaL}{
-    Omega Lambda (default is for a flat Universe with OmegaL = 1-OmegaM = 0.7).
+    Omega Lambda as defined at z=0 (default is for a flat Universe with OmegaL = 1-OmegaM = 0.7).
   }
   \item{OmegaR}{
-    Omega Radiation (default is 0, but OmegaM/3400 is typical).
+    Omega Radiation as defined at z=0 (default is 0, but OmegaM/3400 is typical).
   }
   \item{Rho}{
     Set whether the critical energy density is used (crit) or the mean mass density (mean).

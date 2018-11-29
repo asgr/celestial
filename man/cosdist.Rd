@@ -89,16 +89,16 @@ w0 = -1, wprime = 0, ref)
     Hubble constant as defined at z=0 (default is H0=100 (km/s)/Mpc).
   }
   \item{OmegaM}{
-    Omega matter (default is 0.3).
+    Omega Matter as defined at z=0 (default is 0.3).
   }
   \item{OmegaL}{
-    Omega Lambda (default is for a flat Universe with OmegaL = 1-OmegaM-OmegaR = 0.7).
+    Omega Lambda as defined at z=0 (default is for a flat Universe with OmegaL = 1-OmegaM-OmegaR = 0.7).
   }
   \item{OmegaR}{
-    Omega Radiation (default is 0, but OmegaM/3400 is typical).
+    Omega Radiation as defined at z=0 (default is 0, but OmegaM/3400 is typical).
   }
   \item{w0}{
-    The value of dark energy equation of state at z=0. See \code{\link{cosgrow}} for more details.
+    The value of dark energy equation of state as defined at z=0. See \code{\link{cosgrow}} for more details.
   }
   \item{wprime}{
     The evolution term that governs how the dark energy equation of state evolves with redshift. See \code{\link{cosgrow}} for more details.
@@ -134,13 +134,13 @@ w0 = -1, wprime = 0, ref)
     The observed angular separation between object 1 and object 2 in degrees.
   }
   \item{Size}{
-    The 1D size of the object (i.e. diameter or total length) in Mpc. Either comoving or angular, as specified by \option{Dist}. For cosdistAngArea this is always taken to be the diameter of either projected or 3D object.
+    The 1D size of the object (i.e. diameter or total length) in Mpc. Either comoving or angular, as specified by \option{Dist}. For cosdistAngArea this is always taken to be the diameter of either the projected or 3D object. The \option{Size} specified should be assuming the same cosmology as provided, so be careful with your \option{H0}!
   }
   \item{Dim}{
     Specifies whether the object being considered is 1D (a line) 2D (e.g. a face on galaxy) or 3D (e.g. dark matter halo). This makes a very small modification to the geometry used (tan of 1D/2D and sin for 3D), but is only noticeable for large structures at low redshifts.
   }
   \item{Dist}{
-    Determines the distance type, i.e. angular / physical distances (Ang) or with respect to comoving distances (Co).
+    Determines the distance type of the specified \option{Size}, i.e. angular / physical distances (Ang) or with respect to comoving distances (Co).
   }
   \item{inunit}{
     The units of angular coordinate provided for \option{ang}. Allowed options are deg for degrees, amin for arc minutes, asec for arc seconds, and rad for radians.
