@@ -66,3 +66,12 @@ FEATURE:  Now also support Sine-Orthographic projections and can detect the head
 
 FEATURE:  Added internalclean function that cleans up a single table that has duplicate (N>1 within some sky position tolerance) sources.
 
+v1.4.6
+
+FEATURE: Added Planck 2018
+
+FEATURE: Added car2sph directly (reduce dependencies)
+
+FEATURE: Some speed things for coordmatch (smallapprox).
+
+
