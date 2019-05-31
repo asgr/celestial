@@ -231,6 +231,9 @@ function(x,y,header,CRVAL1=0,CRVAL2=0,CRPIX1=0,CRPIX2=0,CD1_1=1,CD1_2=0,CD2_1=0,
 getpixscale=function(header, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1){
   if(!missing(header)){
     if(is.data.frame(header) | is.matrix(header)){
+    if(length(header)>1e4){
+      stop('Header does not seem to be legal- far too long!')
+    }
     locs=match(c('CD1_1','CD1_2','CD2_1','CD2_2','CDELT1','CDELT2'),header[,1])
     locs=locs[is.na(locs)==FALSE]
     headerWCS=data.frame(header[locs,1],as.numeric(header[locs,2]),stringsAsFactors=FALSE)
