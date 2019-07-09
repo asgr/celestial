@@ -3,6 +3,7 @@
 \alias{sinproj}
 \alias{radec2xy}
 \alias{xy2radec}
+\alias{getimlim}
 \alias{gnomonic}
 \alias{orthographic}
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -18,6 +19,8 @@ radec2xy(RA, Dec, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 
 CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN')
 xy2radec(x, y, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
 CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN')
+getimlim(x, y, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, CD1_1 = 1,
+CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = 'RA--TAN', CTYPE2 = 'DEC--TAN')
 }
 
 \arguments{
@@ -28,7 +31,7 @@ Vector or matrix; target right ascension in degrees. If matrix then the first co
 Vector; target declination in degrees. Ignored if \option{RA} is a matrix.
 }
   \item{x}{
-Vector or matrix; target x-pixel. If Matrix then the first column will be used as the x-axis and the second column as y-axis.
+Vector or matrix; target x-pixel. If Matrix then the first column will be used as the x-axis and the second column as y-axis. For \code{getimlim} this can be an image matrix or an image and header combination.
 }
   \item{y}{
 Vector; target y-pixel. Ignored if \option{x} is a matrix.
@@ -76,6 +79,9 @@ Returns a two column matrix with columns x and y.
 }
   \item{xy2radec}{
 Returns a two column matrix with columns RA and Dec (in degrees).
+}
+  \item{getimlim}{
+Returns a list of RA and Dec limits for the target image (\option{RAlims} and \option{Declims}, both with 2 elements for lower and upper limits).
 }
 }
 \references{

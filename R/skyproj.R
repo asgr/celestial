@@ -282,3 +282,63 @@ getpixscale=function(header, CD1_1=1, CD1_2=0, CD2_1=0, CD2_2=1){
   }
   return(3600*(sqrt(CD1_1^2+CD1_2^2)+sqrt(CD2_1^2+CD2_2^2))/2)
 }
+
+getimlim=function(x, y, header, CRVAL1 = 0, CRVAL2 = 0, CRPIX1 = 0, CRPIX2 = 0, 
+                        CD1_1 = 1, CD1_2 = 0, CD2_1 = 0, CD2_2 = 1, CTYPE1 = "RA--TAN", 
+                        CTYPE2 = "DEC--TAN"){
+  if (!missing(x)) {
+    if (any(names(x) == "imDat") & missing(header)) {
+      header = x$hdr
+      x = x$imDat
+    }
+    else if (any(names(x) == "imDat") & !missing(header)) {
+      x = x$imDat
+    }
+    if (any(names(x) == "dat") & missing(header)) {
+      header = x$hdr[[1]]
+      header = data.frame(key = header[, 1], value = header[, 
+                                                            2], stringsAsFactors = FALSE)
+      x = x$dat[[1]]
+    }
+    else if (any(names(x) == "dat") & !missing(header)) {
+      x = x$dat[[1]]
+    }
+    if (any(names(x) == "image") & missing(header)) {
+      header = x$header
+      x = x$image
+    }
+    else if (any(names(x) == "image") & !missing(header)) {
+      x = x$image
+    }
+  }
+  
+  if(missing(x)){
+    stop('Need x!')
+  }
+  
+  if(is.matrix(x)){
+    y=1:dim(x)[2]
+    x=1:dim(x)[1]
+  }
+  
+  if(missing(y)){
+    stop('Need y!')
+  }
+  
+  bottom=xy2radec(x=x, y=min(y), header=header, CRVAL1 = CRVAL1, CRVAL2 = CRVAL2, CRPIX1 = CRPIX1, CRPIX2 = CRPIX2, 
+            CD1_1 = CD1_1, CD1_2 = CD1_2, CD2_1 = CD2_1, CD2_2 = CD2_2, CTYPE1 = CTYPE1, 
+            CTYPE2 = CTYPE2)
+  left=xy2radec(x=min(x), y=y, header=header, CRVAL1 = CRVAL1, CRVAL2 = CRVAL2, CRPIX1 = CRPIX1, CRPIX2 = CRPIX2, 
+                CD1_1 = CD1_1, CD1_2 = CD1_2, CD2_1 = CD2_1, CD2_2 = CD2_2, CTYPE1 = CTYPE1, 
+                CTYPE2 = CTYPE2)
+  top=xy2radec(x=x, y=max(y), header=header, CRVAL1 = CRVAL1, CRVAL2 = CRVAL2, CRPIX1 = CRPIX1, CRPIX2 = CRPIX2, 
+                CD1_1 = CD1_1, CD1_2 = CD1_2, CD2_1 = CD2_1, CD2_2 = CD2_2, CTYPE1 = CTYPE1, 
+                CTYPE2 = CTYPE2)
+  right=xy2radec(x=max(x), y=y, header=header, CRVAL1 = CRVAL1, CRVAL2 = CRVAL2, CRPIX1 = CRPIX1, CRPIX2 = CRPIX2, 
+                CD1_1 = CD1_1, CD1_2 = CD1_2, CD2_1 = CD2_1, CD2_2 = CD2_2, CTYPE1 = CTYPE1, 
+                CTYPE2 = CTYPE2)
+  
+  combine=rbind(bottom,left,top,right)
+  
+  return(list(RAlims=range(combine[,1]), Declims=range(combine[,2])))
+}
