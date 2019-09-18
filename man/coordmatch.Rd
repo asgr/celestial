@@ -15,8 +15,8 @@ radunit = "asec", sep = ":", kstart = 10, ignoreexact = FALSE, ignoreinternal=FA
 matchextra = FALSE, smallapprox=FALSE)
 coordmatchsing(RAref,Decref, coordcompare, rad=2, inunitref = "deg",
 inunitcompare="deg", radunit='asec', sep = ":", ignoreexact=FALSE, smallapprox=FALSE)
-internalclean(RA, Dec, rad=2, tiebreak, decreasing = FALSE, inunit="deg", radunit='asec',
-sep = ":")
+internalclean(RA, Dec, rad = 2, tiebreak, decreasing = FALSE, inunit = "deg",
+radunit='asec', sep = ":", Nmatch = 'all')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -77,6 +77,9 @@ Should extra columns in \option{coordref} and \option{coordcompare} be used as p
   \item{smallapprox}{
 Should the small angle approximation of asin(a/b) = a/b be used? If TRUE then some computations may be much faster, since asin is an expensive computation to make for lots of near matches.
 }
+  \item{Nmatch}{
+Character scalar or integer vector; if default 'all' then cleaning is done for any number of matches and no match objects (unambiguous) are passed through. If a vector then the number of matches has to exist in the \option{Nmatch} vector to get passed out. This is useful if we only want cleaned objects in overlap regions where we expect a certain number of matches. Note \option{Nmatch}=1 means two objects match- the base reference and 1 other etc.
+}
 }
 \details{
 For coordmatch the main matching is done using nn2 that comes as part of the RANN package. coordmatch adds a large amount of sky coordinate oriented functionality beyond the simple implementation of nn2. For single object matches coordmatchsing should be used since it is substantially faster in this regime (making use of direct dot products).
@@ -84,19 +87,21 @@ For coordmatch the main matching is done using nn2 that comes as part of the RAN
 \option{ignoreexact} is more strict in a sense since all objects exactly matching are ignored, whereas with \option{ignoreinternal} only identical row IDs are interpretted as being the same object.
 }
 \value{
-The output of coordmatch is a list containing:
+The output of \code{coordmatch} is a list containing:
 
 \item{ID}{The full matrix of matching IDs. The rows are ordered identically to \option{coordref}, and the ID value is the row position in \option{coordcompare} for the match.}
 \item{sep}{The full matrix of matching separations in the same units as \option{radunit}. The rows are ordered identically to \option{coordref}, and the sep value is the separation for each matrix location in the ID list object.}
 \item{Nmatch}{Nmatch is a vector giving the total number of matches for each \option{coordref} row.}
 \item{bestmatch}{A three column data.frame giving the best matching IDs. Only objects with at least one match are listed. Column 1 (refID) gives the row position from \option{coordref} and column 2 (compareID) gives the corresponding best matching row position in \option{coordcompare}. Column 3 (sep) gives the separation between the matched ref and compare positions in the same units as radunit.}
 
-The output of coordmatchsing is a list containing:
+The output of \code{coordmatchsing} is a list containing:
 
 \item{ID}{The full vector of matching IDs. The ID values are the row positions in \option{coordcompare} for the match.}
 \item{sep}{The full vector of matching separations in the same units as \option{radunit}. The sep value is the separation for each vector location in the ID list object.}
 \item{Nmatch}{Total number of matches within the specified radius.}
 \item{bestmatch}{The best matching ID, where the ID value is the row position in \option{coordcompare} for the match.}
+
+The output of \code{internalclean} is a vector containing IDs of the rows to keep to achieve the cleaned catalogue.
 
 }
 \author{

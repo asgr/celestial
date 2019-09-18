@@ -137,7 +137,7 @@ coordmatch=function(coordref, coordcompare, rad=2, inunitref = "deg", inunitcomp
   }else{
     output=list(ID=tempmatch[[1]], sep=tempmatch[[2]], Nmatch=Nmatch, bestmatch=NA)
   }
-  return(output)
+  return(invisible(output))
 }
 
 coordmatchsing=function(RAref,Decref, coordcompare, rad=2, inunitref = "deg", inunitcompare="deg", radunit='asec', sep = ":", ignoreexact=FALSE, smallapprox=FALSE){
@@ -147,7 +147,6 @@ coordmatchsing=function(RAref,Decref, coordcompare, rad=2, inunitref = "deg", in
   if (inunitcompare %in% c("deg", "rad", "sex") == FALSE) {
     stop("inunitcompare must be one of deg, rad or sex")
   }
-  origrad=rad
   coordref=rbind(c(RAref,Decref))
   coordcompare=rbind(coordcompare)
   N=length(coordref[,1])
@@ -203,10 +202,10 @@ coordmatchsing=function(RAref,Decref, coordcompare, rad=2, inunitref = "deg", in
     bestmatch=c(compareID=select[which.min(ang[select])],sep=min(ang[select]))
     output=list(ID=ID, sep=sep, Nmatch=length(select), bestmatch=bestmatch)
   }
-  return(output)
+  return(invisible(output))
 }
 
-internalclean=function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, inunit="deg", radunit='asec', sep = ":"){
+internalclean=function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, inunit="deg", radunit='asec', sep = ":", Nmatch='all'){
   
   if (length(dim(RA)) == 2){
     RA=as.matrix(RA)
@@ -237,5 +236,10 @@ internalclean=function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, inunit="deg
   matchorder=order(tiebreak, decreasing=decreasing)
   match=coordmatch(cbind(RA[matchorder],Dec[matchorder]), rad=rad, inunitref = inunit, inunitcompare = inunit, radunit = radunit, sep = sep)
   nearcen=apply(cbind(match$bestmatch[,1],match$ID[match$bestmatch[,1],]),1,bestfunc)
-  return=matchorder[c(which(match$Nmatch==0),nearcen)]
+  if(Nmatch[1]=='all'){
+    output=matchorder[c(which(match$Nmatch==0),nearcen)]
+  }else{
+    output=matchorder[nearcen[match$Nmatch %in% Nmatch]]
+  }
+  return(invisible(output))
 }
