@@ -239,7 +239,7 @@ internalclean=function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, inunit="deg
   if(Nmatch[1]=='all'){
     output=matchorder[c(which(match$Nmatch==0),nearcen)]
   }else{
-    output=matchorder[nearcen[match$Nmatch %in% Nmatch]]
+    output=matchorder[nearcen[match$Nmatch(match$bestmatch$ref) %in% Nmatch]]
   }
-  return(invisible(output))
+  return(invisible(sort(unique(output))))
 }
