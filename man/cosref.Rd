@@ -39,7 +39,7 @@ Name        \tab  Full Reference                                \tab  arXiv Refe
 737         \tab  Simplified concordance cosomology             \tab  NA              \cr
 137         \tab  Simplified concordance cosomology             \tab  NA              \cr
 Planck 18   \tab  Planck Collaboration, 2018, arXiv, 1807.06209 \tab  arxiv:1807.06209 \cr
-Planck 15   \tab  Planck Collaboration, 2015, arXiv, 1502.01589 \tab  arxiv:1502.01589 \cr
+Planck 15   \tab  Planck Collaboration, 2015, A&A, 594, 13      \tab  arxiv:1502.01589 \cr
 Planck 13   \tab  Planck Collaboration, 2014, A&A, 571, 16      \tab  arXiv:1303.5076v3 \cr
 WMAP9	      \tab  Hinshaw G., et al., 2013, ApJS, 208, 19       \tab  arXiv:1212.5226v3 \cr
 WMAP7	      \tab  Komatsu E., et al., 2010, ApJS, 192, 18       \tab  arXiv:1001.4538v3 \cr
