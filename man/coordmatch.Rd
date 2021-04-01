@@ -11,12 +11,15 @@ These functions allows the user to match a reference set of sky coordinates agai
 }
 \usage{
 coordmatch(coordref, coordcompare, rad = 2, inunitref = "deg", inunitcompare = "deg",
-radunit = "asec", sep = ":", kstart = 10, ignoreexact = FALSE, ignoreinternal=FALSE,
-matchextra = FALSE, smallapprox=FALSE)
+  radunit = "asec", sep = ":", kstart = 10, ignoreexact = FALSE, ignoreinternal = FALSE,
+  matchextra = FALSE, smallapprox = FALSE)
+
 coordmatchsing(RAref,Decref, coordcompare, rad=2, inunitref = "deg",
-inunitcompare="deg", radunit='asec', sep = ":", ignoreexact=FALSE, smallapprox=FALSE)
+  inunitcompare = "deg", radunit = 'asec', sep = ":", ignoreexact = FALSE,
+  smallapprox = FALSE)
+
 internalclean(RA, Dec, rad = 2, tiebreak, decreasing = FALSE, inunit = "deg",
-radunit='asec', sep = ":", Nmatch = 'all')
+  radunit = 'asec', sep = ":", Nmatch = 'all')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
