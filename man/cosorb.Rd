@@ -60,7 +60,7 @@
 \value{
   cosorbVisViva function gives the required velocity in units of Vunit to create the specified orbit.
   
-  cosorbFreeFall function gives the free fall time to static initial velocity separated bodies..
+  cosorbFreeFall function gives the free fall time to static initial velocity separated bodies.
   
   cosorbRocheRad function gives the orbital radius at which the secondary will become stripped within a specified bound radius.
   

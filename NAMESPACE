@@ -5,3 +5,6 @@ import("pracma")
 
 importFrom("stats", "approxfun", "integrate")
 importFrom("utils", "data")
+
+#Rcpp
+useDynLib(celestial, .registration=TRUE)

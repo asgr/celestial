@@ -27,3 +27,19 @@ cosorbRocheRad=function(M1=1e12,M2=1e10,Size=35.03865,Rfac=2.44){
 cosorbRocheSize=function(M1=1e12,M2=1e10,Rad=396.8294,Rfac=2.44){
   return((Rad/Rfac)*(M2/M1)^(1/3))
 }
+
+kinetic_part=function(vel, mass=NA){
+  
+  if(length(mass) > 1){
+    com = c(sum(vel[,1] * mass) / sum(mass),
+            sum(vel[,2] * mass) / sum(mass),
+            sum(vel[,3] * mass) / sum(mass)
+            )
+    
+    vel[,1] = vel[,1] - com[1]
+    vel[,2] = vel[,2] - com[2]
+    vel[,3] = vel[,3] - com[3]
+  }
+  
+  return((vel[,1]^2+vel[,2]^2+vel[,3]^2)/2)
+}
