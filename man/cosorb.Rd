@@ -3,6 +3,8 @@
 \alias{cosorbFreeFall}
 \alias{cosorbRocheRad}
 \alias{cosorbRocheSize}
+\alias{potential_part}
+\alias{kinetic_part}
 
 \title{
   Orbital functions
@@ -11,14 +13,19 @@
   A variety of obital analysis functions. These are useful for setting up initial conditions for merging systems etc.
 }
 \usage{
-  cosorbVisViva(M=1e12, Rad=162.635, SemiMajRad=162.635, Munit=1, Lunit=1e3, Vunit=1)
-  cosorbFreeFall(M1=1e12, M2=1, Rad=162.635, Munit=1, Lunit=1e3, Vunit=1, Tunit=1e9)
-  cosorbRocheRad(M1=1e12, M2=1e10, Size=35.03865, Rfac=2.44)
-  cosorbRocheSize(M1=1e12, M2=1e10, Rad=396.8294, Rfac=2.44)
+cosorbVisViva(mass=1e12, Rad=162.635, SemiMajRad=162.635, Munit=1, Lunit=1e3, Vunit=1)
+cosorbFreeFall(M1=1e12, M2=1, Rad=162.635, Munit=1, Lunit=1e3, Vunit=1, Tunit=1e9)
+cosorbRocheRad(M1=1e12, M2=1e10, Size=35.03865, Rfac=2.44)
+cosorbRocheSize(M1=1e12, M2=1e10, Rad=396.8294, Rfac=2.44)
+  
+potential_part(part, eval = NULL, mass = 1, soft = 1, Munit = 1, Lunit = 1000,
+  Vunit = 1) 
+kinetic_part(vel, mass=NULL, Vunit = 1)
+  
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{M}{
+  \item{mass}{
     Mass in units of 'Munit'.
   }
   \item{M1}{
@@ -29,6 +36,18 @@
   }
   \item{Rad}{
     Separation between bodies in units of 'Lunit' (for cosorbRocheSize this is in arbitrary units).
+  }
+  \item{part}{
+    Cartesian particle positions [x,y,z] in units of 'Lunit'.
+  }
+  \item{eval}{
+    Cartesian evalution positions [x,y,z] in units of 'Lunit'. If this is not provided then the potentials are evaluated at the positions of \option{part}.
+  }
+  \item{vel}{
+    Cartesian particle velocities [vx,vy,vz] in units of 'Vunit'.
+  }
+  \item{soft}{
+    Numeric softening in units of 'Lunit'.
   }
   \item{SemiMajRad}{
     The semi major radius of the orbit (a > 0 for ellipses, a = Rad for circles, 1/a = 0 for parabolas, and a < 0 for hyperbolas).
@@ -65,6 +84,10 @@
   cosorbRocheRad function gives the orbital radius at which the secondary will become stripped within a specified bound radius.
   
   cosorbRocheSize function gives the limiting bound radius of the secondary for a given system.
+  
+  potential_part functions gives the total gravitational potential either at the positions of particles provided (\option{part}) or at the requested evaluation positions (\option{eval}).
+  
+  kinetic_part functions gives the total kinetic energy of particles provided (\option{vel})
 }
 
 \author{

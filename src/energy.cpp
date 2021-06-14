@@ -4,8 +4,8 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 NumericVector potential_part(NumericMatrix part, Nullable<NumericMatrix> eval = R_NilValue,
-                       NumericVector mass = 6.32e5, double soft = 1, double Munit = 1,
-                       double Lunit = 1000, double Vunit = 1000){
+                       NumericVector mass = 1, double soft = 1, double Munit = 1,
+                       double Lunit = 1000, double Vunit = 1){
   
   double G = 6.67384e-11;
   double msol_to_kg = 1.98892e+30;
@@ -47,9 +47,9 @@ NumericVector potential_part(NumericMatrix part, Nullable<NumericMatrix> eval = 
       for (int j = 0; j < npart; j++) {
         newpot =  g / sqrt(
           pow(evalnonnull(i,0) - part(j,0),2) +
-            pow(evalnonnull(i,1) - part(j,1),2) +
-            pow(evalnonnull(i,2) - part(j,2),2) +
-            soft2
+          pow(evalnonnull(i,1) - part(j,1),2) +
+          pow(evalnonnull(i,2) - part(j,2),2) +
+          soft2
         );
         pot_eval(i) -= newpot * mass(j);
       }

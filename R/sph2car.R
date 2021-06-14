@@ -53,3 +53,42 @@ car2sph = function (x, y, z, deg = TRUE)
     lat[radius == 0] = 0
     return = cbind(long = long, lat = lat, radius = radius)
 }
+
+eq2gal = function(RA, Dec, pole_RA = 192.859508, pole_Dec = 27.128336, eta = 32.932){
+    if(is.matrix(RA) || is.data.frame(RA)){
+        if(ncol(RA) == 2){
+            Dec = RA[, 2]
+            RA = RA[, 1]
+        }
+    }
+    
+    RA = RA * (pi/180)
+    Dec = Dec * (pi/180)
+    pole_RA = pole_RA * (pi/180)
+    pole_Dec = pole_Dec * (pi/180)
+    eta = eta * (pi/180)
+    
+    gal_long = asin(cos(Dec) * cos(pole_Dec) * cos((RA - pole_RA)) + sin(Dec) * sin(pole_Dec))
+    gal_lat = atan2(sin(Dec) - sin(gal_long) * sin(pole_Dec),
+                    cos(Dec) * cos(pole_Dec) * sin((RA - pole_RA))) + eta
+    return(cbind(gal_long = gal_long * (180/pi) %% 360, gal_lat = gal_lat * (180/pi)))
+}
+
+gal2eq = function(gal_long, gal_lat, pole_RA = 192.859508, pole_Dec = 27.128336, eta = 32.932){
+    if(is.matrix(gal_long) || is.data.frame(gal_long)){
+        if(ncol(gal_long) == 2){
+            gal_lat = gal_long[, 2]
+            gal_long = gal_long[, 1]
+        }
+    }
+    
+    gal_long = gal_long * (pi/180)
+    gal_lat = gal_lat * (pi/180)
+    pole_RA = pole_RA * (pi/180)
+    pole_Dec = pole_Dec * (pi/180)
+    eta = eta * (pi/180)
+    
+    RA = atan2((cos(gal_long) * cos(gal_lat - eta)), (sin(gal_long) * cos(pole_Dec) - cos(gal_long) * sin(pole_Dec) * sin(gal_lat - eta))) + pole_RA
+    Dec = asin(cos(gal_long) * cos(pole_Dec) * sin(gal_lat - eta) + sin(gal_long) * sin(pole_Dec))
+    return(cbind(RA = RA * (180/pi) %% 360, Dec = Dec * (180/pi)))
+}
