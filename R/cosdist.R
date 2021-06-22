@@ -485,7 +485,6 @@ cosdistRelError=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-
 }
 
 cosdistAngDist12=function(z1=1,z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-1, wprime=0, ref){
-  HubDist = (299792.458/H0)
   z1=as.numeric(z1)
   z2=as.numeric(z2)
   if(!all(is.finite(z1))){stop('All z1 must be finite and numeric')}
@@ -499,6 +498,7 @@ cosdistAngDist12=function(z1=1,z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
     OmegaL=as.numeric(params['OmegaL'])
     if(!is.na(params['OmegaR'])){OmegaR=as.numeric(params['OmegaR'])}
   }
+  HubDist = (299792.458/H0)
   OmegaK=1-OmegaM-OmegaL-OmegaR
   if(OmegaK<0){stop('OmegaK must be >=0 to use this function!')}
   temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
@@ -542,7 +542,6 @@ cosdistCoDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Omeg
   if(inunit=='amin'){ang=ang/60}
   if(inunit=='asec'){ang=ang/3600}
   if(inunit=='rad'){ang=ang*180/pi}
-  HubDist = (299792.458/H0)
   z1 = as.numeric(z1)
   z2 = as.numeric(z2)
   if (!all(is.finite(z1))) {
@@ -566,6 +565,7 @@ cosdistCoDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Omeg
       OmegaR = as.numeric(params["OmegaR"])
     }
   }
+  HubDist = (299792.458/H0)
   OmegaK = 1 - OmegaM - OmegaL - OmegaR
   temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     rDist = integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
@@ -608,7 +608,6 @@ cosdistAngDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Ome
   if(inunit=='amin'){ang=ang/60}
   if(inunit=='asec'){ang=ang/3600}
   if(inunit=='rad'){ang=ang*180/pi}
-  HubDist = (299792.458/H0)
   z1 = as.numeric(z1)
   z2 = as.numeric(z2)
   if (!all(is.finite(z1))) {
@@ -632,6 +631,7 @@ cosdistAngDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Ome
       OmegaR = as.numeric(params["OmegaR"])
     }
   }
+  HubDist = (299792.458/H0)
   OmegaK = 1 - OmegaM - OmegaL - OmegaR
   temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     rDist = integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
@@ -684,7 +684,6 @@ cosdistLumDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Ome
   if(inunit=='amin'){ang=ang/60}
   if(inunit=='asec'){ang=ang/3600}
   if(inunit=='rad'){ang=ang*180/pi}
-  HubDist = (299792.458/H0)
   z1 = as.numeric(z1)
   z2 = as.numeric(z2)
   if (!all(is.finite(z1))) {
@@ -708,6 +707,7 @@ cosdistLumDist12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-Ome
       OmegaR = as.numeric(params["OmegaR"])
     }
   }
+  HubDist = (299792.458/H0)
   OmegaK = 1 - OmegaM - OmegaL - OmegaR
   temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     rDist = integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
@@ -760,7 +760,6 @@ cosdistzem12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-
   if(inunit=='amin'){ang=ang/60}
   if(inunit=='asec'){ang=ang/3600}
   if(inunit=='rad'){ang=ang*180/pi}
-  HubDist = (299792.458/H0)
   z1 = as.numeric(z1)
   z2 = as.numeric(z2)
   if (!all(is.finite(z1))) {
@@ -784,6 +783,7 @@ cosdistzem12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-
       OmegaR = as.numeric(params["OmegaR"])
     }
   }
+  HubDist = (299792.458/H0)
   OmegaK = 1 - OmegaM - OmegaL - OmegaR
   temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     rDist = integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
@@ -834,7 +834,6 @@ cosdistzeff12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM
   if(inunit=='amin'){ang=ang/60}
   if(inunit=='asec'){ang=ang/3600}
   if(inunit=='rad'){ang=ang*180/pi}
-  HubDist = (299792.458/H0)
   z1 = as.numeric(z1)
   z2 = as.numeric(z2)
   if (!all(is.finite(z1))) {
@@ -858,6 +857,7 @@ cosdistzeff12ang=function(z1=1, z2=2, ang=0, H0=100, OmegaM=0.3, OmegaL=1-OmegaM
       OmegaR = as.numeric(params["OmegaR"])
     }
   }
+  HubDist = (299792.458/H0)
   OmegaK = 1 - OmegaM - OmegaL - OmegaR
   temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     rDist = integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
