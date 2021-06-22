@@ -13,7 +13,7 @@ Various functions for converting between commonly used coordinate systems in ast
 Package: \tab celestial\cr
 Type: \tab Package\cr
 Version: \tab 1.5.2\cr
-Date: \tab 2021-06-2\cr
+Date: \tab 2021-06-22\cr
 License: \tab GPL-3\cr
 Depends: \tab R (>= 3.00), RANN, NISTunits, pracma\cr
 }

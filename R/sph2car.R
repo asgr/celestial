@@ -68,8 +68,8 @@ eq2gal = function(RA, Dec, pole_RA = 192.859508, pole_Dec = 27.128336, eta = 32.
     pole_Dec = pole_Dec * (pi/180)
     eta = eta * (pi/180)
     
-    gal_long = asin(cos(Dec) * cos(pole_Dec) * cos((RA - pole_RA)) + sin(Dec) * sin(pole_Dec))
-    gal_lat = atan2(sin(Dec) - sin(gal_long) * sin(pole_Dec),
+    gal_lat = asin(cos(Dec) * cos(pole_Dec) * cos((RA - pole_RA)) + sin(Dec) * sin(pole_Dec))
+    gal_long = atan2(sin(Dec) - sin(gal_lat) * sin(pole_Dec),
                     cos(Dec) * cos(pole_Dec) * sin((RA - pole_RA))) + eta
     return(cbind(gal_long = gal_long * (180/pi) %% 360, gal_lat = gal_lat * (180/pi)))
 }
@@ -82,13 +82,13 @@ gal2eq = function(gal_long, gal_lat, pole_RA = 192.859508, pole_Dec = 27.128336,
         }
     }
     
-    gal_long = gal_long * (pi/180)
     gal_lat = gal_lat * (pi/180)
+    gal_long = gal_long * (pi/180)
     pole_RA = pole_RA * (pi/180)
     pole_Dec = pole_Dec * (pi/180)
     eta = eta * (pi/180)
     
-    RA = atan2((cos(gal_long) * cos(gal_lat - eta)), (sin(gal_long) * cos(pole_Dec) - cos(gal_long) * sin(pole_Dec) * sin(gal_lat - eta))) + pole_RA
-    Dec = asin(cos(gal_long) * cos(pole_Dec) * sin(gal_lat - eta) + sin(gal_long) * sin(pole_Dec))
+    RA = atan2((cos(gal_lat) * cos(gal_long - eta)), (sin(gal_lat) * cos(pole_Dec) - cos(gal_lat) * sin(pole_Dec) * sin(gal_long - eta))) + pole_RA
+    Dec = asin(cos(gal_lat) * cos(pole_Dec) * sin(gal_long - eta) + sin(gal_lat) * sin(pole_Dec))
     return(cbind(RA = RA * (180/pi) %% 360, Dec = Dec * (180/pi)))
 }
