@@ -1,20 +1,19 @@
-dms2deg <-
-function(d=0,m=0,s=0,sign='d',sep=':'){
+dms2deg = function(d=0,m=0,s=0,sign='d',sep=':'){
   if(is.character(d)){
     signlogic=grepl('-',d)
     sign=rep(1,length(d))
-    sign[signlogic]=-1
+    sign[signlogic] = -1
   }
   if(length(dim(d))==2){
     if(dim(d)[2]==3){
       if(is.character(d[1,1]) & missing(m) & missing(s)){
-        m=as.numeric(d[,2])
         s=as.numeric(d[,3])
+        m=as.numeric(d[,2])
         d=d[,1]
         d=abs(as.numeric(d))
       }else{
-        m=d[,2]
         s=d[,3]
+        m=d[,2]
         d=d[,1]
       }
     }else{stop("d has wrong dimension, should be a Nx3 table/matrix")}

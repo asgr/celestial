@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // potential_part
 NumericVector potential_part(NumericMatrix part, Nullable<NumericMatrix> eval, NumericVector mass, double soft, double Munit, double Lunit, double Vunit);
 RcppExport SEXP _celestial_potential_part(SEXP partSEXP, SEXP evalSEXP, SEXP massSEXP, SEXP softSEXP, SEXP MunitSEXP, SEXP LunitSEXP, SEXP VunitSEXP) {

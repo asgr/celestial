@@ -1,5 +1,4 @@
-deg2hms <-
-function(deg,type='mat',sep=':',digits=2){
+deg2hms = function(deg,type='mat',sep=':',digits=2){
 if(any(deg< 0 | deg>360)){stop('All deg values should be 0<=d<=360')}
     deg[deg < 0] = deg[deg < 0] + 360
     HRS = floor(deg/15)
@@ -15,6 +14,9 @@ if(any(deg< 0 | deg>360)){stop('All deg values should be 0<=d<=360')}
     if(digits<0){width=9}
     if(digits==0){width=2}
     if(digits>0){width=digits+3}
+    SEC = abs(SEC)
+    MIN = abs(MIN)
+    HRS = abs(HRS)
     SEC = formatC(SEC, format = "f", width = width, flag = 0, digits = digits)
     MIN = formatC(MIN, format = "f", width = 2, flag = 0, digits = 0)
     HRS = formatC(HRS, format = "f", width = 2, flag = 0, digits = 0)
