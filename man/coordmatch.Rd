@@ -12,14 +12,13 @@ These functions allows the user to match a reference set of sky coordinates agai
 \usage{
 coordmatch(coordref, coordcompare, rad = 2, inunitref = "deg", inunitcompare = "deg",
   radunit = "asec", sep = ":", kstart = 10, ignoreexact = FALSE, ignoreinternal = FALSE,
-  matchextra = FALSE, smallapprox = FALSE)
+  matchextra = FALSE, smallapprox = FALSE, jitter = FALSE, jamount = 1e-12, jseed = 666)
 
-coordmatchsing(RAref,Decref, coordcompare, rad=2, inunitref = "deg",
+coordmatchsing(RAref, Decref, coordcompare, rad = 2, inunitref = "deg",
   inunitcompare = "deg", radunit = 'asec', sep = ":", ignoreexact = FALSE,
   smallapprox = FALSE)
 
-internalclean(RA, Dec, rad = 2, tiebreak, decreasing = FALSE, inunit = "deg",
-  radunit = 'asec', sep = ":", Nmatch = 'all')
+internalclean(RA, Dec, rad = 2, tiebreak, decreasing = FALSE, Nmatch = 'all', ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -41,23 +40,11 @@ For \code{internalclean} this is a vector of right ascensions for internal clean
   \item{Dec}{
 For \code{internalclean} this is a vector of declinations for internal cleaning. If \option{RA} is a two column structure then the second column is taken to be \option{Dec}. 
 }
-  \item{rad}{
-The matching radius to use. If this is length one then the same radius is used for all objects, otherwise it must be the same length as the number of rows in coordref.
-}
-  \item{tiebreak}{
-For \code{internalclean} this is a vector of values to determine the preferred source, e.g. something like magnitude of distance to the centre of the origin frame. By default smaller values are considered better, but this can be flipped by setting \option{decreasing}=TRUE. If \option{tiebreak} is not provided then the first source that appears is considered the better object in the cleaned catalogue.
-}
-  \item{decreasing}{
-Determines whether smaller (\option{decreasing}=FALSE) or larger (\option{decreasing}=TRUE) \option{tiebreak} values are considered preferable.
-}
   \item{inunitref}{
 The units of angular coordinate provided for coordref / RAref / Decref. Allowed options are deg for degress, rad for radians and sex for sexigesimal (i.e. HMS for RA and DMS for Deg).
 }
   \item{inunitcompare}{
 The units of angular coordinate provided for coordcompare. Allowed options are deg for degress, rad for radians and sex for sexigesimal (i.e. HMS for RA and DMS for Deg).
-}
-  \item{inunit}{
-The units of angular coordinate provided for \option{RA} and \option{Dec} in \code{internalclean}. Allowed options are deg for degress, rad for radians and sex for sexigesimal (i.e. HMS for RA and DMS for Deg).  
 }
   \item{radunit}{
 The unit type for the radius specified. Allowed options are deg for degress, amin for arc minutes, asec for arc seconds and rad for radians.
@@ -80,14 +67,35 @@ Should extra columns in \option{coordref} and \option{coordcompare} be used as p
   \item{smallapprox}{
 Should the small angle approximation of asin(a/b) = a/b be used? If TRUE then some computations may be much faster, since asin is an expensive computation to make for lots of near matches.
 }
+  \item{jitter}{
+Logical; should a very small jitter be applied to the \option{coordcompare} data? This should be negligibly small, but does make the output slightly variable depending on the seed. If \option{jitter} is not explicitly set and \option{ignoreinternal} is TRUE (which is the case if only one catalogue is supplied) and \option{ignoreexact} is FALSE then \option{jitter} is automatically switched to TRUE. See \code{\link{jitter}}.
+}
+  \item{jamount}{
+Numeric scaler; max amount of jitter in radians (passed to \option{amount} in \code{\link{jitter}}). The default is less than a millionth of an asec, so there should be no circumstances where this affects real results (that is massively sub Event Horizon Telescope resolution even).
+}
+  \item{jseed}{
+Integer scalar; random seed to use for jitter.
+}
+  \item{rad}{
+The matching radius to use. If this is length one then the same radius is used for all objects, otherwise it must be the same length as the number of rows in coordref.
+}
+  \item{tiebreak}{
+For \code{internalclean} this is a vector of values to determine the preferred source, e.g. something like magnitude of distance to the centre of the origin frame. By default smaller values are considered better, but this can be flipped by setting \option{decreasing}=TRUE. If \option{tiebreak} is not provided then the first source that appears is considered the better object in the cleaned catalogue.
+}
+  \item{decreasing}{
+Determines whether smaller (\option{decreasing}=FALSE) or larger (\option{decreasing}=TRUE) \option{tiebreak} values are considered preferable.
+}
   \item{Nmatch}{
 Character scalar or integer vector; if default 'all' then cleaning is done for any number of matches and no match objects (unambiguous) are passed through. If a vector then the number of matches has to exist in the \option{Nmatch} vector to get passed out. This is useful if we only want cleaned objects in overlap regions where we expect a certain number of matches. Note \option{Nmatch}=1 means two objects match- the base reference and 1 other etc.
+}
+  \item{\dots}{
+Other arguments to be passed to \code{coordmatch}.  
 }
 }
 \details{
 For coordmatch the main matching is done using nn2 that comes as part of the RANN package. coordmatch adds a large amount of sky coordinate oriented functionality beyond the simple implementation of nn2. For single object matches coordmatchsing should be used since it is substantially faster in this regime (making use of direct dot products).
 
-\option{ignoreexact} is more strict in a sense since all objects exactly matching are ignored, whereas with \option{ignoreinternal} only identical row IDs are interpretted as being the same object.
+\option{ignoreexact} is more strict in a sense since all objects exactly matching are ignored, whereas with \option{ignoreinternal} only identical row IDs are interpretted as being the same object. This setting can be useful in \code{internalclean} (via \dots) too, since having exact matches and internal matches can create ambiguous cleaning.
 }
 \value{
 The output of \code{coordmatch} is a list containing:

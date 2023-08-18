@@ -3,7 +3,7 @@ import("RANN")
 import("NISTunits")
 import("pracma")
 
-importFrom("stats", "approxfun", "integrate")
+importFrom("stats", "approxfun", "integrate", "runif")
 importFrom("utils", "data")
 
 #Rcpp
