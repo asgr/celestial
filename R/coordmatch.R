@@ -261,7 +261,7 @@ coordmatchsing=function(RAref,Decref, coordcompare, rad=2, inunitref = "deg", in
   return(invisible(output))
 }
 
-internalclean = function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, Nmatch='all', ...){
+internalclean = function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, Nmatch='all', iter=FALSE, ...){
   
   if (length(dim(RA)) == 2){
     RA=as.matrix(RA)
@@ -296,6 +296,10 @@ internalclean = function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, Nmatch='a
     ...
   )
   
+  if(length(match$ID) == 0){
+    return(matchorder)
+  }
+  
   nearcen = apply(cbind(match$bestmatch[, 1], match$ID[match$bestmatch[, 1], ]), 1, bestfunc)
   
   if(Nmatch[1]=='all'){
@@ -304,5 +308,22 @@ internalclean = function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, Nmatch='a
     output = matchorder[nearcen[match$Nmatch[match$bestmatch$ref] %in% Nmatch]]
   }
   
-  return(invisible(sort(unique(output))))
+  keep = sort(unique(output))
+  
+  if(iter){
+    new_keep = TRUE
+    while(length(new_keep) < length(keep)){
+      keep = keep[new_keep] #This should keep the correct relative IDs from the first clean
+      new_keep = internalclean(RA=RA[keep],
+                               Dec=Dec[keep],
+                               rad=rad,
+                               tiebreak=tiebreak[keep],
+                               decreasing=decreasing,
+                               Nmatch=Nmatch,
+                               iter=FALSE,
+                               ...)
+    }
+  }
+  
+  return(keep)
 }

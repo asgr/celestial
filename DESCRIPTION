@@ -1,8 +1,8 @@
 Package: celestial
 Type: Package
 Title: Collection of Common Astronomical Conversion Routines and Functions
-Version: 1.5.4
-Date: 2023-08-18
+Version: 1.5.5
+Date: 2023-11-21
 Author: Aaron Robotham
 Maintainer: Aaron Robotham <aaron.robotham@uwa.edu.au>
 Description: Contains a number of common astronomy utility functions for cosmology and angular coordinates.

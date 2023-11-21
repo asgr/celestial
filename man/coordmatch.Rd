@@ -18,7 +18,8 @@ coordmatchsing(RAref, Decref, coordcompare, rad = 2, inunitref = "deg",
   inunitcompare = "deg", radunit = 'asec', sep = ":", ignoreexact = FALSE,
   smallapprox = FALSE)
 
-internalclean(RA, Dec, rad = 2, tiebreak, decreasing = FALSE, Nmatch = 'all', ...)
+internalclean(RA, Dec, rad = 2, tiebreak, decreasing = FALSE, Nmatch = 'all',
+  iter = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -88,6 +89,9 @@ Determines whether smaller (\option{decreasing}=FALSE) or larger (\option{decrea
   \item{Nmatch}{
 Character scalar or integer vector; if default 'all' then cleaning is done for any number of matches and no match objects (unambiguous) are passed through. If a vector then the number of matches has to exist in the \option{Nmatch} vector to get passed out. This is useful if we only want cleaned objects in overlap regions where we expect a certain number of matches. Note \option{Nmatch}=1 means two objects match- the base reference and 1 other etc.
 }
+  \item{iter}{
+Logical; should \code{internalclean} by run until no matches within the \option{rad} exist? The reason you might want to do this is to break degeneracies in chains where all links are within the search \option{rad} but the extremes are outside of this. In that situation you might want to keep sub-groups based on their preferred \option{tiebreak} (in which case use \option{iter} = FALSE) or you might want to fully resolve the whole complex down to a single preferred value (in which case use \option{iter} = TRUE). The latter is the only solution that guarantees no sources are left that match within \option{rad}.
+}
   \item{\dots}{
 Other arguments to be passed to \code{coordmatch}.  
 }
@@ -146,6 +150,11 @@ mockmatchesvary2=coordmatch(mocksky, rad=seq(0,1,length=1e3), radunit='amin')
 #Check that this looks the same (should be identical with all zeroes):
 
 summary(mockmatchesvary$bestmatch-mockmatchesvary2$bestmatch)
+
+#Internal matching can be complicated:
+
+(internalclean(cbind(-4:4,-4:4)*0.0001, rad=1.2, iter=FALSE))
+(internalclean(cbind(-4:4,-4:4)*0.0001, rad=1.2, iter=TRUE))
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
