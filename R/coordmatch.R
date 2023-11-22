@@ -90,7 +90,7 @@ coordmatch = function(coordref, coordcompare, rad=2, inunitref = "deg", inunitco
       k = ksuggest
     )
     ignore = tempmatch[[1]] == 0
-    tempmatch[[2]][ignore]=NA
+    tempmatch[[2]][ignore] = NA
     if(smallapprox==FALSE){
       tempmatch[[2]] = 2 * asin(tempmatch[[2]] / 2)
     }
@@ -261,10 +261,10 @@ coordmatchsing=function(RAref,Decref, coordcompare, rad=2, inunitref = "deg", in
   return(invisible(output))
 }
 
-internalclean = function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, Nmatch='all', iter=FALSE, ...){
+internalclean = function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, Nmatch='all', iter=FALSE, group=FALSE, ...){
   
   if (length(dim(RA)) == 2){
-    RA=as.matrix(RA)
+    RA = as.matrix(RA)
     if(dim(RA)[2]>=2){
       Dec = RA[, 2]
     }
@@ -281,7 +281,7 @@ internalclean = function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, Nmatch='a
     tiebreak=1:length(RA)
   }
   
-  bestfunc=function(x){
+  bestfunc = function(x){
     if(all(x==0)){
       return(0)
     }else{
@@ -298,6 +298,13 @@ internalclean = function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, Nmatch='a
   
   if(length(match$ID) == 0){
     return(matchorder)
+  }
+  
+  if(group){
+    match$ID[match$ID == 0L] = NA
+    links = cbind(1:dim(match$ID)[1], as.integer(match$ID))
+    groupinfo = group_links(links, selfgroup=TRUE, return_groupinfo=TRUE)$groupinfo
+    return(matchorder[groupinfo[,'IDmin']])
   }
   
   nearcen = apply(cbind(match$bestmatch[, 1], match$ID[match$bestmatch[, 1], ]), 1, bestfunc)
@@ -326,4 +333,103 @@ internalclean = function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, Nmatch='a
   }
   
   return(keep)
+}
+
+group_links = function(links, selfgroup=FALSE, return_groupinfo=FALSE, return_linkslist=FALSE){
+  
+  links = links[!is.na(links[,1]) & !is.na(links[,2]),, drop=FALSE]
+  
+  if(selfgroup==FALSE){
+    links = links[which(links[,1] != links[,2]),, drop=FALSE]
+  }
+  
+  links = links[order(links[,1]),]
+  links_unique = sort(unique(as.vector(links)))
+  
+  if(links_unique[length(links_unique)] != length(links_unique)){
+    remap = TRUE
+    mapping = as.matrix(cbind(1:length(links_unique), links_unique))
+    colnames(mapping) = NULL
+    links = as.matrix(cbind(mapping[match(links[,1], mapping[,2]),1], mapping[match(links[,2], mapping[,2]),1]))
+  }else{
+    remap = FALSE
+  }
+  
+  names(links) = NULL
+  
+  grouplist = list()
+  if(return_linkslist){
+    linkslist = list()
+  }
+  
+  while(length(links) > 0L){
+    baseref = links[1,1]
+    group = unique(c(baseref, links[links[,1] %in% baseref,2], links[links[,2] %in% baseref,1]))
+    Ngroup = length(group)
+    
+    if(Ngroup == 1L){
+      names(group) = NULL
+      grouplist = c(grouplist, list(group))
+      if(return_linkslist){
+        linkslist = c(linkslist, list(links[links[,1] %in% group,, drop=FALSE]))
+      }
+      break
+    }
+    
+    Ngroup_old = 0L
+    while(Ngroup_old < Ngroup){
+      Ngroup_old = Ngroup
+      group = unique(c(group, links[which(links[,1] %in% group),2], links[which(links[,2] %in% group),1]))
+      Ngroup = length(group)
+    }
+    
+    names(group) = NULL
+    grouplist = c(grouplist, list(sort(group)))
+    if(return_linkslist){
+      linkslist = c(linkslist, list(links[links[,1] %in% group,, drop=FALSE]))
+    }
+    
+    if(length(grouplist) > 0){
+      links = links[!links[,1] %in% unlist(grouplist),, drop=FALSE]
+    }
+  }
+  
+  if(remap){
+    for(i in 1:length(grouplist)){
+      grouplist[[i]] = mapping[grouplist[[i]],2]
+      
+      if(return_linkslist){
+        linkslist[[i]][] = mapping[linkslist[[i]],2]
+      }
+    }
+  }
+  
+  if(return_groupinfo){
+    Ngroup = sapply(grouplist, length)
+    IDmin = sapply(grouplist, min)
+    IDmax = sapply(grouplist, max)
+    
+    if(return_linkslist){
+      Nlinks = sapply(linkslist, nrow)
+      groupinfo = data.frame(Ngroup=Ngroup, Nlinks=Nlinks, IDmin=IDmin, IDmax=IDmax)
+    }else{
+      groupinfo = data.frame(Ngroup=Ngroup, IDmin=IDmin, IDmax=IDmax)
+    }
+  }else{
+    groupinfo = NULL
+  }
+  
+  if(return_groupinfo){
+    if(return_linkslist){
+      return(list(grouplist=grouplist, groupinfo=groupinfo, linkslist=linkslist))
+    }else{
+      return(list(grouplist=grouplist, groupinfo=groupinfo))
+    }
+  }else{
+    if(return_linkslist){
+      return(list(grouplist=grouplist, linkslist=linkslist))
+    }else{
+      return(grouplist)
+    }
+  }
 }
