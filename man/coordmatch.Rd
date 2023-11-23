@@ -3,6 +3,7 @@
 \alias{coordmatchsing}
 \alias{internalclean}
 \alias{group_links}
+\alias{group_graph}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Sky matching
@@ -24,6 +25,8 @@ internalclean(RA, Dec, rad = 2, tiebreak, decreasing = FALSE, Nmatch = 'all',
   
 group_links(links, grouptype = 'list', selfgroup = FALSE, return_groupinfo = FALSE,
   return_linkslist = FALSE)
+
+group_graph(links, selfgroup=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -142,9 +145,11 @@ The output of \code{internalclean} is a vector containing IDs of the rows to kee
 
 The output of \code{group_links} depends on the return parameters. Minimally it is a list of the FoF groups. Can also be a list structure containing:
 
-\item{grouplist}{The list of the FoF groups.}
+\item{group}{The list of the FoF groups (if \option{grouptype} = 'list') or data.frame containing linkID and groupID (if \option{grouptype} = 'DF').}
 \item{groupinfo}{The table of basic group information when \option{return_groupinfo} is TRUE. The data.frame will contain Ngroup, Nlist, IDmin, IDmax, though note Nlist is only present if \option{return_linkslist} is also TRUE.}
 \item{linkslist}{The list of the links that form the respective groups.}
+
+The output of \code{group_graph} is the data.table containing linkID and groupID
 }
 \author{
 Aaron Robotham
@@ -188,6 +193,7 @@ plot(coords)
 library(plotrix)
 points(0,0,pch=4)
 draw.circle(0,0,radius=1.2/3600)
+draw.circle(8e-4,8e-4,radius=1.2/3600)
 
 (internalclean(coords, rad=1.2))
 (internalclean(coords, rad=1.2, iter=TRUE))

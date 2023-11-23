@@ -303,8 +303,10 @@ internalclean = function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, Nmatch='a
   if(group){
     match$ID[match$ID == 0L] = NA
     links = cbind(1:dim(match$ID)[1], as.integer(match$ID))
-    groupinfo = group_links(links, selfgroup=TRUE, return_groupinfo=TRUE)$groupinfo
-    return(matchorder[groupinfo[,'IDmin']])
+    #groupinfo = group_links(links, selfgroup=TRUE, return_groupinfo=TRUE)$groupinfo
+    group = group_graph(links, selfgroup=TRUE)
+    group_min = aggregate(group$linkID, list(group$groupID), min)[,2]
+    return(matchorder[unique(group_min)])
   }
   
   nearcen = apply(cbind(match$bestmatch[, 1], match$ID[match$bestmatch[, 1], ]), 1, bestfunc)
@@ -461,4 +463,20 @@ group_links = function(links, grouptype='list', selfgroup=FALSE, return_groupinf
       return(group)
     }
   }
+}
+
+group_graph = function(links, selfgroup=FALSE){
+  if(!requireNamespace("igraph", quietly=TRUE)){
+    stop('The igraph package is needed for group_graph to work. Please install from CRAN.')
+  }
+  
+  links = links[!is.na(links[,1]) & !is.na(links[,2]),, drop=FALSE]
+  
+  if(selfgroup==FALSE){
+    links = links[which(links[,1] != links[,2]),, drop=FALSE]
+  }
+  
+  group = igraph::components(igraph::graph_from_data_frame(links, directed=FALSE))
+  group = data.frame(linkID = as.integer(names(group$membership)), groupID=group$membership)
+  return(group)
 }

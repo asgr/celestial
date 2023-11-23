@@ -9,7 +9,7 @@ Description: Contains a number of common astronomy utility functions for cosmolo
 License: GPL-3
 LazyData: TRUE
 Depends: R (>= 3.00), RANN, NISTunits, pracma
-Suggests: plotrix
+Suggests: plotrix, igraph
 SystemRequirements: C++11
 LinkingTo: Rcpp
 NeedsCompilation: yes
