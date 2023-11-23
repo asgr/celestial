@@ -205,6 +205,8 @@ links = cbind(sample(40,20,replace=TRUE), sample(40,20,replace=TRUE))
 print(links)
 
 group_links(links, return_groupinfo=TRUE)
+
+group_graph(links)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
