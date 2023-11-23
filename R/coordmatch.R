@@ -335,7 +335,7 @@ internalclean = function(RA, Dec, rad=2, tiebreak, decreasing = FALSE, Nmatch='a
   return(keep)
 }
 
-group_links = function(links, selfgroup=FALSE, return_groupinfo=FALSE, return_linkslist=FALSE){
+group_links = function(links, grouptype='list', selfgroup=FALSE, return_groupinfo=FALSE, return_linkslist=FALSE){
   
   links = links[!is.na(links[,1]) & !is.na(links[,2]),, drop=FALSE]
   
@@ -357,40 +357,53 @@ group_links = function(links, selfgroup=FALSE, return_groupinfo=FALSE, return_li
   
   names(links) = NULL
   
+  table_init = tabulate(links)
+  
   grouplist = list()
   if(return_linkslist){
     linkslist = list()
   }
   
   while(length(links) > 0L){
+    Ngroup = 0L
     baseref = links[1,1]
-    group = unique(c(baseref, links[links[,1] %in% baseref,2], links[links[,2] %in% baseref,1]))
-    Ngroup = length(group)
+    matchref = links[1,2]
     
-    if(Ngroup == 1L){
-      names(group) = NULL
-      grouplist = c(grouplist, list(group))
-      if(return_linkslist){
-        linkslist = c(linkslist, list(links[links[,1] %in% group,, drop=FALSE]))
+    if(selfgroup){
+      if(table_init[baseref] == 2 & baseref == matchref){
+        #This means we are self matching  
+        group = baseref
+        Ngroup = 1L
       }
-      break
     }
     
-    Ngroup_old = 0L
-    while(Ngroup_old < Ngroup){
-      Ngroup_old = Ngroup
-      group = unique(c(group, links[which(links[,1] %in% group),2], links[which(links[,2] %in% group),1]))
-      Ngroup = length(group)
+    if(Ngroup == 0L){
+      if(table_init[baseref] == 1L & table_init[matchref] == 1L){
+        #This means we have a pure matching pare
+        group = c(baseref, matchref)
+        Ngroup = 2L
+      }else{
+        #Otherwise we have a more complicated group
+        group = unique(c(baseref, links[links[,1] %in% baseref,2], links[links[,2] %in% baseref,1]))
+        Ngroup = length(group)
+        Ngroup_old = 0L
+        while(Ngroup_old < Ngroup){
+          Ngroup_old = Ngroup
+          group = unique(c(group, links[which(links[,1] %in% group),2], links[which(links[,2] %in% group),1]))
+          Ngroup = length(group)
+        }
+      }
     }
     
     names(group) = NULL
     grouplist = c(grouplist, list(sort(group)))
+    
     if(return_linkslist){
       linkslist = c(linkslist, list(links[links[,1] %in% group,, drop=FALSE]))
     }
     
     if(length(grouplist) > 0){
-      links = links[!links[,1] %in% unlist(grouplist),, drop=FALSE]
+      links = links[!links[,1] %in% group,, drop=FALSE]
     }
   }
   
@@ -416,20 +429,36 @@ group_links = function(links, selfgroup=FALSE, return_groupinfo=FALSE, return_li
       groupinfo = data.frame(Ngroup=Ngroup, IDmin=IDmin, IDmax=IDmax)
     }
   }else{
+    Ngroup = NULL
     groupinfo = NULL
+  }
+  
+  if(grouptype == 'list'){
+    #Do nothing
+    group = grouplist
+  }else if(grouptype == 'DF'){
+    if(is.null(Ngroup)){
+      Ngroup = sapply(grouplist, length)
+    }
+    
+    groupID = rep(1:length(grouplist), Ngroup)
+    
+    group = data.frame(linkID = unlist(grouplist), groupID=groupID)
+  }else{
+    stop('grouptype must be one of list or DF!')
   }
   
   if(return_groupinfo){
     if(return_linkslist){
-      return(list(grouplist=grouplist, groupinfo=groupinfo, linkslist=linkslist))
+      return(list(group=group, groupinfo=groupinfo, linkslist=linkslist))
     }else{
-      return(list(grouplist=grouplist, groupinfo=groupinfo))
+      return(list(group=group, groupinfo=groupinfo))
     }
   }else{
     if(return_linkslist){
-      return(list(grouplist=grouplist, linkslist=linkslist))
+      return(list(group=group, linkslist=linkslist))
     }else{
-      return(grouplist)
+      return(group)
     }
   }
 }

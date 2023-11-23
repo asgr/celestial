@@ -22,7 +22,8 @@ coordmatchsing(RAref, Decref, coordcompare, rad = 2, inunitref = "deg",
 internalclean(RA, Dec, rad = 2, tiebreak, decreasing = FALSE, Nmatch = 'all',
   iter = FALSE, group = FALSE, ...)
   
-group_links(links, selfgroup = FALSE, return_groupinfo = FALSE, return_linkslist = FALSE)
+group_links(links, grouptype = 'list', selfgroup = FALSE, return_groupinfo = FALSE,
+  return_linkslist = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -100,6 +101,9 @@ Logical; this goes a step further than \option{iter} and cretes full FoF groups.
 }
   \item{links}{
 Integer Matrix; the two column link associations that we wish to group together. These do not need to be symmetric and can be non-contiguous, they must be integers though.
+}
+  \item{grouptype}{
+Characeter scalar; the type of group output, options are 'list': a list of the groups; or 'DF': a data.frame, where column 1 is the linkID and column 2 the groupID.
 }
   \item{selfgroup}{
 Logical; should 1-1 self-groupings be ignored (i.e. 2 matching to 2)?  
