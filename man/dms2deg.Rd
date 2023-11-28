@@ -13,7 +13,7 @@ dms2deg(d,m,s,sign='d',sep=':')
 
 \arguments{
   \item{d}{
-The integer number of degrees you are converting. If it is not integer then the floor of the number is taken. This can contain the sign of the declination when sign='d', but must be all positive if the sign argument is specified (this is required if d contains any 0s, see below). If sign is specified, all d values should be 0<=d<=90, otherwise d values should be 0<=d<=90.
+The integer number of degrees you are converting. If it is not integer then the floor of the number is taken. This can contain the sign of the declination when sign='d', but must be all positive if the sign argument is specified (this is required if d contains any 0s, see below). If sign is specified, all d values should be 0<=d<=90, otherwise d values should be -90<=d<=90.
 }
   \item{m}{
 The integer number of minutes you are converting. If it is not integer then the floor of the number is taken. All m values should be 0<=m<60.
