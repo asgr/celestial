@@ -4,7 +4,7 @@ import("NISTunits")
 import("pracma")
 
 importFrom("stats", "approxfun", "integrate", "runif", "aggregate")
-importFrom("utils", "data")
+importFrom("utils", "data", "capture.output")
 
 #Rcpp
 useDynLib(celestial, .registration=TRUE)

@@ -62,7 +62,9 @@ cosdist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-
       
     if (age) {
       HT = (3.08568025e+19/(H0*31556926))/1e9
-      UniAge = HT*integral(.Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
+      capture.output({
+        UniAge = HT*integral(.Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
+      })
       zAge = HT*integral(.Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
     }
     if(error){
@@ -113,7 +115,7 @@ cosdistCoDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0
   temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     HubDist = (299792.458/H0)
     CoDist = HubDist * integral(.Einv, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
-    return=CoDist
+    return(CoDist)
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
@@ -143,7 +145,7 @@ cosdistCoDistTran=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, Omeg
         CoDistTran = HubDist*(1/sqrt(abs(OmegaK)))*sin(sqrt(abs(OmegaK))*CoDist/HubDist)
       }
     }
-    return=CoDistTran
+    return(CoDistTran)
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
@@ -175,7 +177,7 @@ cosdistLumDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
       }
     }
     LumDist = (1+z) * CoDistTran
-    return=LumDist
+    return(LumDist)
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
@@ -207,7 +209,7 @@ cosdistAngDist=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
       }
     }
     AngDist = CoDistTran / (1 + z)
-    return=AngDist
+    return(AngDist)
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
@@ -239,7 +241,7 @@ cosdistDistMod=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=
       }
     }
     if(z>=0){DistMod = 5*log10(CoDistTran*(1+z))+25}else{DistMod=NA}
-    return=DistMod
+    return(DistMod)
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
@@ -271,7 +273,7 @@ cosdistAngScale=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR
       }
     }
     AngScale = (CoDistTran / (1 + z)) * (pi/(180 * 60 * 60)) * 1000
-    return=AngScale
+    return(AngScale)
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
@@ -314,7 +316,7 @@ cosdistAngSize=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
     if(outunit=='deg'){Ang=Ang*180/pi}
     if(outunit=='amin'){Ang=60*Ang*180/pi}
     if(outunit=='asec'){Ang=3600*Ang*180/pi}
-    return=Ang
+    return(Ang)
   }
   return(Vectorize(temp)(z = z, Size=Size, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, Dim=Dim, Dist=Dist))
 }
@@ -357,7 +359,7 @@ cosdistAngArea=function(z=1, Size=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
     if(outunit=='amin2'){Ang=60*Ang*180/pi}
     if(outunit=='asec2'){Ang=3600*Ang*180/pi}
     Area=pi*Ang^2
-    return=Area
+    return(Area)
   }
   return(Vectorize(temp)(z = z, Size=Size, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime, Dim=Dim, Dist=Dist))
 }
@@ -391,7 +393,7 @@ cosdistCoVol=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0,
         CoVol = ((4*pi*HubDist^3/(2*OmegaK))*((CoDistTran/HubDist)*sqrt(1+OmegaK*(CoDistTran/HubDist)^2)-(1/sqrt(abs(OmegaK)))*asin(sqrt(abs(OmegaK))*(CoDistTran/HubDist))))/1e9
       }
     }
-    return=CoVol
+    return(CoVol)
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
@@ -410,8 +412,10 @@ cosdistUniAgeNow=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, Omega
   OmegaK=1-OmegaM-OmegaL-OmegaR
   temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     HT = (3.08568025e+19/(H0 * 31556926))/1e9
-    UniAge = HT * integral(.Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
-    return=UniAge
+    capture.output({
+      UniAge = HT * integral(.Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
+    })
+    return(UniAge)
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
@@ -429,9 +433,11 @@ cosdistUniAgeAtz=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, Omega
   OmegaK=1-OmegaM-OmegaL-OmegaR
   temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     HT = (3.08568025e+19/(H0 * 31556926))/1e9
-    UniAge = HT * integral(.Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
+    capture.output({
+      UniAge = HT * integral(.Einvz, 0, Inf, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
+    })
     zAge = HT * integral(.Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
-    return=UniAge-zAge
+    return(UniAge - zAge)
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
@@ -451,7 +457,7 @@ cosdistTravelTime=function(z=1, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, Omeg
   temp = function(z, H0, OmegaM, OmegaL, OmegaR, OmegaK, w0, wprime) {
     HT = (3.08568025e+19/(H0 * 31556926))/1e9
     zAge = HT * integral(.Einvz, 0, z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
-    return=zAge
+    return(zAge)
   }
   return(Vectorize(temp)(z = z, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
@@ -479,7 +485,7 @@ cosdistRelError=function(z=1, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR, OmegaR=0, w0=-
       }else{
         RelError=0
       }
-    return=RelError
+    return(RelError)
   }
   return(Vectorize(temp)(z = z, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime))
 }
@@ -513,7 +519,7 @@ cosdistAngDist12=function(z1=1,z2=2, H0=100, OmegaM=0.3, OmegaL=1-OmegaM-OmegaR,
         CoDistTran = HubDist*(1/sqrt(abs(OmegaK)))*sin(sqrt(abs(OmegaK))*CoDist/HubDist)
       }
     }
-    return=CoDistTran
+    return(CoDistTran)
   }
   CoDistTran1=Vectorize(temp)(z = z1, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
   CoDistTran2=Vectorize(temp)(z = z2, H0 = H0, OmegaM = OmegaM, OmegaL = OmegaL, OmegaR = OmegaR, OmegaK = OmegaK, w0=w0, wprime=wprime)
