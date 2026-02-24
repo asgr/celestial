@@ -10,38 +10,6 @@ Core package containing a collection of common astronomical conversion routines 
 
 ## Installation
 
-### Getting R
-
-First things first, you will probably want to install a recent version of **R** that lets you build packages from source. The advantage of choosing this route is you can then update bleeding edge versions directly from GitHub. If you rely on the pre-built binaries on CRAN you might be waiting much longer.
-
-#### Mac
-
-For Mac just get the latest binaries from the **R** project pages:
-
-<https://cloud.r-project.org/bin/macosx/>
-
-#### Windows
-
-For Windows just get the latest binaries from the **R** project pages:
-
-<https://cloud.r-project.org/bin/windows/>
-
-#### Linux
-
-Debian:	`sudo apt-get install r-base r-base-dev`
-
-Fedora:	`sudo yum install R`
-
-Suse:	More of a pain, see here <https://cloud.r-project.org/bin/linux/suse/README.html>
-
-Ubuntu:	`sudo apt-get install r-base-dev`
-
-All the info on binaries is here: <https://cloud.r-project.org/bin/linux/>
-
-Now you have **R** installed (hopefully) I would also suggest you get yourself **R-Studio**. It is a very popular and well maintained **R** IDE that gives you a lot of helpful shortcuts to scripting and analysing with **R**. The latest version can be grabbed from <https://www.rstudio.com/products/rstudio/> where you almost certainly want the free Desktop version.
-
-### Getting celestial
-
 Source installation from GitHub should be easy:
 
 ```R
@@ -49,31 +17,6 @@ install.packages('remotes')
 remotes::install_github("asgr/celestial")
 library(celestial)
 ```
-
-A few Mac people seem to have issues with the above due to the backend used to download files. A work around seems to be to either use devtools:
-
-```R
-install.packages('devtools')
-devtools::install_github("asgr/celestial")
-library(celestial)
-```
-
-Or try the following:
-
-```R
-Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
-remotes::install_github("asgr/celestial")
-```
-
-If all of these do not work then the nuclear option is to download (or clone) the GitHub repo, cd to where the tar.gz file is and run in the **console** (or **Terminal** on Mac):
-
-```console
-R CMD install celestial_X.Y.Z.tar.gz
-```
-
-where X, Y and Z should be set as appropriate for the version downloaded (check the name of the file basically).
-
-Failing all of the above, please raise an Issue here.
 
 #### Package Dependencies
 
@@ -121,7 +64,7 @@ deg2dms(-27.345, type='cat', sep='dms')
 Compute cosmological distances and related quantities for a given redshift:
 
 ```R
-cosdist(z=1, H0=70, OmegaM=0.3)
+cosdist(z=1:10, H0=70, OmegaM=0.3)
 ```
 
 This returns a data.frame with columns including comoving distance, luminosity distance, angular diameter distance, look-back time, and more.
@@ -156,7 +99,7 @@ coordref = cbind(RA=c(10.1, 10.5, 11.0), Dec=c(-20.1, -20.5, -21.0))
 coordcompare = cbind(RA=c(10.11, 10.6, 12.0), Dec=c(-20.09, -20.4, -22.0))
 
 # Match within 10 arcsec
-match = coordmatch(coordref, coordcompare, rad=10)
+match = coordmatch(coordref, coordcompare, rad=10, radunit = 'amin')
 ```
 
 ### WCS Projections
