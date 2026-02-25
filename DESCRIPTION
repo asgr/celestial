@@ -8,7 +8,7 @@ Authors@R: person(given = "Aaron",
                       role = c("aut", "cre"),
                       email = "aaron.robotham@uwa.edu.au")
 Description: Contains a number of common astronomy utility functions for cosmology and angular coordinates.
-License: GPL-3
+License: LGPL-3
 LazyData: TRUE
 Depends: R (>= 3.00), RANN, NISTunits, pracma
 Suggests: plotrix, igraph
