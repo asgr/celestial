@@ -9,7 +9,7 @@ Rcpp-backed implementation and generated Rcpp bindings.
 
 - Add package tests under `tests/testthat/`, with descriptive
   `test-<area>.R` filenames. Use `test_that()` and `expect_*()` from testthat.
-- Run the focused suite with `Rscript -e 'devtools::test()'` and the package
+- Run the focused suite with `Rscript -e 'testthat::test_local()'` and the package
   check with `R CMD check .` when the required R dependencies are available.
 - Keep tests deterministic; avoid network access and uncontrolled randomness.
 - Keep `Suggests` and CI test dependencies in sync when adding test tools.
