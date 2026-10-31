@@ -11,6 +11,7 @@ Description: Contains a number of common astronomy utility functions for cosmolo
 License: LGPL-3
 LazyData: TRUE
 Depends: R (>= 3.00), RANN, NISTunits, pracma
-Suggests: plotrix, igraph
+Suggests: plotrix, igraph, testthat (>= 3.0.0)
 LinkingTo: Rcpp
 NeedsCompilation: yes
+Config/testthat/edition: 3
