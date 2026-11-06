@@ -18,8 +18,8 @@ test_that("single-coordinate matching chooses the nearest in-radius source", {
   )
 
   expect_equal(matches$ID, c(2, 1))
-  expect_equal(matches$bestmatch["compareID"], 2)
-  expect_equal(matches$bestmatch["sep"], 0, tolerance = 1e-10)
+  expect_equal(unname(matches$bestmatch["compareID"]), 2)
+  expect_equal(unname(matches$bestmatch["sep"]), 0, tolerance = 1e-10)
 })
 
 test_that("linked coordinate groups combine connected objects", {
